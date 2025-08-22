@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout('Dashboard', ~{::section})}">
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <section>
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">
+                    <i class="fas fa-tachometer-alt me-2"></i>
+                    Dashboard
+                </h1>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Total Pacientes</h6>
+                                <h3 class="mb-0">0</h3>
+                            </div>
+                            <div>
+                                <i class="fas fa-users fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/pacientes}" class="text-white text-decoration-none">
+                            Ver todos <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Total Doctores</h6>
+                                <h3 class="mb-0">0</h3>
+                            </div>
+                            <div>
+                                <i class="fas fa-user-md fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/doctores}" class="text-white text-decoration-none">
+                            Ver todos <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card bg-warning text-dark">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Citas de Hoy</h6>
+                                <h3 class="mb-0">0</h3>
+                            </div>
+                            <div>
+                                <i class="fas fa-calendar-day fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/citas/hoy}" class="text-dark text-decoration-none">
+                            Ver citas <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Total Citas</h6>
+                                <h3 class="mb-0">0</h3>
+                            </div>
+                            <div>
+                                <i class="fas fa-calendar-check fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a th:href="@{/citas}" class="text-white text-decoration-none">
+                            Ver todas <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-plus-circle me-2"></i>
+                            Acciones Rápidas
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a th:href="@{/pacientes/nuevo}" class="btn btn-outline-primary">
+                                <i class="fas fa-user-plus me-2"></i>Nuevo Paciente
+                            </a>
+                            <a th:href="@{/doctores/nuevo}" class="btn btn-outline-success">
+                                <i class="fas fa-user-md me-2"></i>Nuevo Doctor
+                            </a>
+                            <a th:href="@{/citas/nueva}" class="btn btn-outline-warning">
+                                <i class="fas fa-calendar-plus me-2"></i>Nueva Cita
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Estado del Sistema
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="text-center">
+                                    <i class="fas fa-check-circle fa-3x text-success mb-2"></i>
+                                    <p class="mb-0">Sistema Activo</p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center">
+                                    <i class="fas fa-database fa-3x text-primary mb-2"></i>
+                                    <p class="mb-0">Base de Datos H2</p>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <p class="text-muted small mb-0">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Sistema configurado para desarrollo. Listo para migrar a PostgreSQL.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
