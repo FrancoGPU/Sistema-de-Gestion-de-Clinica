@@ -25,13 +25,13 @@ public class PacienteController {
         List<Paciente> pacientes = pacienteService.buscarPacientes(busqueda);
         model.addAttribute("pacientes", pacientes);
         model.addAttribute("busqueda", busqueda);
-        return "pacientes/lista";
+        return "administrador/pacientes/lista";
     }
     
     @GetMapping("/nuevo")
     public String mostrarFormularioNuevo(Model model) {
         model.addAttribute("paciente", new Paciente());
-        return "pacientes/formulario";
+        return "administrador/pacientes/formulario";
     }
     
     @PostMapping("/guardar")
@@ -49,7 +49,7 @@ public class PacienteController {
         }
         
         if (result.hasErrors()) {
-            return "pacientes/formulario";
+            return "administrador/pacientes/formulario";
         }
         
         try {
@@ -69,7 +69,7 @@ public class PacienteController {
         Optional<Paciente> pacienteOpt = pacienteService.findById(id);
         if (pacienteOpt.isPresent()) {
             model.addAttribute("paciente", pacienteOpt.get());
-            return "pacientes/formulario";
+            return "administrador/pacientes/formulario";
         } else {
             redirectAttributes.addFlashAttribute("mensaje", "Paciente no encontrado");
             redirectAttributes.addFlashAttribute("tipoMensaje", "error");
@@ -82,7 +82,7 @@ public class PacienteController {
         Optional<Paciente> pacienteOpt = pacienteService.findById(id);
         if (pacienteOpt.isPresent()) {
             model.addAttribute("paciente", pacienteOpt.get());
-            return "pacientes/detalle";
+            return "administrador/pacientes/detalle";
         } else {
             redirectAttributes.addFlashAttribute("mensaje", "Paciente no encontrado");
             redirectAttributes.addFlashAttribute("tipoMensaje", "error");
