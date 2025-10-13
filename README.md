@@ -1,168 +1,180 @@
+<<<<<<< HEAD
 # Sistema de Gestión de Clínica
 
-Un sistema completo de gestión de clínica desarrollado con **Spring Boot**, **JPA** y **Bootstrap** para el frontend. El sistema está diseñado inicialmente como una aplicación estática que puede ser fácilmente migrada a PostgreSQL para producción.
+Un sistema completo de gestión de clínica desarrollado con **Angular 19** para el frontend y **Spring Boot** para el backend. El sistema cuenta con autenticación basada en roles, gestión de pacientes, doctores y citas médicas.
 
 ## 🚀 Características
 
-- **Gestión de Pacientes**: Registro, edición, búsqueda y eliminación de pacientes
-- **Gestión de Doctores**: Administración completa de médicos y especialidades
+### Frontend (Angular)
+- **Sistema de Autenticación**: Login con roles (Administrador/Paciente) + acceso invitado
+- **Layouts Separados**: Interfaces distintas para público y administrador
+- **Gestión de Pacientes**: Registro, edición y listado
+- **Interfaz Responsive**: Diseño moderno con Bootstrap 5
+- **Tema Dinámico**: Selector de tema claro/oscuro
+- **Guards de Ruta**: Protección de rutas por autenticación y rol
+
+### Backend (Spring Boot)
+- **Gestión de Pacientes**: CRUD completo
+- **Gestión de Doctores**: Administración de médicos y especialidades
 - **Sistema de Citas**: Programación y gestión de citas médicas
 - **Historial Médico**: Registro de consultas y tratamientos
-- **Interfaz Responsive**: Diseño moderno con Bootstrap 5
 - **Base de Datos**: H2 para desarrollo, PostgreSQL para producción
 
 ## 🛠️ Tecnologías Utilizadas
+
+### Frontend
+- **Angular 19.2.17**: Framework principal
+- **TypeScript 5.7.2**: Lenguaje de programación
+- **Bootstrap 5.3.7**: Framework CSS
+- **Font Awesome 6.4.0**: Iconografía
+- **RxJS**: Programación reactiva
+- **Standalone Components**: Arquitectura moderna de Angular
 
 ### Backend
 - **Spring Boot 3.1.5**: Framework principal
 - **Spring Data JPA**: Persistencia de datos
 - **Spring MVC**: Controladores web
-- **Spring Validation**: Validación de formularios
 - **H2 Database**: Base de datos en memoria para desarrollo
-- **PostgreSQL**: Base de datos para producción (configuración incluida)
-
-### Frontend
-- **Thymeleaf**: Motor de plantillas
-- **Bootstrap 5**: Framework CSS
-- **Font Awesome**: Iconografía
-- **JavaScript**: Funcionalidades dinámicas
-
-### Herramientas
-- **Maven**: Gestión de dependencias
-- **Spring Boot DevTools**: Desarrollo ágil
-- **Java 17**: Versión de Java
+- **PostgreSQL**: Base de datos para producción
 
 ## 📋 Requisitos
 
+### Frontend
+- Node.js 18 o superior
+- npm 9 o superior
+- Angular CLI 19.2.17
+
+### Backend
 - Java 17 o superior
 - Maven 3.6 o superior
 - PostgreSQL (opcional, para producción)
 
 ## 🚀 Instalación y Ejecución
 
-### 1. Clonar el repositorio
+### Frontend
+
+#### 1. Clonar el repositorio
 ```bash
 git clone https://github.com/FrancoGPU/Sistema-de-Gestion-de-Clinica.git
 cd Sistema-de-Gestion-de-Clinica
 ```
 
-### 2. Ejecutar en modo desarrollo (H2)
+#### 2. Instalar dependencias
 ```bash
+npm install
+```
+
+#### 3. Ejecutar en modo desarrollo
+```bash
+ng serve
+```
+
+La aplicación estará disponible en: `http://localhost:4200`
+
+#### 4. Compilar para producción
+```bash
+ng build
+```
+
+### Backend
+
+#### 1. Ejecutar en modo desarrollo (H2)
+```bash
+cd backend
 mvn spring-boot:run
 ```
 
-La aplicación estará disponible en: `http://localhost:8080`
+La API estará disponible en: `http://localhost:8080`
 
-### 3. Consola H2 (desarrollo)
+#### 2. Consola H2 (desarrollo)
 - URL: `http://localhost:8080/h2-console`
 - JDBC URL: `jdbc:h2:mem:clinica`
 - Usuario: `sa`
 - Contraseña: (vacía)
 
-## 🗄️ Configuración de Base de Datos
+## � Usuarios de Prueba
 
-### Desarrollo (H2)
-La configuración por defecto utiliza H2 en memoria. Los datos se recrean en cada reinicio.
+### Administrador
+- **Email**: admin@administrador.com
+- **Contraseña**: admin123
 
-### Producción (PostgreSQL)
-Para usar PostgreSQL, descomentar en `application.properties`:
+### Paciente
+- **Email**: paciente@paciente.com
+- **Contraseña**: paciente123
 
-```properties
-# Configuración para producción con PostgreSQL
-spring.datasource.url=jdbc:postgresql://localhost:5432/clinica_db
-spring.datasource.username=postgres
-spring.datasource.password=password
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.hibernate.ddl-auto=update
-```
+### Invitado
+- Click en "Continuar como Invitado" (sin autenticación)
 
-Y comentar la configuración de H2.
-
-## 📊 Modelo de Datos
-
-### Entidades Principales
-
-#### Paciente
-- ID, Nombre, Apellido, DNI, Email, Teléfono
-- Dirección, Fecha de Nacimiento
-- Relaciones: Citas, Historiales Médicos
-
-#### Doctor
-- ID, Nombre, Apellido, Especialización
-- Email, Teléfono, Número de Licencia
-- Relaciones: Citas, Historiales Médicos
-
-#### Cita
-- ID, Fecha y Hora, Estado, Motivo, Observaciones
-- Relaciones: Paciente, Doctor
-
-#### Historial Médico
-- ID, Fecha de Consulta, Diagnóstico
-- Tratamiento, Notas, Medicamentos
-- Relaciones: Paciente, Doctor
-
-## 🔧 Estructura del Proyecto
+## � Estructura del Proyecto
 
 ```
-src/
-├── main/
-│   ├── java/com/clinica/sistema/
-│   │   ├── entity/          # Entidades JPA
-│   │   ├── repository/      # Repositorios Spring Data
-│   │   ├── service/         # Capa de servicios
-│   │   ├── controller/      # Controladores MVC
-│   │   └── SistemaGestionClinicaApplication.java
-│   └── resources/
-│       ├── static/          # CSS, JS, imágenes
-│       ├── templates/       # Plantillas Thymeleaf
-│       └── application.properties
-└── test/                    # Tests unitarios
+Sistema-de-Gestion-de-Clinica/
+├── frontend/                    # Aplicación Angular
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── components/     # Componentes reutilizables
+│   │   │   ├── pages/          # Páginas principales
+│   │   │   ├── services/       # Servicios (Auth, Theme)
+│   │   │   ├── guards/         # Guards de autenticación
+│   │   │   └── shared/         # Componentes compartidos
+│   │   ├── assets/             # Imágenes y recursos
+│   │   └── styles.css          # Estilos globales
+│   ├── *.md                    # Documentación
+│   └── angular.json
+└── backend/                     # API Spring Boot
+    └── src/main/
+        ├── java/com/clinica/
+        └── resources/
 ```
 
-## 🌐 Funcionalidades Web
+## 🌐 Rutas de la Aplicación
 
-### Páginas Principales
-- **Inicio**: Página principal con acciones rápidas
-- **Dashboard**: Panel de control con estadísticas
-- **Pacientes**: Lista, crear, editar, ver detalles
-- **Doctores**: Gestión completa de médicos
-- **Citas**: Programación y gestión de citas
+### Rutas Públicas
+- `/` → Redirige a MediCore
+- `/MediCore` → Página principal pública
+- `/login` → Página de inicio de sesión
 
-### Características de la UI
-- ✅ Diseño responsive con Bootstrap
-- ✅ Navegación intuitiva
-- ✅ Formularios con validación
-- ✅ Mensajes de éxito/error
-- ✅ Búsqueda y filtrado
-- ✅ Confirmaciones de eliminación
+### Rutas Protegidas (Administrador)
+- `/admin/index` → Dashboard de administrador
+- `/admin/dashboard` → Panel de estadísticas
+- `/pacientes/lista` → Lista de pacientes
+- `/pacientes/formulario` → Crear/editar paciente
+
+## 📚 Documentación Adicional
+
+El proyecto incluye documentación detallada en archivos `.md`:
+
+- `AUTENTICACION.md` - Sistema de autenticación y guards
+- `LAYOUTS.md` - Arquitectura de layouts
+- `RUTAS_NAVEGACION.md` - Configuración de rutas
+- `HEADER_NAVEGACION.md` - Menú de navegación
+- `MENU_USUARIO_HEADER.md` - Menú desplegable de usuario
+- `FIX_LOGIN_DEMO_CARDS.md` - Tarjetas de demo
+- `BOTON_INVITADO.md` - Acceso como invitado
+- `RESUMEN_IMPLEMENTACION.md` - Resumen completo
 
 ## 🧪 Testing
 
-### Ejecutar tests
+### Frontend
+```bash
+ng test
+```
+
+### Backend
 ```bash
 mvn test
 ```
 
-### Compilar proyecto
-```bash
-mvn clean compile
-```
-
-### Crear JAR
-```bash
-mvn clean package
-```
-
 ## 📈 Próximas Mejoras
 
-- [ ] Completar plantillas de Doctores
-- [ ] Implementar gestión completa de Citas
-- [ ] Añadir reportes y estadísticas
-- [ ] Implementar autenticación y autorización
-- [ ] Añadir tests unitarios e integración
-- [ ] API REST para integración externa
+- [ ] Integración completa Frontend-Backend
+- [ ] Implementar JWT para autenticación
+- [ ] Completar módulo de Doctores
+- [ ] Sistema completo de Citas
+- [ ] Reportes y estadísticas
 - [ ] Notificaciones por email
-- [ ] Dashboard con gráficos
+- [ ] Dashboard con gráficos en tiempo real
+- [ ] Tests E2E
 
 ## 🤝 Contribución
 
@@ -174,7 +186,7 @@ mvn clean package
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
+Este proyecto está bajo la Licencia MIT.
 
 ## 👥 Autor
 
@@ -183,3 +195,65 @@ Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 ---
 
 ⭐ Si este proyecto te fue útil, ¡dale una estrella!
+
+=======
+# SistemaDeGestionDeClinica
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.17.
+
+## Development server
+
+To start a local development server, run:
+
+```bash
+ng serve
+```
+
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+## Code scaffolding
+
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+
+```bash
+ng generate component component-name
+```
+
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+
+```bash
+ng generate --help
+```
+
+## Building
+
+To build the project run:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Running unit tests
+
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+>>>>>>> f0bb075 (initial commit)
