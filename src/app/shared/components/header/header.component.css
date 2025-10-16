@@ -1,0 +1,955 @@
+:host {
+  display: block;
+}
+/* Estilo general para las letras del header */
+.navbar-brand {
+  font-size: 1.5rem; /* Tamaño más grande para el texto de la marca */
+  font-weight: bold; /* Texto en negrita */
+  transition: color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+.nav-link {
+  font-size: 1rem; /* Tamaño estándar para los enlaces */
+  font-weight: 500; /* Peso medio para mejor legibilidad */
+  transition: color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+/* Enlace deshabilitado */
+.nav-link.disabled {
+  cursor: not-allowed; /* Cursor de no permitido */
+}
+
+/* Modo claro */
+.header-light {
+  background: linear-gradient(
+    135deg,
+    var(--primary-blue) 0%,
+    var(--soft-violet) 50%,
+    var(--soft-purple) 100%
+  );
+  box-shadow: 0 4px 20px rgba(168, 216, 234, 0.3);
+  border-bottom: none !important;
+  backdrop-filter: blur(10px);
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: auto !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+.header-light .navbar-brand,
+.header-light .nav-link {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.header-light .nav-link.disabled {
+  color: #adb5bd; /* Color gris claro para enlaces deshabilitados */
+}
+
+/* Modo oscuro */
+.header-dark {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  border-bottom: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: auto !important;
+  width: 100% !important;
+  display: block !important;
+}
+.header-dark .navbar-brand,
+.header-dark .nav-link {
+  color: #f8f9fa; /* Color claro para modo oscuro */
+}
+
+.header-dark .nav-link.disabled {
+  color: #6c757d; /* Color gris para enlaces deshabilitados */
+}
+
+/* Header principal */
+.medical-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  overflow: visible; /* Permitir que el dropdown se muestre */
+  height: 70px !important; /* Altura fija para ambos modos */
+  min-height: 70px !important;
+  max-height: 70px !important;
+  width: 100% !important; /* Asegurar que ocupe todo el ancho */
+  left: 0 !important;
+  right: 0 !important;
+}
+
+.navbar {
+  padding: 0.5rem 0 !important;
+  margin: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+}
+
+.container-fluid {
+  max-width: 100% !important;
+  width: 100% !important;
+  overflow: visible;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+/* Forzar que navbar sea horizontal en pantallas grandes */
+@media (min-width: 1276px) {
+  .navbar-nav {
+    flex-direction: row !important;
+    justify-content: flex-start !important; /* Alinear a la izquierda */
+    flex-shrink: 1 !important; /* Permitir que se encoja */
+  }
+
+  .navbar-collapse {
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: center;
+    overflow: visible !important;
+    background: rgba(0, 0, 0, 0.15) !important;
+    border-radius: 12px !important;
+    padding: 4px 8px !important; /* Reducir padding */
+    flex: 1 !important;
+    display: flex !important;
+    gap: 8px !important; /* Espacio entre navbar y controles */
+  }
+
+  /* Remover fondos individuales de navbar y search */
+  .navbar-nav {
+    background: transparent !important;
+    padding: 0 !important;
+    gap: 2px !important; /* Reducir espacio entre items */
+  }
+
+  .search-container {
+    background: transparent !important;
+    padding: 0 !important;
+    width: 160px !important; /* Reducir ancho del search */
+    min-width: 140px !important;
+  }
+
+  /* Alinear controles a la derecha */
+  .header-controls {
+    margin-left: auto;
+    justify-content: flex-end;
+    overflow: visible;
+    gap: 6px !important; /* Reducir gap */
+    flex-shrink: 0 !important; /* No permitir que se encojan */
+  }
+
+  /* Fondo individual para cada quick link */
+  .quick-link {
+    background: rgba(0, 0, 0, 0.15) !important;
+    border-radius: 8px !important;
+    padding: 8px 10px !important; /* Más altura para simetría */
+  }
+
+  /* Hacer el navbar más compacto */
+  .navbar-nav .nav-link {
+    margin: 0 2px !important; /* Reducir margen */
+    padding: 4px 8px !important; /* Reducir padding */
+    font-size: 0.85rem !important; /* Reducir tamaño de fuente */
+  }
+
+  .search-container {
+    width: 160px;
+  }
+
+  .brand-text {
+    font-size: 1.1rem;
+  }
+
+  .logo-container {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Ocultar el botón toggler en pantallas grandes */
+  .navbar-toggler {
+    display: none !important;
+  }
+}
+
+/* Forzar colapso del navbar entre 1200px y 1275px */
+@media (min-width: 1200px) and (max-width: 1275px) {
+  .navbar-toggler {
+    display: block !important;
+  }
+
+  .navbar-collapse:not(.show) {
+    display: none !important;
+  }
+}
+
+/* Breakpoint intermedio para pantallas medianas (1276px - 1400px) */
+@media (min-width: 1276px) and (max-width: 1400px) {
+  /* Reducir aún más los espacios */
+  .navbar-nav .nav-link {
+    margin: 0 3px;
+    padding: 5px 8px;
+    font-size: 0.85rem;
+  }
+
+  .search-container {
+    width: 180px;
+  }
+
+  .search-input {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.65rem;
+  }
+
+  .search-shortcut {
+    font-size: 0.65rem;
+    padding: 2px 4px;
+  }
+
+  .quick-links {
+    gap: 3px;
+  }
+
+  .quick-link {
+    padding: 7px 9px;
+    font-size: 0.85rem;
+  }
+
+  .theme-toggle {
+    padding: 5px 9px;
+    font-size: 0.8rem;
+    gap: 5px;
+  }
+
+  .theme-icon {
+    font-size: 0.8rem;
+  }
+
+  .theme-text {
+    font-size: 0.8rem;
+  }
+
+  .brand-text {
+    font-size: 1.05rem;
+  }
+
+  .logo-container {
+    width: 36px;
+    height: 36px;
+  }
+
+  .header-controls {
+    gap: 6px;
+  }
+}
+
+/* Logo container */
+.logo-container {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(45deg, #ffffff, #f8f9fa);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(168, 216, 234, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Imagen del logo */
+.logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.logo-text {
+  display: none; /* Ocultar la letra M */
+}
+
+.brand-text {
+  font-size: 1.3rem !important;
+  font-weight: 600 !important;
+  color: white !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+/* Navegación */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.nav-item {
+  list-style: none;
+}
+
+.navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500 !important;
+  margin: 0 8px !important;
+  padding: 8px 12px !important;
+  border-radius: 6px !important;
+  transition: all 0.3s ease !important;
+  white-space: nowrap !important;
+  font-size: 0.95rem !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+.navbar-nav .nav-link:hover {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Barra de búsqueda */
+.search-container {
+  position: relative;
+  width: 220px;
+  flex-shrink: 1;
+  min-width: 150px;
+}
+
+.search-input {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  padding-right: 60px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}
+
+.search-input:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.search-shortcut {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* Enlaces rápidos */
+.quick-links {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.quick-link {
+  color: rgba(255, 255, 255, 0.9);
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.quick-link:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Selector de tema */
+.theme-selector {
+  flex-shrink: 0;
+  position: relative; /* Necesario para el posicionamiento del dropdown */
+}
+
+.theme-toggle {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.theme-menu {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  min-width: 150px;
+  z-index: 1050; /* Asegurar que esté por encima del header */
+  position: absolute; /* Asegurar posicionamiento absoluto */
+}
+
+.theme-option {
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin: 4px;
+  font-size: 0.9rem;
+}
+
+.theme-option:hover {
+  background-color: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+}
+
+/* Iconos de tema */
+.theme-icon {
+  font-size: 0.85rem;
+}
+
+/* Texto del selector de tema */
+.theme-text {
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+/* Header controls container */
+.header-controls {
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+/* Estilos para el modo automático */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+
+  header {
+    background-color: #1f1f1f;
+    color: #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .theme-icon {
+    color: #f39c12;
+  }
+
+  .theme-text {
+    color: #f39c12;
+  }
+}
+
+/* ========================= RESPONSIVE ========================= */
+
+/* Botón toggler personalizado */
+.navbar-toggler {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-left: auto; /* Asegurar que esté a la derecha */
+  order: 2; /* Colocar después del logo */
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.15);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  width: 1.5em;
+  height: 1.5em;
+}
+
+/* Pantallas grandes (Desktop) */
+@media (min-width: 1276px) {
+  .navbar-collapse {
+    flex-wrap: nowrap;
+  }
+
+  .header-controls {
+    flex-wrap: nowrap;
+  }
+}
+
+/* Tablet y móviles grandes (768px - 1275px) */
+@media (max-width: 1275px) {
+  /* Contenedor principal */
+  .container-fluid {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  /* Logo ajustado */
+  .logo-container {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brand-text {
+    font-size: 1.15rem;
+  }
+
+  /* Asegurar que el navbar-collapse tome todo el ancho */
+  .navbar-collapse {
+    flex-basis: 100%;
+    margin-top: 1rem;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Navegación vertical en móviles */
+  .navbar-nav {
+    flex-direction: column !important;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .nav-item {
+    width: 100%;
+  }
+
+  .navbar-nav .nav-link {
+    margin: 0.3rem 0;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Controles del header en columna */
+  .header-controls {
+    flex-direction: column !important;
+    width: 100%;
+    gap: 0.75rem;
+    align-items: stretch !important;
+  }
+
+  /* Barra de búsqueda */
+  .search-container {
+    width: 100%;
+    margin-right: 0 !important;
+    margin-bottom: 0;
+  }
+
+  .search-input {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  /* Enlaces rápidos */
+  .quick-links {
+    width: 100%;
+    justify-content: space-around;
+    margin-right: 0 !important;
+    margin-bottom: 0;
+    gap: 0.5rem;
+  }
+
+  .quick-link {
+    flex: 1;
+    text-align: center;
+    padding: 0.8rem;
+    max-width: 60px;
+  }
+
+  /* Selector de tema */
+  .theme-selector {
+    width: 100%;
+  }
+
+  .theme-toggle {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem;
+  }
+
+  .theme-menu {
+    width: 100%;
+    left: 0 !important;
+    right: 0 !important;
+  }
+}
+
+/* Móviles medianos (576px - 767px) */
+@media (max-width: 767px) {
+  .container-fluid {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  .logo-container {
+    width: 35px;
+    height: 35px;
+  }
+
+  .brand-text {
+    font-size: 1.05rem;
+  }
+
+  .navbar-collapse {
+    padding: 0.75rem;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .quick-link {
+    padding: 0.7rem;
+  }
+
+  .search-input {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* Móviles pequeños (< 576px) */
+@media (max-width: 575px) {
+  .container-fluid {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  .logo-container {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-text {
+    font-size: 0.95rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+
+  .navbar-collapse {
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+    margin: 0.2rem 0;
+  }
+
+  /* Ocultar shortcut de búsqueda */
+  .search-shortcut {
+    display: none;
+  }
+
+  .search-input {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .search-container {
+    margin-bottom: 0;
+  }
+
+  /* Enlaces rápidos más compactos */
+  .quick-links {
+    gap: 0.25rem;
+  }
+
+  .quick-link {
+    padding: 0.6rem 0.5rem;
+    max-width: 50px;
+  }
+
+  .quick-link i {
+    font-size: 1rem;
+  }
+
+  /* Tema más compacto */
+  .theme-toggle {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .theme-text {
+    font-size: 0.85rem;
+  }
+
+  .theme-icon {
+    font-size: 0.9rem;
+  }
+}
+
+/* Móviles muy pequeños (< 400px) */
+@media (max-width: 399px) {
+  .logo-container {
+    width: 28px;
+    height: 28px;
+  }
+
+  .brand-text {
+    font-size: 0.9rem;
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+
+  .quick-link {
+    max-width: 45px;
+    padding: 0.5rem 0.3rem;
+  }
+
+  .quick-link i {
+    font-size: 0.9rem;
+  }
+
+  .theme-text {
+    font-size: 0.8rem;
+  }
+}
+
+/* Modo oscuro para elementos del navbar */
+.header-dark .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* El fondo del navbar-collapse ahora se aplica globalmente en el media query */
+
+.header-dark .search-input {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-dark .search-input:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-dark .theme-toggle {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-dark .theme-menu {
+  background-color: rgba(30, 35, 50, 0.95);
+}
+
+.header-dark .theme-option {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.header-dark .theme-option:hover {
+  background-color: rgba(102, 126, 234, 0.2);
+  color: var(--baby-blue);
+}
+
+/* ========================================
+   MENÚ DE USUARIO DESPLEGABLE
+   ======================================== */
+
+/* Botón del menú de usuario */
+.user-menu-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.user-menu-toggle {
+  background: none;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: -webkit-fill-available;
+}
+
+.user-menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.user-menu-toggle .dropdown-arrow {
+  font-size: 0.7rem;
+  transition: transform 0.3s ease;
+}
+
+.user-menu-toggle[aria-expanded="true"] .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* Menú desplegable de usuario */
+.user-dropdown-menu {
+  min-width: 280px;
+  padding: 0.5rem 0;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-top: 0.5rem;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header con información del usuario */
+.user-info-header {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  margin: -0.5rem 0 0.5rem 0;
+  border-radius: 12px 12px 0 0;
+}
+
+.user-info-header .user-avatar {
+  width: 45px;
+  height: 45px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #667eea;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.user-info-header .user-details {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.user-info-header .user-name {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.1rem;
+}
+
+.user-info-header .user-role {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Items del menú */
+.user-dropdown-menu .dropdown-item {
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.user-dropdown-menu .dropdown-item i {
+  width: 20px;
+  text-align: center;
+}
+
+.user-dropdown-menu .dropdown-item:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding-left: 1.5rem;
+}
+
+.user-dropdown-menu .dropdown-item.text-danger {
+  color: #dc3545;
+}
+
+.user-dropdown-menu .dropdown-item.text-danger:hover {
+  background: #dc3545;
+  color: white;
+}
+
+/* Divider */
+.user-dropdown-menu .dropdown-divider {
+  margin: 0.5rem 0;
+  opacity: 0.1;
+}
+
+/* Modo oscuro para el menú de usuario */
+.header-dark .user-dropdown-menu {
+  background-color: rgba(30, 35, 50, 0.98);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-dark .user-dropdown-menu .dropdown-item {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.header-dark .user-dropdown-menu .dropdown-item:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.header-dark .user-dropdown-menu .dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .user-dropdown-menu {
+    min-width: 260px;
+  }
+
+  .user-info-header {
+    padding: 0.875rem;
+  }
+
+  .user-info-header .user-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .user-dropdown-menu {
+    min-width: 240px;
+  }
+
+  .user-dropdown-menu .dropdown-item {
+    padding: 0.625rem 1rem;
+    font-size: 0.9rem;
+  }
+}

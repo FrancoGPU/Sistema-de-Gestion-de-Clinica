@@ -1,0 +1,443 @@
+/* SECCIÓN HERO PRINCIPAL */
+.hero-section {
+  padding: 80px 0 120px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    var(--baby-blue) 0%,
+    rgba(255, 255, 255, 0.9) 50%,
+    var(--lavender) 100%
+  );
+  transition: background 0.3s ease;
+}
+
+/* MODO OSCURO - Hero Section */
+:host-context(.bg-dark) .hero-section,
+.bg-dark .hero-section {
+  background: linear-gradient(
+    135deg,
+    rgba(45, 50, 70, 0.95) 0%,
+    rgba(30, 35, 50, 0.98) 50%,
+    rgba(50, 45, 65, 0.95) 100%
+  ) !important;
+}
+
+.min-vh-75 {
+  min-height: 75vh;
+}
+
+/* Contenido del hero */
+.hero-content {
+  padding: 2rem 0;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: linear-gradient(45deg, var(--primary-blue), var(--soft-violet));
+  color: white;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 15px rgba(168, 216, 234, 0.3);
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.text-gradient {
+  background: linear-gradient(
+    45deg,
+    var(--primary-blue),
+    var(--soft-violet),
+    var(--soft-purple)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+/* Botones del hero */
+.hero-buttons {
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.btn-outline-primary {
+  border: 2px solid var(--primary-blue);
+  color: var(--primary-blue);
+  padding: 15px 35px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.btn-outline-primary:hover {
+  background: linear-gradient(135deg, var(--primary-blue), var(--soft-violet));
+  border-color: var(--primary-blue);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(168, 216, 234, 0.4);
+}
+
+/* Estadísticas mini */
+.hero-stats {
+  animation: fadeInUp 0.8s ease-out 0.8s both;
+}
+
+.stat-mini {
+  text-align: center;
+  padding: 1rem;
+}
+
+.stat-mini strong {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  margin-bottom: 0.5rem;
+}
+
+.stat-mini span {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Imagen del hero */
+.hero-image {
+  position: relative;
+  height: 300px;
+}
+
+/* Ilustración médica */
+.hero-illustration {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(50%, 50%);
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--soft-violet));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 60px rgba(168, 216, 234, 0.4);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.medical-icon {
+  font-size: 4rem;
+  color: white;
+}
+
+/* Tarjetas flotantes */
+.floating-card {
+  position: absolute;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(168, 216, 234, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: var(--text-primary);
+  animation: float 6s ease-in-out infinite;
+  border: 2px solid rgba(168, 216, 234, 0.2);
+}
+
+.floating-card i {
+  font-size: 1.5rem;
+  color: var(--primary-blue);
+}
+
+.card-1 {
+  top: 0%;
+  right: 10%;
+  animation-delay: 0s;
+}
+
+.card-2 {
+  bottom: 5%;
+  left: -5%;
+  animation-delay: 2s;
+}
+
+.card-3 {
+  top: 75%;
+  right: 5%;
+  animation-delay: 4s;
+}
+
+/* Elementos decorativos */
+.hero-decoration {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(45deg, var(--primary-blue), var(--soft-violet));
+  opacity: 0.1;
+  animation: float 8s ease-in-out infinite;
+}
+
+.decoration-1 {
+  width: 100px;
+  height: 100px;
+  top: 5%;
+  left: 70%;
+  animation-delay: 0s;
+}
+
+.decoration-2 {
+  width: 100px;
+  height: 100px;
+  bottom: 3%;
+  right: 5%;
+  animation-delay: 3s;
+}
+
+.decoration-3 {
+  width: 80px;
+  height: 80px;
+  top: 65%;
+  left: 10%;
+  animation-delay: 1.5s;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive para hero */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+  }
+
+  .hero-buttons .btn {
+    display: block;
+    margin: 0.5rem 0;
+    width: 100%;
+  }
+
+  /* Ajustar tarjetas flotantes para móviles en lugar de ocultarlas */
+  .floating-card {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+    border-radius: 10px;
+    gap: 6px;
+  }
+
+  .floating-card i {
+    font-size: 1rem;
+  }
+
+  /* Reposicionar para móviles */
+  .card-1 {
+    top: 15%;
+    right: 5%;
+  }
+
+  .card-2 {
+    bottom: 5%;
+    left: 0%;
+  }
+
+  .card-3 {
+    top: 75%;
+    right: 5%;
+  }
+
+  .hero-illustration {
+    width: 150px;
+    height: 150px;
+  }
+
+  .medical-icon {
+    font-size: 3rem;
+  }
+}
+
+/* ========================= MODO OSCURO ========================= */
+
+/* Badge */
+:host-context(.bg-dark) .hero-badge,
+.bg-dark .hero-badge {
+  background: linear-gradient(
+    45deg,
+    rgba(102, 126, 234, 0.9),
+    rgba(147, 112, 219, 0.9)
+  ) !important;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+}
+
+/* Títulos y textos */
+:host-context(.bg-dark) .hero-title,
+.bg-dark .hero-title {
+  color: #ffffff !important;
+}
+
+:host-context(.bg-dark) .text-gradient,
+.bg-dark .text-gradient {
+  background: linear-gradient(
+    45deg,
+    var(--baby-blue),
+    var(--lavender),
+    #b19cd9
+  ) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+:host-context(.bg-dark) .hero-description,
+.bg-dark .hero-description {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Botones */
+:host-context(.bg-dark) .btn-primary,
+.bg-dark .btn-primary {
+  background: linear-gradient(135deg, #667eea, #9370db) !important;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+}
+
+:host-context(.bg-dark) .btn-primary:hover,
+.bg-dark .btn-primary:hover {
+  transform: translateY(-3px) scale(1.05) !important;
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6) !important;
+}
+
+:host-context(.bg-dark) .btn-outline-primary,
+.bg-dark .btn-outline-primary {
+  border-color: var(--baby-blue) !important;
+  color: var(--baby-blue) !important;
+  background: transparent !important;
+}
+
+:host-context(.bg-dark) .btn-outline-primary:hover,
+.bg-dark .btn-outline-primary:hover {
+  background: linear-gradient(135deg, #667eea, #9370db) !important;
+  border-color: #667eea !important;
+  color: white !important;
+}
+
+/* Estadísticas mini */
+:host-context(.bg-dark) .stat-mini strong,
+.bg-dark .stat-mini strong {
+  color: var(--baby-blue) !important;
+}
+
+:host-context(.bg-dark) .stat-mini span,
+.bg-dark .stat-mini span {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Tarjetas flotantes */
+:host-context(.bg-dark) .floating-card,
+.bg-dark .floating-card {
+  background: rgba(50, 55, 75, 0.95) !important;
+  border-color: rgba(168, 216, 234, 0.2) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+:host-context(.bg-dark) .floating-card span,
+.bg-dark .floating-card span {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+:host-context(.bg-dark) .floating-card i,
+.bg-dark .floating-card i {
+  color: var(--baby-blue) !important;
+}
+
+/* Ilustración del hero */
+:host-context(.bg-dark) .hero-illustration,
+.bg-dark .hero-illustration {
+  background: linear-gradient(135deg, #667eea, #9370db) !important;
+  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4) !important;
+}
+
+:host-context(.bg-dark) .medical-icon,
+.bg-dark .medical-icon {
+  color: #ffffff !important;
+}
+
+/* Variaciones de color para cada tarjeta */
+.vaccine-card .feature-tag {
+  background: linear-gradient(45deg, #4caf50, #81c784);
+}
+
+.emergency-card .feature-tag {
+  background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+}

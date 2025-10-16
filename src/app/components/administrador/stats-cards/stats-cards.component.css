@@ -1,0 +1,60 @@
+/* Stats Cards */
+.stats-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.stats-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.stats-card .card-body {
+  padding: 1.5rem;
+}
+
+.stats-card .card-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+}
+
+.stats-card h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.stats-card i {
+  opacity: 0.8;
+}
+
+.stats-card .card-footer {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-top: none;
+  padding: 0.75rem 1.5rem;
+}
+
+.stats-card .card-footer a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.stats-card .card-footer a:hover {
+  opacity: 0.8;
+  padding-left: 5px;
+}
+
+.stats-card .card-footer i {
+  font-size: 0.75rem;
+  margin-left: 5px;
+  transition: margin-left 0.3s ease;
+}
+
+.stats-card .card-footer a:hover i {
+  margin-left: 10px;
+}

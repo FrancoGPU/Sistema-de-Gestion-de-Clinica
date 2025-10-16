@@ -1,0 +1,29 @@
+<app-admin-header></app-admin-header>
+
+<div class="dashboard-container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="mb-4">
+          <i class="fas fa-tachometer-alt me-2"></i>
+          Dashboard
+        </h1>
+      </div>
+    </div>
+
+    <!-- Tarjetas de estadísticas -->
+    <app-stats-cards></app-stats-cards>
+
+    <div class="row mt-4">
+      <!-- Acciones rápidas -->
+      <div class="col-md-6">
+        <app-quick-actions></app-quick-actions>
+      </div>
+
+      <!-- Estado del sistema -->
+      <div class="col-md-6">
+        <app-system-status></app-system-status>
+      </div>
+    </div>
+  </div>
+</div>

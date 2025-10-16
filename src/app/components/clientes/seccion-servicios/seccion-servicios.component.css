@@ -1,0 +1,219 @@
+/* Tarjetas de servicios */
+.service-card {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    var(--baby-blue) 50%,
+    #ffffff 100%
+  );
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 10px 35px var(--card-shadow-light);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(168, 216, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(168, 216, 234, 0.1),
+    transparent
+  );
+  transition: left 0.6s;
+}
+
+.service-card:hover::before {
+  left: 100%;
+}
+
+.service-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(168, 216, 234, 0.4);
+  border-color: var(--primary-blue);
+}
+
+.service-card h4 {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin: 1.5rem 0 1rem 0;
+  font-size: 1.3rem;
+}
+
+.service-card p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.service-icon {
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-blue) 0%,
+    var(--soft-violet) 50%,
+    var(--soft-purple) 100%
+  );
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 2.2rem;
+  color: white;
+  box-shadow: 0 8px 25px rgba(168, 216, 234, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-icon::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transition: all 0.4s ease;
+  transform: translate(-50%, -50%);
+}
+
+.service-card:hover .service-icon::before {
+  width: 100%;
+  height: 100%;
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 12px 35px rgba(168, 216, 234, 0.6);
+}
+/* Botones */
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--primary-blue) 0%,
+    var(--soft-violet) 50%,
+    var(--soft-purple) 100%
+  );
+  border: none;
+  padding: 15px 35px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(168, 216, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(168, 216, 234, 0.5);
+  color: white;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .search-container {
+    width: 250px;
+  }
+
+  .quick-links {
+    display: none;
+  }
+
+  .service-card {
+    padding: 2rem;
+  }
+
+  .service-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+  }
+}
+
+/* ========================= MODO OSCURO ========================= */
+:host-context(.bg-dark) .services-section,
+.bg-dark .services-section {
+  background: rgba(30, 35, 50, 0.95) !important;
+}
+
+:host-context(.bg-dark) .section-title,
+.bg-dark .section-title,
+:host-context(.bg-dark) .section-subtitle,
+.bg-dark .section-subtitle {
+  color: #ffffff !important;
+}
+
+:host-context(.bg-dark) .service-card,
+.bg-dark .service-card {
+  background: linear-gradient(
+    135deg,
+    rgba(50, 55, 75, 0.95) 0%,
+    rgba(60, 65, 85, 0.95) 50%,
+    rgba(50, 55, 75, 0.95) 100%
+  ) !important;
+  border-color: rgba(102, 126, 234, 0.3) !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5) !important;
+}
+
+:host-context(.bg-dark) .service-card h4,
+.bg-dark .service-card h4 {
+  color: var(--baby-blue) !important;
+}
+
+:host-context(.bg-dark) .service-card p,
+.bg-dark .service-card p {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+:host-context(.bg-dark) .service-icon,
+.bg-dark .service-icon {
+  background: rgba(102, 126, 234, 0.2) !important;
+  color: var(--baby-blue) !important;
+}

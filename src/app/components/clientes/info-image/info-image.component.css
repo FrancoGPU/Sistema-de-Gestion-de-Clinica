@@ -1,0 +1,158 @@
+/* SECCIÓN DE INFORMACIÓN DEL CARRUSEL */
+.carousel-info-section {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    var(--baby-blue) 50%,
+    #ffffff 100%
+  );
+  padding: 80px 0;
+}
+
+/* Tarjetas de información */
+.info-card {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    rgba(243, 229, 245, 0.3) 100%
+  );
+  border-radius: 25px;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(168, 216, 234, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(168, 216, 234, 0.1);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.info-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(168, 216, 234, 0.1),
+    transparent
+  );
+  transition: left 0.6s;
+}
+
+.info-card:hover::before {
+  left: 100%;
+}
+
+.info-card:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 25px 60px rgba(168, 216, 234, 0.3);
+  border-color: var(--primary-blue);
+}
+
+/* Íconos de información */
+.info-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  font-size: 2.5rem;
+  color: white;
+  box-shadow: 0 10px 30px rgba(168, 216, 234, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Colores específicos para cada tarjeta */
+.vaccine-card .info-icon {
+  background: linear-gradient(135deg, #4caf50, #81c784);
+}
+
+.care-card .info-icon {
+  background: linear-gradient(135deg, var(--primary-blue), var(--soft-violet));
+}
+
+.emergency-card .info-icon {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+}
+
+.info-card:hover .info-icon {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 15px 40px rgba(168, 216, 234, 0.6);
+}
+
+/* Texto de las tarjetas */
+.info-card h4 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+}
+
+.info-card p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Características destacadas */
+.info-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.feature-tag {
+  background: linear-gradient(45deg, var(--primary-blue), var(--soft-violet));
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(168, 216, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.feature-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(168, 216, 234, 0.4);
+}
+
+/* Modo oscuro para la sección de información */
+.bg-dark .carousel-info-section {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #1a202c 100%);
+}
+
+.bg-dark .info-card {
+  background: linear-gradient(
+    135deg,
+    var(--dark-primary) 0%,
+    var(--dark-secondary) 50%,
+    var(--dark-primary) 100%
+  );
+  border-color: rgba(102, 126, 234, 0.3);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.bg-dark .info-card:hover {
+  box-shadow: 0 25px 60px rgba(102, 126, 234, 0.2);
+  border-color: var(--dark-accent);
+}
+
+.bg-dark .info-card h4 {
+  color: #e2e8f0;
+}
+
+.bg-dark .info-card p {
+  color: #a0aec0;
+}

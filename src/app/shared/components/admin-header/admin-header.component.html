@@ -1,0 +1,108 @@
+<header class="admin-header">
+  <div class="container-fluid">
+    <div class="header-content">
+      <!-- Logo y título -->
+      <div class="header-brand">
+        <i class="fas fa-heartbeat"></i>
+        <span class="brand-name">MediCore</span>
+        <span class="brand-subtitle">Panel Administrativo</span>
+      </div>
+
+      <!-- Navegación Principal -->
+      <nav class="header-nav" [class.mobile-open]="mobileMenuOpen">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a 
+              routerLink="/admin/index" 
+              routerLinkActive="active"
+              (click)="closeMobileMenu()"
+              class="nav-link"
+            >
+              <i class="fas fa-home"></i>
+              <span>Inicio</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a 
+              routerLink="/admin/dashboard" 
+              routerLinkActive="active"
+              (click)="closeMobileMenu()"
+              class="nav-link"
+            >
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a 
+              routerLink="/pacientes/lista" 
+              routerLinkActive="active"
+              (click)="closeMobileMenu()"
+              class="nav-link"
+            >
+              <i class="fas fa-users"></i>
+              <span>Pacientes</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a 
+              href="#" 
+              class="nav-link nav-link-disabled"
+              title="Próximamente"
+            >
+              <i class="fas fa-user-md"></i>
+              <span>Doctores</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a 
+              href="#" 
+              class="nav-link nav-link-disabled"
+              title="Próximamente"
+            >
+              <i class="fas fa-calendar-check"></i>
+              <span>Citas</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Usuario y acciones -->
+      <div class="header-actions">
+        <!-- Botón menú móvil -->
+        <button 
+          class="btn-mobile-menu" 
+          (click)="toggleMobileMenu()"
+          [class.active]="mobileMenuOpen"
+          aria-label="Toggle menu"
+        >
+          <i class="fas" [ngClass]="mobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+        </button>
+
+        <!-- Info de usuario -->
+        <div class="user-info">
+          <div class="user-avatar">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <div class="user-details">
+            <span class="user-name">{{ userName }}</span>
+            <span class="user-role">{{ userRole }}</span>
+          </div>
+        </div>
+
+        <!-- Botón logout -->
+        <button class="btn-logout" (click)="logout()" title="Cerrar sesión">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Overlay para cerrar menú móvil -->
+<div 
+  class="mobile-overlay" 
+  *ngIf="mobileMenuOpen" 
+  (click)="closeMobileMenu()"
+></div>
