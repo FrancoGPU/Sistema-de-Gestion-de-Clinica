@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Iceland&display=swap" rel="stylesheet">
+    <title>MediCore - Especialidades</title>
+</head>
+<body class="bg-light text-dark">
+    <a href="https://wa.me/51123456789" class="whatsapp-float" target="_blank">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <!--HEADER DE LA PAGINA-->
+    <header class="header-light medical-header">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid px-4">
+            <!-- Logo y nombre del centro médico -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <div class="logo-container me-2">
+                    <img src="../img/MediCore.png" alt="MediCore Logo" class="logo-image">
+                </div>
+                <span class="brand-text" onclick="window.location.href='index.html'">MediCore</span>
+            </a>
+
+            <!-- Menú de navegación -->
+            <div class="navbar-nav me-auto">
+                <a class="nav-link" href="#" onclick="window.location.href='servicios.html'">Servicios</a>
+                <a class="nav-link active" href="#" onclick="window.location.href='especialidades.html'">Especialidades</a>
+                <a class="nav-link" href="#" onclick="window.location.href='citas.html'">Citas</a>
+                <a class="nav-link" href="#" onclick="window.location.href='doctores.html'">Doctores</a>
+                <a class="nav-link" href="#" onclick="window.location.href='campañas.html'">Campañas</a>
+                <a class="nav-link" href="#" onclick="window.location.href='contacto.html'">Contacto</a>
+            </div>
+
+            <!-- Barra de búsqueda y controles -->
+            <div class="d-flex align-items-center">
+                <div class="search-container me-3">
+                    <input type="search" class="form-control search-input" placeholder="Buscar especialidades..." aria-label="Search">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+                
+                <!-- Enlaces de acceso rápido -->
+                <div class="quick-links me-3">
+                    <a href="#" class="quick-link" title="Portal Pacientes">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <a href="#" class="quick-link" title="Emergencias">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                    <a href="#" class="quick-link" title="Ubicación">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </a>
+                </div>
+
+                <!-- Selector de tema -->
+                <div class="theme-selector dropdown">
+                    <button class="btn theme-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-sun theme-icon"></i>
+                        <span class="theme-text">Claro</span>
+                        <i class="fas fa-chevron-down ms-1"></i>
+                    </button>
+                    <ul class="dropdown-menu theme-menu">
+                        <li><a class="dropdown-item theme-option" href="#" data-theme="light">
+                            <i class="fas fa-sun me-2"></i>Claro
+                        </a></li>
+                        <li><a class="dropdown-item theme-option" href="#" data-theme="dark">
+                            <i class="fas fa-moon me-2"></i>Oscuro
+                        </a></li>
+                        <li><a class="dropdown-item theme-option" href="#" data-theme="auto">
+                            <i class="fas fa-adjust me-2"></i>Auto
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h1 class="section-title">Especialidades Médicas</h1>
+                <p class="section-subtitle">Contamos con especialistas altamente calificados</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h4>Cardiología</h4>
+                        <p>Especialistas en enfermedades del corazón y sistema cardiovascular.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Electrocardiograma</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Ecocardiograma</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Holter 24 horas</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <h4>Pediatría</h4>
+                        <p>Atención médica especializada para bebés, niños y adolescentes.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Control de crecimiento</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Vacunación</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Urgencias pediátricas</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <h4>Ginecología</h4>
+                        <p>Cuidado integral de la salud femenina y sistema reproductivo.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Control prenatal</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Ecografías</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Planificación familiar</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-bone"></i>
+                        </div>
+                        <h4>Traumatología</h4>
+                        <p>Tratamiento de lesiones del sistema musculoesquelético.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Fracturas</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Artroscopia</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Rehabilitación</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h4>Oftalmología</h4>
+                        <p>Cuidado integral de la salud visual y tratamiento ocular.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Examen de vista</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Cirugía de cataratas</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Tratamiento de retina</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h4>Neurología</h4>
+                        <p>Diagnóstico y tratamiento de enfermedades del sistema nervioso.</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i>Electroencefalograma</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Resonancia magnética</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Trastornos del sueño</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!--FOOTER DE LA PAGINA-->
+    <footer class="footer-section footer-light">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="footer-brand">
+                        <img src="../img/MediCore.png" alt="MediCore" class="footer-logo">
+                        <h5>MediCore</h5>
+                        <p>Tu salud, nuestra prioridad. Brindamos atención médica integral con calidez humana y tecnología de vanguardia.</p>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <h6>Servicios</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Consulta General</a></li>
+                        <li><a href="#">Especialidades</a></li>
+                        <li><a href="#">Laboratorio</a></li>
+                        <li><a href="#">Emergencias</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h6>Enlaces</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Agendar Cita</a></li>
+                        <li><a href="#">Portal Paciente</a></li>
+                        <li><a href="#">Resultados</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6>Contacto</h6>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> Av. Principal Gloria Grande, Lima, Perú</p>
+                        <p><i class="fas fa-phone"></i> +51 1 234-5678</p>
+                        <p><i class="fas fa-envelope"></i> info@medicore.com</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="text-center">
+                <p>&copy; 2024 MediCore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/ThemeScript.js"></script>
+</body>
+</html>

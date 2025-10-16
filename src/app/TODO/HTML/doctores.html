@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Iceland&display=swap" rel="stylesheet">
+    <title>MediCore - Doctores</title>
+</head>
+<body class="bg-light text-dark">
+    <a href="https://wa.me/51123456789" class="whatsapp-float" target="_blank">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <!--HEADER DE LA PAGINA-->
+    <header class="header-light medical-header">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid px-4">
+            <!-- Logo y nombre del centro médico -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <div class="logo-container me-2">
+                    <img src="../img/MediCore.png" alt="MediCore Logo" class="logo-image">
+                </div>
+                <span class="brand-text" onclick="window.location.href='index.html'">MediCore</span>
+            </a>
+
+            <!-- Menú de navegación -->
+            <div class="navbar-nav me-auto">
+                <a class="nav-link" href="#" onclick="window.location.href='servicios.html'">Servicios</a>
+                <a class="nav-link" href="#" onclick="window.location.href='especialidades.html'">Especialidades</a>
+                <a class="nav-link" href="#" onclick="window.location.href='citas.html'">Citas</a>
+                <a class="nav-link active" href="#" onclick="window.location.href='doctores.html'">Doctores</a>
+                <a class="nav-link" href="#" onclick="window.location.href='campañas.html'">Campañas</a>
+                <a class="nav-link" href="#" onclick="window.location.href='contacto.html'">Contacto</a>
+            </div>
+
+            <!-- Barra de búsqueda y controles -->
+            <div class="d-flex align-items-center">
+                <div class="search-container me-3">
+                    <input type="search" class="form-control search-input" placeholder="Buscar doctores..." aria-label="Search">
+                    <span class="search-shortcut">Ctrl K</span>
+                </div>
+                
+                <!-- Enlaces de acceso rápido -->
+                <div class="quick-links me-3">
+                    <a href="#" class="quick-link" title="Portal Pacientes">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <a href="#" class="quick-link" title="Emergencias">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                    <a href="#" class="quick-link" title="Ubicación">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </a>
+                </div>
+
+                <!-- Selector de tema -->
+                <div class="theme-selector dropdown">
+                    <button class="btn theme-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-sun theme-icon"></i>
+                        <span class="theme-text">Claro</span>
+                        <i class="fas fa-chevron-down ms-1"></i>
+                    </button>
+                    <ul class="dropdown-menu theme-menu">
+                        <li><a class="dropdown-item theme-option" href="#" data-theme="light">
+                            <i class="fas fa-sun me-2"></i>Claro
+                        </a></li>
+                        <li><a class="dropdown-item theme-option" href="#" data-theme="dark">
+                            <i class="fas fa-moon me-2"></i>Oscuro
+                        </a></li>
+                        <li><a class="dropdown-item theme-option" href="#" data-theme="auto">
+                            <i class="fas fa-adjust me-2"></i>Auto
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h1 class="section-title">Nuestro Equipo Médico</h1>
+                <p class="section-subtitle">Profesionales altamente calificados comprometidos con tu salud</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h4>Dr. Carlos Mendoza</h4>
+                        <p class="text-primary fw-bold">Cardiólogo</p>
+                        <p>Especialista en cardiología con 15 años de experiencia. Graduado de la Universidad Nacional Mayor de San Marcos.</p>
+                        <div class="doctor-info">
+                            <p><i class="fas fa-graduation-cap me-2"></i>UNMSM - Cardiología</p>
+                            <p><i class="fas fa-certificate me-2"></i>Certificado en Ecocardiografía</p>
+                            <p><i class="fas fa-clock me-2"></i>Lun - Vie: 8:00 - 16:00</p>
+                        </div>
+                        <button class="btn btn-primary mt-3">Agendar Cita</button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h4>Dra. Ana Rodríguez</h4>
+                        <p class="text-primary fw-bold">Pediatra</p>
+                        <p>Especialista en pediatría con enfoque en cuidados neonatales. Comprometida con la salud infantil integral.</p>
+                        <div class="doctor-info">
+                            <p><i class="fas fa-graduation-cap me-2"></i>UPCH - Pediatría</p>
+                            <p><i class="fas fa-certificate me-2"></i>Certificada en Neonatología</p>
+                            <p><i class="fas fa-clock me-2"></i>Lun - Sáb: 9:00 - 17:00</p>
+                        </div>
+                        <button class="btn btn-primary mt-3">Agendar Cita</button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h4>Dr. Luis García</h4>
+                        <p class="text-primary fw-bold">Traumatólogo</p>
+                        <p>Especialista en traumatología y cirugía ortopédica. Experto en artroscopia y medicina deportiva.</p>
+                        <div class="doctor-info">
+                            <p><i class="fas fa-graduation-cap me-2"></i>UNMSM - Traumatología</p>
+                            <p><i class="fas fa-certificate me-2"></i>Especialista en Artroscopia</p>
+                            <p><i class="fas fa-clock me-2"></i>Mar - Sáb: 10:00 - 18:00</p>
+                        </div>
+                        <button class="btn btn-primary mt-3">Agendar Cita</button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h4>Dra. María Santos</h4>
+                        <p class="text-primary fw-bold">Ginecóloga</p>
+                        <p>Especialista en ginecología y obstetricia con enfoque en salud reproductiva y planificación familiar.</p>
+                        <div class="doctor-info">
+                            <p><i class="fas fa-graduation-cap me-2"></i>UPCH - Ginecología</p>
+                            <p><i class="fas fa-certificate me-2"></i>Certificada en Ecografía 4D</p>
+                            <p><i class="fas fa-clock me-2"></i>Lun - Vie: 8:00 - 16:00</p>
+                        </div>
+                        <button class="btn btn-primary mt-3">Agendar Cita</button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h4>Dr. Roberto Vega</h4>
+                        <p class="text-primary fw-bold">Oftalmólogo</p>
+                        <p>Especialista en oftalmología con experiencia en cirugía de cataratas y tratamientos de retina.</p>
+                        <div class="doctor-info">
+                            <p><i class="fas fa-graduation-cap me-2"></i>UNMSM - Oftalmología</p>
+                            <p><i class="fas fa-certificate me-2"></i>Cirugía de Cataratas</p>
+                            <p><i class="fas fa-clock me-2"></i>Mié - Dom: 9:00 - 17:00</p>
+                        </div>
+                        <button class="btn btn-primary mt-3">Agendar Cita</button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h4>Dra. Carmen López</h4>
+                        <p class="text-primary fw-bold">Neuróloga</p>
+                        <p>Especialista en neurología con enfoque en trastornos del movimiento y enfermedades neurodegenerativas.</p>
+                        <div class="doctor-info">
+                            <p><i class="fas fa-graduation-cap me-2"></i>UPCH - Neurología</p>
+                            <p><i class="fas fa-certificate me-2"></i>Especialista en Parkinson</p>
+                            <p><i class="fas fa-clock me-2"></i>Lun - Jue: 10:00 - 18:00</p>
+                        </div>
+                        <button class="btn btn-primary mt-3">Agendar Cita</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!--FOOTER DE LA PAGINA-->
+    <footer class="footer-section footer-light">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="footer-brand">
+                        <img src="../img/MediCore.png" alt="MediCore" class="footer-logo">
+                        <h5>MediCore</h5>
+                        <p>Tu salud, nuestra prioridad. Brindamos atención médica integral con calidez humana y tecnología de vanguardia.</p>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <h6>Servicios</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Consulta General</a></li>
+                        <li><a href="#">Especialidades</a></li>
+                        <li><a href="#">Laboratorio</a></li>
+                        <li><a href="#">Emergencias</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h6>Enlaces</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Agendar Cita</a></li>
+                        <li><a href="#">Portal Paciente</a></li>
+                        <li><a href="#">Resultados</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6>Contacto</h6>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> Av. Principal Gloria Grande, Lima, Perú</p>
+                        <p><i class="fas fa-phone"></i> +51 1 234-5678</p>
+                        <p><i class="fas fa-envelope"></i> info@medicore.com</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="text-center">
+                <p>&copy; 2024 MediCore. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/ThemeScript.js"></script>
+</body>
+</html>
