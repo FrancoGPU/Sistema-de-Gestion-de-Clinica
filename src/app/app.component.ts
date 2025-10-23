@@ -33,10 +33,12 @@ export class AppComponent implements AfterViewInit {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         // Mostrar header/footer solo en rutas públicas (MediCore)
-        // Ocultar en rutas de admin, pacientes y login
+        // Ocultar en rutas de admin, pacientes (admin) y login
+        const url = event.url;
         this.showPublicLayout = 
-          event.url === '/' || 
-          event.url.includes('/MediCore');
+          url === '/' || 
+          url.startsWith('/MediCore') ||
+          url === '/registro';
       });
   }
 

@@ -46,9 +46,10 @@
           </li>
           <li class="nav-item">
             <a 
-              href="#" 
-              class="nav-link nav-link-disabled"
-              title="Próximamente"
+              routerLink="/admin/doctores" 
+              routerLinkActive="active"
+              (click)="closeMobileMenu()"
+              class="nav-link"
             >
               <i class="fas fa-user-md"></i>
               <span>Doctores</span>
@@ -56,11 +57,12 @@
           </li>
           <li class="nav-item">
             <a 
-              href="#" 
-              class="nav-link nav-link-disabled"
-              title="Próximamente"
+              routerLink="/admin/citas" 
+              routerLinkActive="active"
+              (click)="closeMobileMenu()"
+              class="nav-link"
             >
-              <i class="fas fa-calendar-check"></i>
+              <i class="fas fa-calendar-alt"></i>
               <span>Citas</span>
             </a>
           </li>

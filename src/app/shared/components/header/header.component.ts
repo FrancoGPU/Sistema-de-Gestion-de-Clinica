@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { ThemeService } from '../../../services/theme.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
@@ -16,16 +17,17 @@ export class HeaderComponent implements OnInit {
   userRole = '';
 
   constructor(
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService, 
+    private router: Router,
+    private themeService: ThemeService
   ) {}
 
   ngOnInit(): void {
     // Verificar estado de autenticación
     this.updateAuthStatus();
-    
+
     // Suscribirse a cambios en la autenticación
-    this.authService.currentUser.subscribe(user => {
+    this.authService.currentUser.subscribe((user) => {
       this.updateAuthStatus();
     });
   }
@@ -43,9 +45,17 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  navigateToRegister(): void {
+    this.router.navigate(['/registro']);
+  }
+
   logout(): void {
     if (confirm('¿Está seguro que desea cerrar sesión?')) {
       this.authService.logout();
     }
+  }
+
+  changeTheme(theme: 'light' | 'dark' | 'auto'): void {
+    this.themeService.setTheme(theme);
   }
 }

@@ -1,174 +1,237 @@
-<!--HEADER DE LA PAGINA-->
-<header class="header-light medical-header">
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid px-4">
-      <!-- Logo y nombre del centro médico -->
-      <a class="navbar-brand d-flex align-items-center" href="#">
-        <div class="logo-container me-2">
-          <img
-            src="/assets/images/MediCore.png"
-            alt="MediCore Logo"
-            class="logo-image"
-          />
+<!-- HEADER REDESIGNED -->
+<header class="medicore-header">
+  <div class="header-container">
+    <!-- Logo -->
+    <a class="header-logo" routerLink="/MediCore">
+      <img
+        src="/assets/images/MediCore.png"
+        alt="MediCore Logo"
+        class="logo-icon"
+      />
+      <span class="logo-text">MEDICORE</span>
+    </a>
+
+    <!-- Navigation Links -->
+    <nav class="header-nav">
+      <a routerLink="/MediCore" routerLinkActive="active" class="nav-link"
+        >Inicio</a
+      >
+      <a
+        routerLink="/MediCore/servicios"
+        routerLinkActive="active"
+        class="nav-link"
+        >Servicios</a
+      >
+      <a
+        routerLink="/MediCore/especialidades"
+        routerLinkActive="active"
+        class="nav-link"
+        >Especialidades</a
+      >
+      <a routerLink="/MediCore/citas" routerLinkActive="active" class="nav-link"
+        >Citas</a
+      >
+      <a
+        routerLink="/MediCore/doctores"
+        routerLinkActive="active"
+        class="nav-link"
+        >Doctores</a
+      >
+      <a
+        routerLink="/MediCore/campanias"
+        routerLinkActive="active"
+        class="nav-link"
+        >Campañas</a
+      >
+      <a
+        routerLink="/MediCore/contacto"
+        routerLinkActive="active"
+        class="nav-link"
+        >Contacto</a
+      >
+    </nav>
+
+    <!-- Right Side Actions -->
+    <div class="header-actions">
+      <!-- Search Bar -->
+      <div class="search-box">
+        <input
+          type="search"
+          placeholder="Buscar servicios..."
+          class="search-input"
+        />
+        <span class="search-shortcut">Ctrl K</span>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <!-- User Menu -->
+        <div class="dropdown">
+          <button
+            class="action-btn"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            [attr.title]="isAuthenticated ? userName : 'Cuenta'"
+            [attr.aria-label]="isAuthenticated ? userName : 'Cuenta'"
+          >
+            <i class="fas fa-user" aria-hidden="true"></i>
+            <span class="visually-hidden">{{ isAuthenticated ? userName : 'Cuenta' }}</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end user-menu">
+            <ng-container *ngIf="isAuthenticated">
+              <li class="user-header">
+                <div class="user-avatar-icon">
+                  <i
+                    class="fas"
+                    [class.fa-user-shield]="userRole === 'Administrador'"
+                    [class.fa-user]="userRole === 'Paciente'"
+                  ></i>
+                </div>
+                <div>
+                  <div class="user-name">{{ userName }}</div>
+                  <div class="user-role">{{ userRole }}</div>
+                </div>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  (click)="$event.preventDefault()"
+                  ><i class="fas fa-user-circle me-2"></i>Mi Perfil</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  (click)="$event.preventDefault()"
+                  ><i class="fas fa-cog me-2"></i>Configuración</a
+                >
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a
+                  class="dropdown-item text-danger"
+                  href="#"
+                  (click)="$event.preventDefault(); logout()"
+                  ><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a
+                >
+              </li>
+            </ng-container>
+            <ng-container *ngIf="!isAuthenticated">
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  (click)="$event.preventDefault(); navigateToLogin()"
+                  ><i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  (click)="$event.preventDefault(); navigateToRegister()"
+                  ><i class="fas fa-user-plus me-2"></i>Registrarse</a
+                >
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  (click)="$event.preventDefault()"
+                  ><i class="fas fa-question-circle me-2"></i>Ayuda</a
+                >
+              </li>
+            </ng-container>
+          </ul>
         </div>
-        <span class="brand-text">MediCore</span>
-      </a>
 
-      <!-- Botón toggler para móviles -->
-      <button 
-        class="navbar-toggler" 
-        type="button" 
-        data-bs-toggle="collapse" 
-        data-bs-target="#navbarContent" 
-        aria-controls="navbarContent" 
-        aria-expanded="false" 
-        aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <!-- Phone -->
+        <button class="action-btn" title="Emergencias" aria-label="Llamar a emergencias">
+          <i class="fas fa-phone" aria-hidden="true"></i>
+        </button>
 
-      <!-- Contenido colapsable del navbar -->
-      <div class="collapse navbar-collapse" id="navbarContent">
-        <!-- Menú de navegación -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Servicios</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Especialidades</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Citas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Doctores</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pacientes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contacto</a>
-          </li>
-        </ul>
+        <!-- Location -->
+        <button class="action-btn" title="Ubicación" aria-label="Ver ubicación">
+          <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+        </button>
 
-        <!-- Barra de búsqueda y controles -->
-        <div class="d-flex align-items-center header-controls">
-          <div class="search-container me-3">
-            <input
-              type="search"
-              class="form-control search-input"
-              placeholder="Buscar servicios..."
-              aria-label="Search"
-            />
-            <span class="search-shortcut">Ctrl K</span>
-          </div>
-
-          <!-- Enlaces de acceso rápido -->
-          <div class="quick-links me-3">
-            <!-- Menú de Usuario Desplegable -->
-            <div class="dropdown user-menu-dropdown">
-              <button
-                class="quick-link user-menu-toggle"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                [title]="isAuthenticated ? userName : 'Cuenta'"
+        <!-- Theme Selector -->
+        <div class="dropdown">
+          <button
+            class="action-btn theme-btn"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            title="Cambiar tema"
+            aria-label="Cambiar tema"
+          >
+            <i class="fas fa-sun"></i>
+            <span class="visually-hidden">Cambiar tema</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a 
+                class="dropdown-item" 
+                href="#" 
+                (click)="$event.preventDefault(); changeTheme('light')"
               >
-                <i class="fas fa-user"></i>
-                <i class="fas fa-chevron-down ms-1 dropdown-arrow"></i>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
-                <!-- Usuario autenticado -->
-                <ng-container *ngIf="isAuthenticated">
-                  <li class="user-info-header">
-                    <div class="user-avatar">
-                      <i class="fas" [class.fa-user-shield]="userRole === 'Administrador'" [class.fa-user]="userRole === 'Paciente'"></i>
-                    </div>
-                    <div class="user-details">
-                      <span class="user-name">{{ userName }}</span>
-                      <span class="user-role">{{ userRole }}</span>
-                    </div>
-                  </li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li>
-                    <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
-                      <i class="fas fa-user-circle me-2"></i>Mi Perfil
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
-                      <i class="fas fa-cog me-2"></i>Configuración
-                    </a>
-                  </li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li>
-                    <a class="dropdown-item text-danger" href="#" (click)="$event.preventDefault(); logout()">
-                      <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
-                    </a>
-                  </li>
-                </ng-container>
-
-                <!-- Usuario no autenticado -->
-                <ng-container *ngIf="!isAuthenticated">
-                  <li>
-                    <a class="dropdown-item" href="#" (click)="$event.preventDefault(); navigateToLogin()">
-                      <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
-                      <i class="fas fa-user-plus me-2"></i>Registrarse
-                    </a>
-                  </li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li>
-                    <a class="dropdown-item" href="#" (click)="$event.preventDefault()">
-                      <i class="fas fa-question-circle me-2"></i>Ayuda
-                    </a>
-                  </li>
-                </ng-container>
-              </ul>
-            </div>
-
-            <a href="#" class="quick-link" title="Emergencias">
-              <i class="fas fa-phone"></i>
-            </a>
-            <a href="#" class="quick-link" title="Ubicación">
-              <i class="fas fa-map-marker-alt"></i>
-            </a>
-          </div>
-
-          <!-- Selector de tema -->
-          <div class="theme-selector dropdown">
-            <button
-              class="btn theme-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="fas fa-sun theme-icon"></i>
-              <span class="theme-text">Claro</span>
-              <i class="fas fa-chevron-down ms-1"></i>
-            </button>
-            <ul class="dropdown-menu theme-menu">
-              <li>
-                <a class="dropdown-item theme-option" href="#" data-theme="light">
-                  <i class="fas fa-sun me-2"></i>Claro
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item theme-option" href="#" data-theme="dark">
-                  <i class="fas fa-moon me-2"></i>Oscuro
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item theme-option" href="#" data-theme="auto">
-                  <i class="fas fa-adjust me-2"></i>Auto
-                </a>
-              </li>
-            </ul>
-          </div>
+                <i class="fas fa-sun me-2"></i>Claro
+              </a>
+            </li>
+            <li>
+              <a 
+                class="dropdown-item" 
+                href="#" 
+                (click)="$event.preventDefault(); changeTheme('dark')"
+              >
+                <i class="fas fa-moon me-2"></i>Oscuro
+              </a>
+            </li>
+            <li>
+              <a 
+                class="dropdown-item" 
+                href="#" 
+                (click)="$event.preventDefault(); changeTheme('auto')"
+              >
+                <i class="fas fa-adjust me-2"></i>Auto
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-  </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button
+      class="mobile-menu-toggle"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mobileNav"
+      title="Abrir menú"
+      aria-label="Abrir menú"
+    >
+      <i class="fas fa-bars" aria-hidden="true"></i>
+      <span class="visually-hidden">Abrir menú</span>
+    </button>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div class="collapse mobile-nav" id="mobileNav">
+    <div class="mobile-nav-content">
+      <a routerLink="/MediCore" class="mobile-nav-link">Inicio</a>
+      <a routerLink="/MediCore/servicios" class="mobile-nav-link">Servicios</a>
+      <a routerLink="/MediCore/especialidades" class="mobile-nav-link"
+        >Especialidades</a
+      >
+      <a routerLink="/MediCore/citas" class="mobile-nav-link">Citas</a>
+      <a routerLink="/MediCore/doctores" class="mobile-nav-link">Doctores</a>
+      <a routerLink="/MediCore/campanias" class="mobile-nav-link">Campañas</a>
+      <a routerLink="/MediCore/contacto" class="mobile-nav-link">Contacto</a>
+    </div>
+  </div>
 </header>

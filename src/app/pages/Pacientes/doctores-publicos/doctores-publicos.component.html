@@ -1,0 +1,46 @@
+<!-- Botón flotante de WhatsApp -->
+<a href="https://wa.me/51123456789" 
+   class="whatsapp-float" 
+   target="_blank" 
+   rel="noopener noreferrer"
+   title="Contactar por WhatsApp"
+   aria-label="Contactar por WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h1 class="section-title">Nuestro Equipo Médico</h1>
+      <p class="section-subtitle">
+        Profesionales altamente calificados comprometidos con tu salud
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6" *ngFor="let doctor of doctores">
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-user-md"></i>
+          </div>
+          <h4>{{ doctor.nombre }}</h4>
+          <p class="text-primary fw-bold">{{ doctor.especialidad }}</p>
+          <p>{{ doctor.descripcion }}</p>
+          <div class="doctor-info">
+            <p>
+              <i class="fas fa-graduation-cap me-2"></i>{{ doctor.universidad }}
+            </p>
+            <p>
+              <i class="fas fa-certificate me-2"></i>{{ doctor.certificacion }}
+            </p>
+            <p><i class="fas fa-clock me-2"></i>{{ doctor.horario }}</p>
+          </div>
+          <button class="btn btn-primary mt-3" (click)="agendarCita(doctor)">
+            Agendar Cita
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

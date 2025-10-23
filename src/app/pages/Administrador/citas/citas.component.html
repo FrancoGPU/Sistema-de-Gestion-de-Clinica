@@ -1,0 +1,83 @@
+<app-admin-header></app-admin-header>
+
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-calendar-alt me-2"></i>Gestión de Citas</h2>
+    <button class="btn btn-primary">
+      <i class="fas fa-plus me-2"></i>Nueva Cita
+    </button>
+  </div>
+
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Paciente</th>
+              <th>Doctor</th>
+              <th>Especialidad</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>001</td>
+              <td>Juan Pérez</td>
+              <td>Dr. Carlos Mendoza</td>
+              <td>Cardiología</td>
+              <td>2025-10-20</td>
+              <td>10:00 AM</td>
+              <td><span class="badge bg-success">Confirmada</span></td>
+              <td>
+                <button
+                  class="btn btn-sm btn-outline-primary me-1"
+                  title="Editar cita"
+                  aria-label="Editar cita"
+                >
+                  <i class="fas fa-edit" aria-hidden="true"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-danger"
+                  title="Eliminar cita"
+                  aria-label="Eliminar cita"
+                >
+                  <i class="fas fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>002</td>
+              <td>María García</td>
+              <td>Dra. Ana Rodríguez</td>
+              <td>Pediatría</td>
+              <td>2025-10-21</td>
+              <td>14:00 PM</td>
+              <td><span class="badge bg-warning">Pendiente</span></td>
+              <td>
+                <button
+                  class="btn btn-sm btn-outline-primary me-1"
+                  title="Editar cita"
+                  aria-label="Editar cita"
+                >
+                  <i class="fas fa-edit" aria-hidden="true"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-danger"
+                  title="Eliminar cita"
+                  aria-label="Eliminar cita"
+                >
+                  <i class="fas fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

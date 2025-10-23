@@ -2,20 +2,74 @@ import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  // Ruta de Login (pública)
+  // Rutas de Autenticación (públicas)
   {
     path: 'login',
     loadComponent: () =>
-      import('./pages/login/login.component').then((m) => m.LoginComponent),
+      import('./pages/Autenticacion/login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: 'registro',
+    loadComponent: () =>
+      import('./pages/Autenticacion/registro/registro.component').then(
+        (m) => m.RegistroComponent
+      ),
   },
 
-  // Ruta pública (MediCore - para pacientes)
+  // Ruta pública (MediCore - página principal con sus páginas hijas)
   {
     path: 'MediCore',
-    loadComponent: () =>
-      import('./pages/MediCore/MediCore.component').then(
-        (m) => m.MediCoreComponent
-      ),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./pages/MediCore/MediCore.component').then(
+            (m) => m.MediCoreComponent
+          ),
+      },
+      {
+        path: 'servicios',
+        loadComponent: () =>
+          import('./pages/Pacientes/servicios/servicios.component').then(
+            (m) => m.ServiciosComponent
+          ),
+      },
+      {
+        path: 'especialidades',
+        loadComponent: () =>
+          import('./pages/Pacientes/especialidades/especialidades.component').then(
+            (m) => m.EspecialidadesComponent
+          ),
+      },
+      {
+        path: 'contacto',
+        loadComponent: () =>
+          import('./pages/Pacientes/contacto/contacto.component').then(
+            (m) => m.ContactoComponent
+          ),
+      },
+      {
+        path: 'campanias',
+        loadComponent: () =>
+          import('./pages/Pacientes/campanias/campanias.component').then(
+            (m) => m.CampaniasComponent
+          ),
+      },
+      {
+        path: 'citas',
+        loadComponent: () =>
+          import('./pages/Pacientes/citas-publicas/citas-publicas.component').then(
+            (m) => m.CitasPublicasComponent
+          ),
+      },
+      {
+        path: 'doctores',
+        loadComponent: () =>
+          import('./pages/Pacientes/doctores-publicos/doctores-publicos.component').then(
+            (m) => m.DoctoresPublicosComponent
+          ),
+      },
+    ],
   },
 
   // Rutas de Administrador (protegidas - requiere rol administrador)
@@ -36,6 +90,20 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/Administrador/index/index.component').then(
             (m) => m.IndexComponent
+          ),
+      },
+      {
+        path: 'doctores',
+        loadComponent: () =>
+          import('./pages/Administrador/doctores/doctores.component').then(
+            (m) => m.DoctoresComponent
+          ),
+      },
+      {
+        path: 'citas',
+        loadComponent: () =>
+          import('./pages/Administrador/citas/citas.component').then(
+            (m) => m.CitasComponent
           ),
       },
       {
