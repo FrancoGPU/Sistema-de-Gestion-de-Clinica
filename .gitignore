@@ -10,10 +10,10 @@
 /bazel-out/
 
 # Frontend (Angular) - monorepo paths
-/frontend/dist/
-/frontend/.angular/
-/frontend/out-tsc/
-/frontend/node_modules/
+/frontend/Sistema-de-Gestion-de-Clinica/dist/
+/frontend/Sistema-de-Gestion-de-Clinica/.angular/
+/frontend/Sistema-de-Gestion-de-Clinica/out-tsc/
+/frontend/Sistema-de-Gestion-de-Clinica/node_modules/
 
 # Node
 /node_modules/
