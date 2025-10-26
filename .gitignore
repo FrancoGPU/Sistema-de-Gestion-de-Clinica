@@ -1,13 +1,22 @@
+
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-# Compiled output (Angular)
-/dist
-/tmp
-/out-tsc
-/bazel-out
+# Monorepo ignores: frontend (Angular) and backend (Spring Boot)
+
+# Global compiled output (Angular)
+/dist/
+/tmp/
+/out-tsc/
+/bazel-out/
+
+# Frontend (Angular) - monorepo paths
+/frontend/dist/
+/frontend/.angular/
+/frontend/out-tsc/
+/frontend/node_modules/
 
 # Node
-/node_modules
+/node_modules/
 npm-debug.log
 yarn-error.log
 
@@ -16,6 +25,11 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+# Backend specific
+/backend/target/
+/*.jar
+*.war
 
 # IDEs and editors
 .idea/
@@ -46,17 +60,13 @@ target/
 testem.log
 /typings
 
-# System files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# Env and local config
+.env
+.env.*
 
-# Log files
+# Logs and temporary
 *.log
+.cache/
 
 # H2 Database files
 *.db
@@ -67,3 +77,12 @@ Thumbs.db
 *.bak
 *.swp
 *~.nib
+
+# OS metadata
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

@@ -1,0 +1,132 @@
+package com.clinica.sistema.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import java.util.List;
+
+@Entity
+@Table(name = "doctores")
+public class Doctor {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @NotBlank(message = "El nombre es obligatorio")
+    @Column(nullable = false)
+    private String nombre;
+    
+    @NotBlank(message = "El apellido es obligatorio")
+    @Column(nullable = false)
+    private String apellido;
+    
+    @NotBlank(message = "La especialización es obligatoria")
+    @Column(nullable = false)
+    private String especializacion;
+    
+    @Email(message = "El email debe ser válido")
+    @Column(unique = true)
+    private String email;
+    
+    @Column(length = 20)
+    private String telefono;
+    
+    @Column(name = "numero_licencia", unique = true)
+    private String numeroLicencia;
+    
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    private List<Cita> citas;
+    
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    private List<HistorialMedico> historialesMedicos;
+    
+    // Constructors
+    public Doctor() {}
+    
+    public Doctor(String nombre, String apellido, String especializacion, String email, String telefono, String numeroLicencia) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.especializacion = especializacion;
+        this.email = email;
+        this.telefono = telefono;
+        this.numeroLicencia = numeroLicencia;
+    }
+    
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public String getNombre() {
+        return nombre;
+    }
+    
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    public String getApellido() {
+        return apellido;
+    }
+    
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+    
+    public String getEspecializacion() {
+        return especializacion;
+    }
+    
+    public void setEspecializacion(String especializacion) {
+        this.especializacion = especializacion;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public String getTelefono() {
+        return telefono;
+    }
+    
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+    
+    public String getNumeroLicencia() {
+        return numeroLicencia;
+    }
+    
+    public void setNumeroLicencia(String numeroLicencia) {
+        this.numeroLicencia = numeroLicencia;
+    }
+    
+    public List<Cita> getCitas() {
+        return citas;
+    }
+    
+    public void setCitas(List<Cita> citas) {
+        this.citas = citas;
+    }
+    
+    public List<HistorialMedico> getHistorialesMedicos() {
+        return historialesMedicos;
+    }
+    
+    public void setHistorialesMedicos(List<HistorialMedico> historialesMedicos) {
+        this.historialesMedicos = historialesMedicos;
+    }
+    
+    public String getNombreCompleto() {
+        return "Dr. " + nombre + " " + apellido;
+    }
+}

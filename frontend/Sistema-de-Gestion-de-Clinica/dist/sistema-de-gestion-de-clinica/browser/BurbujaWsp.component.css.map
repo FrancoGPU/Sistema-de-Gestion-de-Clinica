@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/shared/components/BurbujaWsp/BurbujaWsp.component.css"],
+  "sourcesContent": [".whatsapp-float {\n  position: fixed;\n  width: 60px;\n  height: 60px;\n  bottom: 40px;\n  right: 40px;\n  background-color: #25d366;\n  color: white;\n  border-radius: 50%;\n  text-align: center;\n  font-size: 30px;\n  box-shadow: 2px 2px 3px #999;\n  z-index: 1000;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: all 0.3s ease;\n}\n\n.whatsapp-float:hover {\n  transform: scale(1.1);\n  color: white;\n}\n"],
+  "mappings": ";AAAA,CAAC;AACC,YAAU;AACV,SAAO;AACP,UAAQ;AACR,UAAQ;AACR,SAAO;AACP,oBAAkB;AAClB,SAAO;AACP,iBAAe;AACf,cAAY;AACZ,aAAW;AACX,cAAY,IAAI,IAAI,IAAI;AACxB,WAAS;AACT,WAAS;AACT,eAAa;AACb,mBAAiB;AACjB,cAAY,IAAI,KAAK;AACvB;AAEA,CAnBC,cAmBc;AACb,aAAW,MAAM;AACjB,SAAO;AACT;",
+  "names": []
+}
