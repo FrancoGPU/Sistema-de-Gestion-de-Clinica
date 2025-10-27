@@ -25,39 +25,32 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>001</td>
-              <td>Juan Pérez</td>
-              <td>Dr. Carlos Mendoza</td>
-              <td>Cardiología</td>
-              <td>2025-10-20</td>
-              <td>10:00 AM</td>
-              <td><span class="badge bg-success">Confirmada</span></td>
-              <td>
-                <button
-                  class="btn btn-sm btn-outline-primary me-1"
-                  title="Editar cita"
-                  aria-label="Editar cita"
-                >
-                  <i class="fas fa-edit" aria-hidden="true"></i>
-                </button>
-                <button
-                  class="btn btn-sm btn-outline-danger"
-                  title="Eliminar cita"
-                  aria-label="Eliminar cita"
-                >
-                  <i class="fas fa-trash" aria-hidden="true"></i>
-                </button>
-              </td>
+            <tr *ngIf="loading">
+              <td colspan="8" class="text-center">Cargando citas...</td>
             </tr>
-            <tr>
-              <td>002</td>
-              <td>María García</td>
-              <td>Dra. Ana Rodríguez</td>
-              <td>Pediatría</td>
-              <td>2025-10-21</td>
-              <td>14:00 PM</td>
-              <td><span class="badge bg-warning">Pendiente</span></td>
+            <tr *ngIf="error && !loading">
+              <td colspan="8" class="text-danger text-center">{{ error }}</td>
+            </tr>
+            <tr *ngFor="let cita of citas">
+              <td>{{ cita.idCita }}</td>
+              <td>{{ cita.paciente.nombre }} {{ cita.paciente.apellido }}</td>
+              <td>{{ cita.medico.nombre }}</td>
+              <td>{{ cita.medico.especialidad }}</td>
+              <td>{{ cita.fechaHora | date : "yyyy-MM-dd" }}</td>
+              <td>{{ cita.fechaHora | date : "HH:mm" }}</td>
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'bg-success': cita.estado === 'CONFIRMADA',
+                    'bg-warning': cita.estado === 'PENDIENTE',
+                    'bg-danger': cita.estado === 'CANCELADA',
+                    'bg-info': cita.estado === 'COMPLETADA'
+                  }"
+                >
+                  {{ cita.estado }}
+                </span>
+              </td>
               <td>
                 <button
                   class="btn btn-sm btn-outline-primary me-1"

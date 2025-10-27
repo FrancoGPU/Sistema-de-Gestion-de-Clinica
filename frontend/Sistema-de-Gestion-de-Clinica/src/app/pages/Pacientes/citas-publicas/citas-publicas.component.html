@@ -1,10 +1,12 @@
 <!-- Botón flotante de WhatsApp -->
-<a href="https://wa.me/51123456789" 
-   class="whatsapp-float" 
-   target="_blank" 
-   rel="noopener noreferrer"
-   title="Contactar por WhatsApp"
-   aria-label="Contactar por WhatsApp">
+<a
+  href="https://wa.me/51123456789"
+  class="whatsapp-float"
+  target="_blank"
+  rel="noopener noreferrer"
+  title="Contactar por WhatsApp"
+  aria-label="Contactar por WhatsApp"
+>
   <i class="fab fa-whatsapp"></i>
 </a>
 
@@ -30,9 +32,7 @@
             <form (ngSubmit)="onSubmit()" #citaForm="ngForm">
               <div class="row">
                 <div class="col-md-6 mb-3">
-                  <label for="nombre" class="form-label"
-                    >Nombre Completo *</label
-                  >
+                  <label for="nombre" class="form-label">Nombre *</label>
                   <input
                     type="text"
                     class="form-control"
@@ -43,7 +43,36 @@
                   />
                 </div>
                 <div class="col-md-6 mb-3">
-                  <label for="telefono" class="form-label">Teléfono *</label>
+                  <label for="apellido" class="form-label">Apellido *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="apellido"
+                    [(ngModel)]="formData.apellido"
+                    name="apellido"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="dni" class="form-label">DNI (8 dígitos) *</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="dni"
+                    [(ngModel)]="formData.dni"
+                    name="dni"
+                    required
+                    maxlength="8"
+                    pattern="\d{8}"
+                    placeholder="12345678"
+                  />
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="telefono" class="form-label"
+                    >Teléfono (9 dígitos) *</label
+                  >
                   <input
                     type="tel"
                     class="form-control"
@@ -51,43 +80,45 @@
                     [(ngModel)]="formData.telefono"
                     name="telefono"
                     required
+                    maxlength="9"
+                    pattern="\d{9}"
+                    placeholder="987654321"
                   />
                 </div>
               </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email *</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  [(ngModel)]="formData.email"
+                  name="email"
+                  required
+                  placeholder="ejemplo@correo.com"
+                />
+              </div>
               <div class="row">
                 <div class="col-md-6 mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    [(ngModel)]="formData.email"
-                    name="email"
-                  />
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="especialidad" class="form-label"
-                    >Especialidad *</label
+                  <label for="medicoId" class="form-label"
+                    >Doctor/Especialidad *</label
                   >
                   <select
                     class="form-select"
-                    id="especialidad"
-                    [(ngModel)]="formData.especialidad"
-                    name="especialidad"
+                    id="medicoId"
+                    [(ngModel)]="formData.medicoId"
+                    name="medicoId"
                     required
                   >
-                    <option value="">Seleccionar especialidad</option>
-                    <option value="general">Medicina General</option>
-                    <option value="cardiologia">Cardiología</option>
-                    <option value="pediatria">Pediatría</option>
-                    <option value="ginecologia">Ginecología</option>
-                    <option value="traumatologia">Traumatología</option>
-                    <option value="oftalmologia">Oftalmología</option>
-                    <option value="neurologia">Neurología</option>
+                    <option value="">Seleccionar doctor</option>
+                    <option
+                      *ngFor="let doctor of doctores"
+                      [value]="doctor.idMedico"
+                    >
+                      {{ doctor.nombre }} - {{ doctor.especialidad }}
+                    </option>
                   </select>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="fecha" class="form-label">Fecha *</label>
                   <input
@@ -100,6 +131,8 @@
                     [min]="minDate"
                   />
                 </div>
+              </div>
+              <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="hora" class="form-label">Hora *</label>
                   <select
@@ -120,27 +153,37 @@
                     <option value="17:00">05:00 PM</option>
                   </select>
                 </div>
-              </div>
-              <div class="mb-3">
-                <label for="motivo" class="form-label"
-                  >Motivo de la consulta</label
-                >
-                <textarea
-                  class="form-control"
-                  id="motivo"
-                  rows="3"
-                  [(ngModel)]="formData.motivo"
-                  name="motivo"
-                  placeholder="Describe brevemente el motivo de tu consulta..."
-                ></textarea>
+                <div class="col-md-6 mb-3">
+                  <label for="motivo" class="form-label"
+                    >Motivo de la consulta *</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="motivo"
+                    rows="3"
+                    [(ngModel)]="formData.motivo"
+                    name="motivo"
+                    placeholder="Describe brevemente el motivo de tu consulta..."
+                    required
+                  ></textarea>
+                </div>
               </div>
               <div class="d-grid">
                 <button
                   type="submit"
                   class="btn btn-primary btn-lg"
-                  [disabled]="!citaForm.valid"
+                  [disabled]="!citaForm.valid || loading"
                 >
-                  <i class="fas fa-calendar-plus me-2"></i>Agendar Cita
+                  <span *ngIf="!loading">
+                    <i class="fas fa-calendar-plus me-2"></i>Agendar Cita
+                  </span>
+                  <span *ngIf="loading">
+                    <span
+                      class="spinner-border spinner-border-sm me-2"
+                      role="status"
+                    ></span>
+                    Agendando...
+                  </span>
                 </button>
               </div>
             </form>

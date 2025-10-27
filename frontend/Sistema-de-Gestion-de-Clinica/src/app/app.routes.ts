@@ -107,6 +107,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'pacientes',
+        loadComponent: () =>
+          import('./pages/Administrador/pacientes/pacientes.component').then(
+            (m) => m.PacientesComponent
+          ),
+      },
+      {
         path: '',
         redirectTo: 'index',
         pathMatch: 'full',

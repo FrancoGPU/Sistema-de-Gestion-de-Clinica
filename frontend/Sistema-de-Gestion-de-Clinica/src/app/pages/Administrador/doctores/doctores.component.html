@@ -24,13 +24,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Dr. Carlos Mendoza</td>
-              <td><span class="badge bg-info">Cardiología</span></td>
-              <td>+51 987 654 321</td>
-              <td>cmendoza&#64;medicore.com</td>
-              <td>Lun-Vie 8:00-16:00</td>
+            <tr *ngIf="loading">
+              <td colspan="7" class="text-center">Cargando doctores...</td>
+            </tr>
+            <tr *ngIf="error && !loading">
+              <td colspan="7" class="text-danger text-center">{{ error }}</td>
+            </tr>
+            <tr *ngFor="let doctor of doctores">
+              <td>{{ doctor.idMedico }}</td>
+              <td>{{ doctor.nombre }}</td>
+              <td>
+                <span class="badge bg-info">{{ doctor.especialidad }}</span>
+              </td>
+              <td>{{ doctor.telefono }}</td>
+              <td>{{ doctor.email }}</td>
+              <td>{{ doctor.horariosAtencion }}</td>
               <td>
                 <button
                   class="btn btn-sm btn-outline-primary me-1"
@@ -43,30 +51,6 @@
                   class="btn btn-sm btn-outline-danger"
                   title="Eliminar Doctor"
                   aria-label="Eliminar Doctor"
-                >
-                  <i class="fas fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Dra. Ana Rodríguez</td>
-              <td><span class="badge bg-success">Pediatría</span></td>
-              <td>+51 987 654 322</td>
-              <td>arodriguez&#64;medicore.com</td>
-              <td>Lun-Sáb 9:00-17:00</td>
-              <td>
-                <button
-                  class="btn btn-sm btn-outline-primary me-1"
-                  title="Editar Dra. Ana Rodríguez"
-                  aria-label="Editar Dra. Ana Rodríguez"
-                >
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button
-                  class="btn btn-sm btn-outline-danger"
-                  title="Eliminar Dra. Ana Rodríguez"
-                  aria-label="Eliminar Dra. Ana Rodríguez"
                 >
                   <i class="fas fa-trash"></i>
                 </button>

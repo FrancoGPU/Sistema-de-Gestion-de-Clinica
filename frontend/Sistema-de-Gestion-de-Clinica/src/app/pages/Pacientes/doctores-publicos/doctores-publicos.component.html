@@ -1,10 +1,12 @@
 <!-- Botón flotante de WhatsApp -->
-<a href="https://wa.me/51123456789" 
-   class="whatsapp-float" 
-   target="_blank" 
-   rel="noopener noreferrer"
-   title="Contactar por WhatsApp"
-   aria-label="Contactar por WhatsApp">
+<a
+  href="https://wa.me/51123456789"
+  class="whatsapp-float"
+  target="_blank"
+  rel="noopener noreferrer"
+  title="Contactar por WhatsApp"
+  aria-label="Contactar por WhatsApp"
+>
   <i class="fab fa-whatsapp"></i>
 </a>
 
@@ -18,7 +20,21 @@
       </p>
     </div>
 
-    <div class="row g-4">
+    <!-- Loading -->
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando doctores...</span>
+      </div>
+      <p class="mt-3">Cargando doctores...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error && !loading" class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
+
+    <!-- Lista de doctores -->
+    <div class="row g-4" *ngIf="!loading && !error">
       <div class="col-lg-4 col-md-6" *ngFor="let doctor of doctores">
         <div class="service-card">
           <div class="service-icon">
@@ -26,15 +42,9 @@
           </div>
           <h4>{{ doctor.nombre }}</h4>
           <p class="text-primary fw-bold">{{ doctor.especialidad }}</p>
-          <p>{{ doctor.descripcion }}</p>
           <div class="doctor-info">
-            <p>
-              <i class="fas fa-graduation-cap me-2"></i>{{ doctor.universidad }}
-            </p>
-            <p>
-              <i class="fas fa-certificate me-2"></i>{{ doctor.certificacion }}
-            </p>
-            <p><i class="fas fa-clock me-2"></i>{{ doctor.horario }}</p>
+            <p><i class="fas fa-envelope me-2"></i>{{ doctor.email }}</p>
+            <p><i class="fas fa-phone me-2"></i>{{ doctor.telefono }}</p>
           </div>
           <button class="btn btn-primary mt-3" (click)="agendarCita(doctor)">
             Agendar Cita
