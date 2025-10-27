@@ -31,3 +31,32 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### MySQL Data Files ###
+mysql-data/
+*.sock
+*.pid
+
+### Certificate and Key Files ###
+*.pem
+*.key
+*.crt
+
+### Application Logs ###
+*.log
+logs/
+application.log
+spring.log
+
+### Database Files ###
+*.db
+*.trace.db
+*.ibd
+
+### Temporary Files ###
+*.tmp
+*.bak
+*.swp
+*~
+.DS_Store
+Thumbs.db

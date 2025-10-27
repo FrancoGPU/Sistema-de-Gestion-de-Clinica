@@ -1,5 +1,6 @@
 package pe.edu.utp.MediCore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -49,6 +50,7 @@ public class Paciente {
     private String numeroTelefono;
     
     // Relación uno a muchos con CitaMedica
+    @JsonIgnore
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CitaMedica> citas;
 }
