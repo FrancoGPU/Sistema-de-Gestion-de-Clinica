@@ -35,6 +35,9 @@ public interface CitaMedicaRepository extends JpaRepository<CitaMedica, Long> {
         LocalDateTime inicio, 
         LocalDateTime fin
     );
+
+    // Verificar existencia de cita para un médico en fecha y hora exacta
+    boolean existsByMedicoAndFechaHora(Medico medico, LocalDateTime fechaHora);
     
     // Buscar citas de un paciente ordenadas por fecha
     @Query("SELECT c FROM CitaMedica c WHERE c.paciente = :paciente ORDER BY c.fechaHora DESC")

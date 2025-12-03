@@ -13,7 +13,9 @@ import java.time.LocalDateTime;
  * Contiene: idCita, fecha, hora, idPaciente y idMedico
  */
 @Entity
-@Table(name = "citas_medicas")
+@Table(name = "citas_medicas", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id_medico", "fecha_hora"})
+})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,7 +26,7 @@ public class CitaMedica {
     private Long idCita;
     
     @NotNull(message = "La fecha y hora son obligatorias")
-    @Column(nullable = false)
+    @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;
     
     @NotNull(message = "El paciente es obligatorio")
