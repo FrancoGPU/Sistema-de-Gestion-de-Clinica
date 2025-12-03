@@ -48,6 +48,12 @@ public class Medico {
     @Column(unique = true)
     private String email;
     
+    // Relación con Usuario para autenticación
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "idUsuario")
+    @JsonIgnore
+    private Usuario usuario;
+
     // Relación uno a muchos con CitaMedica
     @JsonIgnore
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)

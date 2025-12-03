@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,27 +17,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pe.edu.utp.MediCore.repository.UsuarioRepository;
+import pe.edu.utp.MediCore.security.JwtAuthenticationEntryPoint;
 import pe.edu.utp.MediCore.security.JwtAuthenticationFilter;
 
-/**
- * Configuración de seguridad con autenticación JWT
- * - Usa tokens JWT para autenticación sin sesión
- * - Protege endpoints con roles
- */
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 public class SecurityConfig {
-    
+
     @Autowired
     private UsuarioRepository usuarioRepository;
-    
+
     @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
-    
-    /**
-     * UserDetailsService para cargar usuario desde BD
-     */
+    private JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
+
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> usuarioRepository.findByUsername(username)
@@ -51,50 +48,31 @@ public class SecurityConfig {
                         .build())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
     }
-    
-    /**
-     * PasswordEncoder para hashear contraseñas
-     */
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
-    /**
-     * AuthenticationManager para autenticar usuarios
-     */
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
-    
-    /**
-     * Cadena de filtros de seguridad
-     */
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) throws Exception {
-        // Crear DaoAuthenticationProvider
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(passwordEncoder, userDetailsService);
-        
-        http
-            .csrf(csrf -> csrf.disable())
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+            .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                    // Endpoints públicos (sin autenticación)
-                    .requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers("/api/pacientes/buscar").permitAll()
-                    // Endpoints protegidos por rol
-                    .requestMatchers("POST", "/api/citas").hasAnyRole("PACIENTE", "DOCTOR", "ADMIN")
-                    .requestMatchers("PUT", "/api/citas/**").hasAnyRole("DOCTOR", "ADMIN")
-                    .requestMatchers("DELETE", "/api/citas/**").hasAnyRole("DOCTOR", "ADMIN")
-                    .requestMatchers("GET", "/api/citas/**").hasAnyRole("PACIENTE", "DOCTOR", "ADMIN")
-                    // Otros endpoints requieren autenticación
-                    .anyRequest().authenticated()
-            )
-            .authenticationProvider(authProvider)
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/pacientes/buscar").permitAll()
+                .requestMatchers("/api/test/**").permitAll()
+                .anyRequest().authenticated()
+            );
+
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 }
-

@@ -26,6 +26,7 @@ public class CitaMedica {
     private Long idCita;
     
     @NotNull(message = "La fecha y hora son obligatorias")
+    @jakarta.validation.constraints.Future(message = "La fecha de la cita debe ser en el futuro")
     @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;
     

@@ -49,6 +49,12 @@ public class Paciente {
     @Column(nullable = false, length = 9)
     private String numeroTelefono;
     
+    // Relación con Usuario para autenticación
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "idUsuario")
+    @JsonIgnore
+    private Usuario usuario;
+
     // Relación uno a muchos con CitaMedica
     @JsonIgnore
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -1,96 +1,77 @@
 package pe.edu.utp.MediCore.security;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.stream.Collectors;
 
-/**
- * Proveedor JWT para generar, validar y extraer información de tokens
- */
 @Component
 public class JwtTokenProvider {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
-    
-    @Value("${app.jwtSecret:mySecretKeyForJWTTokenGenerationAndValidationPleaseChangeInProduction12345}")
+
+    @Value("${app.jwtSecret:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}")
     private String jwtSecret;
-    
-    @Value("${app.jwtExpirationMs:86400000}") // 24 horas por defecto
+
+    @Value("${app.jwtExpirationMs:86400000}")
     private long jwtExpirationMs;
-    
-    private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
+
+    private SecretKey key() {
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
-    
-    /**
-     * Generar token JWT a partir de la autenticación
-     */
+
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
-        
-        SecretKey key = getSigningKey();
-        
+
+        String roles = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
         return Jwts.builder()
                 .subject(username)
+                .claim("roles", roles)
                 .issuedAt(now)
                 .expiration(expiryDate)
-                .claim("roles", authentication.getAuthorities().stream()
-                        .map(auth -> auth.getAuthority())
-                        .toList())
-                .signWith(key, SignatureAlgorithm.HS512)
+                .signWith(key(), Jwts.SIG.HS256)
                 .compact();
     }
-    
-    /**
-     * Obtener el username/subject del token
-     */
+
     public String getUsernameFromToken(String token) {
-        return getClaimsFromToken(token).getSubject();
-    }
-    
-    /**
-     * Validar que el token sea válido (firma, expiración, etc.)
-     */
-    public boolean validateToken(String token) {
-        try {
-            SecretKey key = getSigningKey();
-            Jwts.parser()
-                    .verifyingKeyResolver(ctx -> key)
-                    .build()
-                    .parseSignedClaims(token);
-            return true;
-        } catch (SecurityException ex) {
-            logger.error("Firma JWT inválida: {}", ex.getMessage());
-        } catch (MalformedJwtException ex) {
-            logger.error("Token JWT inválido: {}", ex.getMessage());
-        } catch (ExpiredJwtException ex) {
-            logger.error("Token JWT expirado: {}", ex.getMessage());
-        } catch (UnsupportedJwtException ex) {
-            logger.error("Token JWT no soportado: {}", ex.getMessage());
-        } catch (IllegalArgumentException ex) {
-            logger.error("Token JWT vacio o inválido: {}", ex.getMessage());
-        }
-        return false;
-    }
-    
-    /**
-     * Extraer claims del token
-     */
-    public Claims getClaimsFromToken(String token) {
-        SecretKey key = getSigningKey();
         return Jwts.parser()
-                .verifyingKeyResolver(ctx -> key)
+                .verifyWith(key())
                 .build()
                 .parseSignedClaims(token)
-                .getPayload();
+                .getPayload()
+                .getSubject();
+    }
+
+    public boolean validateToken(String authToken) {
+        try {
+            Jwts.parser()
+                    .verifyWith(key())
+                    .build()
+                    .parseSignedClaims(authToken);
+            return true;
+        } catch (MalformedJwtException e) {
+            logger.error("Token JWT inválido: {}", e.getMessage());
+        } catch (ExpiredJwtException e) {
+            logger.error("Token JWT expirado: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            logger.error("Token JWT no soportado: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.error("La cadena claims JWT está vacía: {}", e.getMessage());
+        }
+        return false;
     }
 }

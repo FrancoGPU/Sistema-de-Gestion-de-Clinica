@@ -4,6 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pe.edu.utp.MediCore.entity.Paciente;
+import pe.edu.utp.MediCore.entity.Usuario;
+
+import java.util.Optional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +17,8 @@ import java.util.Optional;
  */
 @Repository
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
+    Optional<Paciente> findByUsuario(Usuario usuario);
+    Optional<Paciente> findByUsuarioUsername(String username);
     
     // Buscar paciente por DNI
     Optional<Paciente> findByDni(String dni);
