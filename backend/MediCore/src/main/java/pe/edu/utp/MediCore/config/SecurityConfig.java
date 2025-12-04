@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -65,13 +64,34 @@ public class SecurityConfig {
             .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+                // Preflight requests (OPTIONS) - siempre permitir
+                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                
+                // Endpoints públicos (no requieren autenticación)
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/pacientes/**").permitAll()
-                .requestMatchers("/api/medicos/**").permitAll()
-                .requestMatchers("/api/citas/**").permitAll()
-                .requestMatchers("/api/test/**").permitAll()
+                
+                // Médicos - GET público, POST/PUT/DELETE solo ADMIN
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/medicos/**").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/medicos/**").hasRole("ADMIN")
+                .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/medicos/**").hasRole("ADMIN")
+                .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/medicos/**").hasRole("ADMIN")
+                
+                // Pacientes - Acceso público para consulta por DNI y registro
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/pacientes/dni/**").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/pacientes").permitAll()
+                .requestMatchers("/api/pacientes/**").authenticated()
+                
+                // Citas - Acceso público para crear, autenticado para ver/modificar
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/citas").permitAll()
-                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/medicos").permitAll()
+                .requestMatchers("/api/citas/**").authenticated()
+                
+                // Campañas - Público
+                .requestMatchers("/api/campanias/**").permitAll()
+                
+                // Test - Público para desarrollo
+                .requestMatchers("/api/test/**").permitAll()
+                
+                // Cualquier otra petición requiere autenticación
                 .anyRequest().authenticated()
             );
 
