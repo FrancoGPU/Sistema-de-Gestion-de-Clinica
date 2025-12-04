@@ -3,7 +3,7 @@
 <div class="container-fluid py-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2><i class="fas fa-calendar-alt me-2"></i>Gestión de Citas</h2>
-    <button class="btn btn-primary">
+    <button class="btn btn-primary" (click)="abrirModalCrear()">
       <i class="fas fa-plus me-2"></i>Nueva Cita
     </button>
   </div>
@@ -56,6 +56,7 @@
                   class="btn btn-sm btn-outline-primary me-1"
                   title="Editar cita"
                   aria-label="Editar cita"
+                  (click)="abrirModalEditar(cita)"
                 >
                   <i class="fas fa-edit" aria-hidden="true"></i>
                 </button>
@@ -63,6 +64,7 @@
                   class="btn btn-sm btn-outline-danger"
                   title="Eliminar cita"
                   aria-label="Eliminar cita"
+                  (click)="eliminarCita(cita.idCita)"
                 >
                   <i class="fas fa-trash" aria-hidden="true"></i>
                 </button>
@@ -74,3 +76,149 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de Creación -->
+<div
+  class="modal fade"
+  [class.show]="showCreateModal"
+  [style.display]="showCreateModal ? 'block' : 'none'"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nueva Cita</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="cerrarModalCrear()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="crearCita()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="pacienteNew" class="form-label">Paciente</label>
+              <select class="form-select" id="pacienteNew" [(ngModel)]="nuevaCitaObj.pacienteId" name="paciente" required>
+                <option [ngValue]="null" disabled>Seleccione un paciente</option>
+                <option *ngFor="let paciente of pacientes" [ngValue]="paciente.idPaciente">
+                  {{ paciente.nombre }} {{ paciente.apellido }} ({{ paciente.dni }})
+                </option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="medicoNew" class="form-label">Doctor</label>
+              <select class="form-select" id="medicoNew" [(ngModel)]="nuevaCitaObj.medicoId" name="medico" required>
+                <option [ngValue]="null" disabled>Seleccione un doctor</option>
+                <option *ngFor="let doctor of doctores" [ngValue]="doctor.idMedico">
+                  {{ doctor.nombre }} {{ doctor.apellido }} - {{ doctor.especialidad }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="fechaHoraNew" class="form-label">Fecha y Hora</label>
+              <input type="datetime-local" class="form-control" id="fechaHoraNew" [(ngModel)]="nuevaCitaObj.fechaHora" name="fechaHora" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="estadoNew" class="form-label">Estado</label>
+              <select class="form-select" id="estadoNew" [(ngModel)]="nuevaCitaObj.estado" name="estado" required>
+                <option value="PENDIENTE">PENDIENTE</option>
+                <option value="CONFIRMADA">CONFIRMADA</option>
+                <option value="CANCELADA">CANCELADA</option>
+                <option value="COMPLETADA">COMPLETADA</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="motivoNew" class="form-label">Motivo</label>
+            <textarea class="form-control" id="motivoNew" rows="2" [(ngModel)]="nuevaCitaObj.motivo" name="motivo" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="observacionesNew" class="form-label">Observaciones</label>
+            <textarea class="form-control" id="observacionesNew" rows="2" [(ngModel)]="nuevaCitaObj.observaciones" name="observaciones"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="cerrarModalCrear()">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Crear Cita</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showCreateModal"></div>
+
+<!-- Modal de Edición -->
+<div
+  class="modal fade"
+  [class.show]="modoEdicion"
+  [style.display]="modoEdicion ? 'block' : 'none'"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Cita</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="cerrarModalEditar()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="guardarEdicion()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="pacienteEdit" class="form-label">Paciente</label>
+              <select class="form-select" id="pacienteEdit" [(ngModel)]="citaEditando.pacienteId" name="paciente" required>
+                <option [ngValue]="null" disabled>Seleccione un paciente</option>
+                <option *ngFor="let paciente of pacientes" [ngValue]="paciente.idPaciente">
+                  {{ paciente.nombre }} {{ paciente.apellido }} ({{ paciente.dni }})
+                </option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="medicoEdit" class="form-label">Doctor</label>
+              <select class="form-select" id="medicoEdit" [(ngModel)]="citaEditando.medicoId" name="medico" required>
+                <option [ngValue]="null" disabled>Seleccione un doctor</option>
+                <option *ngFor="let doctor of doctores" [ngValue]="doctor.idMedico">
+                  {{ doctor.nombre }} {{ doctor.apellido }} - {{ doctor.especialidad }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="fechaHoraEdit" class="form-label">Fecha y Hora</label>
+              <input type="datetime-local" class="form-control" id="fechaHoraEdit" [(ngModel)]="citaEditando.fechaHora" name="fechaHora" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="estadoEdit" class="form-label">Estado</label>
+              <select class="form-select" id="estadoEdit" [(ngModel)]="citaEditando.estado" name="estado" required>
+                <option value="PENDIENTE">PENDIENTE</option>
+                <option value="CONFIRMADA">CONFIRMADA</option>
+                <option value="CANCELADA">CANCELADA</option>
+                <option value="COMPLETADA">COMPLETADA</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="motivoEdit" class="form-label">Motivo</label>
+            <textarea class="form-control" id="motivoEdit" rows="2" [(ngModel)]="citaEditando.motivo" name="motivo" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="observacionesEdit" class="form-label">Observaciones</label>
+            <textarea class="form-control" id="observacionesEdit" rows="2" [(ngModel)]="citaEditando.observaciones" name="observaciones"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="cerrarModalEditar()">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="modoEdicion"></div>

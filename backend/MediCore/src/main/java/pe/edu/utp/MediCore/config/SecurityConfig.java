@@ -70,6 +70,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/medicos/**").permitAll()
                 .requestMatchers("/api/citas/**").permitAll()
                 .requestMatchers("/api/test/**").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/citas").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/medicos").permitAll()
                 .anyRequest().authenticated()
             );
 
