@@ -29,7 +29,7 @@ export class DoctorService {
     return this.http.get<Doctor>(`${this.apiUrl}/${id}`);
   }
 
-  createDoctor(doctor: Doctor): Observable<Doctor> {
+  createDoctor(doctor: Omit<Doctor, 'idMedico'>): Observable<Doctor> {
     return this.http.post<Doctor>(this.apiUrl, doctor);
   }
 

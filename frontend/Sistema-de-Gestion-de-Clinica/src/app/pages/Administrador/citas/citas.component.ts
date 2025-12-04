@@ -79,9 +79,12 @@ export class CitasComponent implements OnInit {
 
   crearCita(): void {
     const citaToSave = {
-      ...this.nuevaCitaObj,
-      paciente: { id: this.nuevaCitaObj.pacienteId },
-      medico: { id: this.nuevaCitaObj.medicoId }
+      fechaHora: this.nuevaCitaObj.fechaHora,
+      motivo: this.nuevaCitaObj.motivo,
+      estado: this.nuevaCitaObj.estado,
+      observaciones: this.nuevaCitaObj.observaciones,
+      paciente: { idPaciente: this.nuevaCitaObj.pacienteId },
+      medico: { idMedico: this.nuevaCitaObj.medicoId }
     };
 
     this.citaService.createCita(citaToSave).subscribe({
@@ -118,9 +121,12 @@ export class CitasComponent implements OnInit {
 
   guardarEdicion(): void {
     const citaToSave = {
-      ...this.citaEditando,
-      paciente: { id: this.citaEditando.pacienteId },
-      medico: { id: this.citaEditando.medicoId }
+      fechaHora: this.citaEditando.fechaHora,
+      motivo: this.citaEditando.motivo,
+      estado: this.citaEditando.estado,
+      observaciones: this.citaEditando.observaciones,
+      paciente: { idPaciente: this.citaEditando.pacienteId },
+      medico: { idMedico: this.citaEditando.medicoId }
     };
 
     this.citaService.updateCita(this.citaEditando.idCita, citaToSave).subscribe({

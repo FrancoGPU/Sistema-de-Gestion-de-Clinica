@@ -68,7 +68,18 @@ export class DoctoresComponent implements OnInit {
   }
 
   crearDoctor(): void {
-    this.doctorService.createDoctor(this.nuevoDoctor).subscribe({
+    // Crear una copia sin el idMedico para el POST
+    const doctorToSave = {
+      nombre: this.nuevoDoctor.nombre,
+      apellido: this.nuevoDoctor.apellido,
+      especialidad: this.nuevoDoctor.especialidad,
+      horariosAtencion: this.nuevoDoctor.horariosAtencion,
+      numeroLicencia: this.nuevoDoctor.numeroLicencia,
+      telefono: this.nuevoDoctor.telefono,
+      email: this.nuevoDoctor.email
+    };
+    
+    this.doctorService.createDoctor(doctorToSave).subscribe({
       next: () => {
         alert('Doctor creado exitosamente');
         this.loadDoctores();
