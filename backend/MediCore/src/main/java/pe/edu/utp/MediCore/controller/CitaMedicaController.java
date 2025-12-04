@@ -189,12 +189,42 @@ public class CitaMedicaController {
     }
     
     /**
-     * Crear una nueva cita médica (PACIENTE, DOCTOR, ADMIN)
+     * Crear una nueva cita médica sin autenticación (público para formulario web)
      * POST /api/citas
      */
-    @PreAuthorize("hasAnyRole('PACIENTE', 'DOCTOR', 'ADMIN')")
     @PostMapping
     public ResponseEntity<CitaMedica> crear(@Valid @RequestBody CitaMedica cita) {
+        // Para creación pública, verificar que se envió un paciente válido
+        if (cita.getPaciente() == null || cita.getPaciente().getIdPaciente() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Paciente p = pacienteRepository.findById(cita.getPaciente().getIdPaciente()).orElse(null);
+        if (p == null) return ResponseEntity.badRequest().build();
+        cita.setPaciente(p);
+        
+        // Verificar Médico
+        if (cita.getMedico() == null || cita.getMedico().getIdMedico() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Medico medico = medicoRepository.findById(cita.getMedico().getIdMedico()).orElse(null);
+        if (medico == null) return ResponseEntity.badRequest().build();
+        cita.setMedico(medico);
+
+        try {
+            CitaMedica nuevaCita = citaMedicaService.crearCita(cita);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevaCita);
+        } catch (ReservationConflictException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+    
+    /**
+     * Crear una nueva cita médica (PACIENTE, DOCTOR, ADMIN autenticado)
+     * POST /api/citas/auth
+     */
+    @PreAuthorize("hasAnyRole('PACIENTE', 'DOCTOR', 'ADMIN')")
+    @PostMapping("/auth")
+    public ResponseEntity<CitaMedica> crearAutenticado(@Valid @RequestBody CitaMedica cita) {
         String username = getCurrentUsername();
         
         // Lógica para asignar Paciente automáticamente si es rol PACIENTE

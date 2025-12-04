@@ -45,14 +45,14 @@ public interface CitaMedicaRepository extends JpaRepository<CitaMedica, Long> {
     
     // Buscar citas del día actual
     @Query("SELECT c FROM CitaMedica c WHERE " +
-           "DATE(c.fechaHora) = CURRENT_DATE " +
+           "CAST(c.fechaHora AS LocalDate) = CURRENT_DATE " +
            "ORDER BY c.fechaHora")
     List<CitaMedica> findCitasHoy();
     
     // Buscar citas del día actual por médico
     @Query("SELECT c FROM CitaMedica c WHERE " +
            "c.medico = :medico AND " +
-           "DATE(c.fechaHora) = CURRENT_DATE " +
+           "CAST(c.fechaHora AS LocalDate) = CURRENT_DATE " +
            "ORDER BY c.fechaHora")
     List<CitaMedica> findCitasHoyByMedico(Medico medico);
 }

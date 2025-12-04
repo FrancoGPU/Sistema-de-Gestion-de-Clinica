@@ -66,16 +66,27 @@ export class LoginComponent {
 
     this.isLoading = true;
 
-    // Simular delay de red (opcional)
-    setTimeout(() => {
-      const result = this.authService.login(this.email, this.password);
-
-      if (!result.success) {
-        this.errorMessage = result.message || 'Error al iniciar sesión';
+    // Realizar login asíncrono
+    this.authService.login(this.email, this.password).subscribe({
+      next: (result) => {
+        if (result.success && result.user) {
+          // Redirigir según el rol
+          if (result.user.role === 'administrador') {
+            this.router.navigate(['/admin/index']);
+          } else if (result.user.role === 'paciente') {
+            this.router.navigate(['/MediCore']);
+          }
+        } else {
+          this.errorMessage = result.message || 'Error al iniciar sesión';
+          this.isLoading = false;
+        }
+      },
+      error: (err) => {
+        this.errorMessage = 'Error al conectar con el servidor';
         this.isLoading = false;
+        console.error('Error en login:', err);
       }
-      // Si es exitoso, el AuthService ya maneja la redirección
-    }, 500);
+    });
   }
 
   /**

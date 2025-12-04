@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface User {
   email: string;
   role: 'administrador' | 'paciente';
   nombre: string;
+}
+
+interface LoginResponse {
+  token: string;
+  username: string;
+  email: string;
 }
 
 @Injectable({
@@ -14,8 +22,9 @@ export interface User {
 export class AuthService {
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
+  private apiUrl = 'http://localhost:8080/api/auth';
 
-  // Usuarios de ejemplo (simulación)
+  // Usuarios de ejemplo (simulación - mantener para demo)
   private readonly DEMO_USERS = [
     {
       email: 'administrador@administrador.com',
@@ -31,7 +40,7 @@ export class AuthService {
     }
   ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private http: HttpClient) {
     // Intentar recuperar usuario del localStorage
     const storedUser = localStorage.getItem('currentUser');
     this.currentUserSubject = new BehaviorSubject<User | null>(
@@ -48,32 +57,65 @@ export class AuthService {
   }
 
   /**
-   * Iniciar sesión
+   * Iniciar sesión con el backend
    */
-  login(email: string, password: string): { success: boolean; message?: string; user?: User } {
-    // Buscar usuario en la lista de demo
-    const user = this.DEMO_USERS.find(
-      u => u.email === email && u.password === password
-    );
+  loginBackend(username: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { username, password });
+  }
 
-    if (user) {
+  /**
+   * Iniciar sesión (asíncrono - retorna Observable)
+   */
+  login(email: string, password: string): Observable<{ success: boolean; message?: string; user?: User }> {
+    return new Observable(observer => {
+      // Buscar usuario en demo
+      const user = this.DEMO_USERS.find(
+        u => u.email === email && u.password === password
+      );
+
+      if (!user) {
+        observer.next({
+          success: false,
+          message: 'Credenciales incorrectas'
+        });
+        observer.complete();
+        return;
+      }
+
       const userData: User = {
         email: user.email,
         role: user.role,
         nombre: user.nombre
       };
 
-      // Guardar en localStorage
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-      this.currentUserSubject.next(userData);
-
-      // Redirigir según el rol
-      this.redirectByRole(user.role);
-
-      return { success: true, user: userData };
-    }
-
-    return { success: false, message: 'Email o contraseña incorrectos' };
+      // Si es administrador, obtener token real del backend primero
+      if (user.role === 'administrador') {
+        this.loginBackend('admin', 'admin123').subscribe({
+          next: (response) => {
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            this.currentUserSubject.next(userData);
+            console.log('Token JWT guardado correctamente:', response.token);
+            observer.next({ success: true, user: userData });
+            observer.complete();
+          },
+          error: (err) => {
+            console.error('Error al obtener token del backend:', err);
+            observer.next({
+              success: false,
+              message: 'Error al conectar con el servidor'
+            });
+            observer.complete();
+          }
+        });
+      } else {
+        // Para pacientes, no necesitamos token JWT
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        this.currentUserSubject.next(userData);
+        observer.next({ success: true, user: userData });
+        observer.complete();
+      }
+    });
   }
 
   /**
@@ -81,6 +123,7 @@ export class AuthService {
    */
   logout(): void {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
     this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
   }

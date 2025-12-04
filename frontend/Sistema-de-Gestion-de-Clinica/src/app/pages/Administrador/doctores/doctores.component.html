@@ -3,7 +3,7 @@
 <div class="container-fluid py-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2><i class="fas fa-user-md me-2"></i>Gestión de Doctores</h2>
-    <button class="btn btn-primary">
+    <button class="btn btn-primary" (click)="abrirModalCrear()">
       <i class="fas fa-plus me-2"></i>Nuevo Doctor
     </button>
   </div>
@@ -32,7 +32,7 @@
             </tr>
             <tr *ngFor="let doctor of doctores">
               <td>{{ doctor.idMedico }}</td>
-              <td>{{ doctor.nombre }}</td>
+              <td>{{ doctor.nombre }} {{ doctor.apellido }}</td>
               <td>
                 <span class="badge bg-info">{{ doctor.especialidad }}</span>
               </td>
@@ -44,6 +44,7 @@
                   class="btn btn-sm btn-outline-primary me-1"
                   title="Editar Doctor"
                   aria-label="Editar Doctor"
+                  (click)="abrirModalEditar(doctor)"
                 >
                   <i class="fas fa-edit"></i>
                 </button>
@@ -51,6 +52,7 @@
                   class="btn btn-sm btn-outline-danger"
                   title="Eliminar Doctor"
                   aria-label="Eliminar Doctor"
+                  (click)="eliminarDoctor(doctor.idMedico)"
                 >
                   <i class="fas fa-trash"></i>
                 </button>
@@ -62,3 +64,131 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de Creación -->
+<div
+  class="modal fade"
+  [class.show]="showCreateModal"
+  [style.display]="showCreateModal ? 'block' : 'none'"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nuevo Doctor</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="cerrarModalCrear()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="crearDoctor()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="nombreNew" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombreNew" [(ngModel)]="nuevoDoctor.nombre" name="nombre" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="apellidoNew" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="apellidoNew" [(ngModel)]="nuevoDoctor.apellido" name="apellido" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="especialidadNew" class="form-label">Especialidad</label>
+              <input type="text" class="form-control" id="especialidadNew" [(ngModel)]="nuevoDoctor.especialidad" name="especialidad" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="licenciaNew" class="form-label">Número de Licencia</label>
+              <input type="text" class="form-control" id="licenciaNew" [(ngModel)]="nuevoDoctor.numeroLicencia" name="licencia" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="telefonoNew" class="form-label">Teléfono</label>
+              <input type="text" class="form-control" id="telefonoNew" [(ngModel)]="nuevoDoctor.telefono" name="telefono" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="emailNew" class="form-label">Email</label>
+              <input type="email" class="form-control" id="emailNew" [(ngModel)]="nuevoDoctor.email" name="email" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="horarioNew" class="form-label">Horarios de Atención</label>
+            <input type="text" class="form-control" id="horarioNew" [(ngModel)]="nuevoDoctor.horariosAtencion" name="horario" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="cerrarModalCrear()">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Crear Doctor</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showCreateModal"></div>
+
+<!-- Modal de Edición -->
+<div
+  class="modal fade"
+  [class.show]="modoEdicion"
+  [style.display]="modoEdicion ? 'block' : 'none'"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Doctor</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="cerrarModalEditar()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="guardarEdicion()">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="nombreEdit" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombreEdit" [(ngModel)]="doctorEditando.nombre" name="nombre" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="apellidoEdit" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="apellidoEdit" [(ngModel)]="doctorEditando.apellido" name="apellido" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="especialidadEdit" class="form-label">Especialidad</label>
+              <input type="text" class="form-control" id="especialidadEdit" [(ngModel)]="doctorEditando.especialidad" name="especialidad" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="licenciaEdit" class="form-label">Número de Licencia</label>
+              <input type="text" class="form-control" id="licenciaEdit" [(ngModel)]="doctorEditando.numeroLicencia" name="licencia" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="telefonoEdit" class="form-label">Teléfono</label>
+              <input type="text" class="form-control" id="telefonoEdit" [(ngModel)]="doctorEditando.telefono" name="telefono" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="emailEdit" class="form-label">Email</label>
+              <input type="email" class="form-control" id="emailEdit" [(ngModel)]="doctorEditando.email" name="email" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="horarioEdit" class="form-label">Horarios de Atención</label>
+            <input type="text" class="form-control" id="horarioEdit" [(ngModel)]="doctorEditando.horariosAtencion" name="horario" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="cerrarModalEditar()">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="modoEdicion"></div>

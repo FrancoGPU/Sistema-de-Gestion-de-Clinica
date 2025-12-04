@@ -5,12 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pe.edu.utp.MediCore.entity.Paciente;
 import pe.edu.utp.MediCore.entity.Usuario;
-
 import java.util.Optional;
-
 import java.util.List;
-import java.util.Optional;
-
 /**
  * Repositorio para la entidad Paciente
  * Proporciona operaciones CRUD y consultas personalizadas
