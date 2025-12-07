@@ -8,8 +8,11 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
+import java.time.LocalDate;
 
 /**
  * Entidad Paciente
@@ -48,9 +51,27 @@ public class Paciente {
     @Pattern(regexp = "\\d{9}", message = "El teléfono debe tener 9 dígitos")
     @Column(nullable = false, length = 9)
     private String numeroTelefono;
+
+    @Column(name = "fecha_nacimiento")
+    private LocalDate fechaNacimiento;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "idUsuario")
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Usuario usuario;
     
     // Relación uno a muchos con CitaMedica
     @JsonIgnore
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<CitaMedica> citas;
+
+    @ManyToMany(mappedBy = "pacientes")
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private java.util.Set<CampaniaSalud> campanias;
 }

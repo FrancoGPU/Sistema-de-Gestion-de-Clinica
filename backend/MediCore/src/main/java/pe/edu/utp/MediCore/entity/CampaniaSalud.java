@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
@@ -46,8 +48,31 @@ public class CampaniaSalud {
     @Column(length = 200)
     private String lugarRealizacion;
     
-    @Column(length = 500)
+        @Column(length = 500)
     private String publicoObjetivo;
+
+    @Column(length = 255)
+    private String imagenUrl;
+
+    @ManyToMany
+    @JoinTable(
+        name = "campania_medicos",
+        joinColumns = @JoinColumn(name = "campania_id"),
+        inverseJoinColumns = @JoinColumn(name = "medico_id")
+    )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private java.util.Set<Medico> medicos;
+
+    @ManyToMany
+    @JoinTable(
+        name = "campania_pacientes",
+        joinColumns = @JoinColumn(name = "campania_id"),
+        inverseJoinColumns = @JoinColumn(name = "paciente_id")
+    )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private java.util.Set<Paciente> pacientes;
     
     public enum EstadoCampania {
         PLANIFICADA,

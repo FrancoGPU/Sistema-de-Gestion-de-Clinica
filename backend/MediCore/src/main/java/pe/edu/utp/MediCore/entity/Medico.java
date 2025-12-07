@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -47,10 +49,25 @@ public class Medico {
     
     @Column(unique = true)
     private String email;
-    
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "idUsuario")
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Usuario usuario;
+
+    @ManyToMany(mappedBy = "medicos")
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private java.util.Set<CampaniaSalud> campanias;
+
     // Relación uno a muchos con CitaMedica
     @JsonIgnore
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<CitaMedica> citas;
     
     // Método auxiliar para obtener el nombre completo

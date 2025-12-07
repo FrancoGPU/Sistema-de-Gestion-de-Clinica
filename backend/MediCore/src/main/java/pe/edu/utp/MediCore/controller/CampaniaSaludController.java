@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.MediCore.entity.CampaniaSalud;
+import pe.edu.utp.MediCore.entity.Paciente;
 import pe.edu.utp.MediCore.repository.CampaniaSaludRepository;
+import pe.edu.utp.MediCore.repository.PacienteRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,6 +24,9 @@ public class CampaniaSaludController {
     
     @Autowired
     private CampaniaSaludRepository campaniaSaludRepository;
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
     
     /**
      * Obtener todas las campañas de salud
@@ -152,6 +157,28 @@ public class CampaniaSaludController {
                 .map(campania -> {
                     campaniaSaludRepository.delete(campania);
                     return ResponseEntity.ok().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Inscribir un paciente a una campaña
+     * POST /api/campanias/{id}/inscribir/{pacienteId}
+     */
+    @PostMapping("/{id}/inscribir/{pacienteId}")
+    public ResponseEntity<?> inscribirPaciente(@PathVariable Long id, @PathVariable Long pacienteId) {
+        return campaniaSaludRepository.findById(id)
+                .map(campania -> {
+                    return pacienteRepository.findById(pacienteId)
+                            .map(paciente -> {
+                                if (campania.getPacientes().contains(paciente)) {
+                                    return ResponseEntity.badRequest().body("El paciente ya está inscrito en esta campaña");
+                                }
+                                campania.getPacientes().add(paciente);
+                                campaniaSaludRepository.save(campania);
+                                return ResponseEntity.ok("Paciente inscrito exitosamente");
+                            })
+                            .orElse(ResponseEntity.notFound().build());
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
