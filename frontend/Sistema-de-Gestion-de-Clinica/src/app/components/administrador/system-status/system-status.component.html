@@ -1,29 +1,42 @@
-<div class="card system-status-card">
-  <div class="card-header">
-    <h5 class="mb-0">
-      <i class="fas fa-info-circle me-2"></i>
-      Estado del Sistema
+<div class="card shadow h-100">
+  <div class="card-header bg-white">
+    <h5 class="mb-0 text-primary">
+      <i class="fas fa-calendar-alt me-2"></i>
+      Próximas Citas
     </h5>
   </div>
-  <div class="card-body">
-    <div class="row">
-      <div class="col-6">
-        <div class="text-center status-item">
-          <i class="fas fa-check-circle fa-3x text-success mb-2"></i>
-          <p class="mb-0">Sistema Activo</p>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="text-center status-item">
-          <i class="fas fa-database fa-3x text-primary mb-2"></i>
-          <p class="mb-0">Base de Datos H2</p>
-        </div>
+  <div class="card-body p-0">
+    <div *ngIf="loading" class="text-center p-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
       </div>
     </div>
-    <hr>
-    <p class="text-muted small mb-0">
-      <i class="fas fa-info-circle me-1"></i>
-      Sistema configurado para desarrollo. Listo para migrar a PostgreSQL.
-    </p>
+
+    <div *ngIf="!loading && proximasCitas.length === 0" class="text-center p-4 text-muted">
+      <i class="fas fa-calendar-times fa-3x mb-3"></i>
+      <p>No hay citas programadas próximamente.</p>
+    </div>
+
+    <ul class="list-group list-group-flush" *ngIf="!loading && proximasCitas.length > 0">
+      <li class="list-group-item" *ngFor="let cita of proximasCitas">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="mb-1">{{ cita.paciente.nombre }} {{ cita.paciente.apellido }}</h6>
+            <small class="text-muted">
+              <i class="fas fa-user-md me-1"></i> Dr. {{ cita.medico.nombre }}
+            </small>
+          </div>
+          <div class="text-end">
+            <div class="fw-bold text-primary">{{ cita.fechaHora | date:'HH:mm' }}</div>
+            <small class="text-muted">{{ cita.fechaHora | date:'dd/MM' }}</small>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer bg-white text-center" *ngIf="proximasCitas.length > 0">
+    <a routerLink="/admin/citas" class="text-primary text-decoration-none small">
+      Ver todas las citas <i class="fas fa-arrow-right ms-1"></i>
+    </a>
   </div>
 </div>

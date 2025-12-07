@@ -1,60 +1,66 @@
-.footer-light {
-  background: linear-gradient(
-    135deg,
-    var(--text-primary),
-    var(--dark-secondary)
-  );
-  border-top: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0px -4px 15px rgba(0, 0, 0, 0.1);
-}
-.footer-dark {
-  background-color: #1c1c1c; /* Color oscuro más intenso */
-  border-top: 2px solid #1c1c1c; /* Línea separadora gris oscuro */
-  box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
-}
-/* Footer */
+/* Footer Section */
 .footer-section {
-  background: linear-gradient(
-    135deg,
-    var(--text-primary),
-    var(--dark-secondary)
-  );
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  position: relative;
+  overflow: hidden;
 }
 
-.footer-logo {
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
+/* Dark Mode Override */
+:host-context(body.bg-dark) .footer-section {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.footer-links {
-  list-style: none;
-  padding: 0;
+.logo-text {
+  font-family: "Iceland", cursive;
+  letter-spacing: 1px;
+}
+
+.footer-links li {
+  margin-bottom: 0.75rem;
 }
 
 .footer-links a {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+  display: inline-block;
+  cursor: pointer; /* Ensure cursor changes to pointer */
+  position: relative; /* Ensure z-index works if needed */
+  z-index: 1;
 }
 
 .footer-links a:hover {
-  color: var(--primary-blue);
-}
-
-.social-links a {
   color: white;
-  font-size: 1.5rem;
-  margin-right: 15px;
-  transition: color 0.3s ease;
+  transform: translateX(5px);
 }
 
-.social-links a:hover {
-  color: var(--primary-blue);
+.text-accent {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-right: 0.5rem;
+}
+
+.social-btn:hover {
+  background: white;
+  color: #667eea;
+  transform: translateY(-3px);
 }
 
 .footer-divider {
-  border-color: rgba(255, 255, 255, 0.2);
-  margin: 2rem 0;
+  border-color: rgba(255, 255, 255, 0.1);
+  opacity: 1;
 }

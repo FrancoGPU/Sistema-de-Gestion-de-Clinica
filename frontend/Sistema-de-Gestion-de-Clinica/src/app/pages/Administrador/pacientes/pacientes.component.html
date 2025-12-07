@@ -3,7 +3,7 @@
 <div class="container-fluid py-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2><i class="fas fa-users me-2"></i>Gestión de Pacientes</h2>
-    <button class="btn btn-primary" (click)="abrirModalCrear()">
+    <button class="btn btn-primary" (click)="abrirModalCrear()" *ngIf="canEditOrDelete()">
       <i class="fas fa-plus me-2"></i>Nuevo Paciente
     </button>
   </div>
@@ -38,7 +38,7 @@
               <td>{{ paciente.dni }}</td>
               <td>{{ paciente.numeroTelefono }}</td>
               <td>{{ paciente.correoElectronico }}</td>
-              <td>-</td>
+              <td>{{ paciente.fechaNacimiento | date:'dd/MM/yyyy' }}</td>
               <td>
                 <button
                   class="btn btn-sm btn-outline-primary me-1"
@@ -53,6 +53,7 @@
                   title="Editar paciente"
                   aria-label="Editar paciente"
                   (click)="abrirModalEditar(paciente)"
+                  *ngIf="canEditOrDelete()"
                 >
                   <i class="fas fa-edit"></i>
                 </button>
@@ -61,6 +62,7 @@
                   title="Eliminar paciente"
                   aria-label="Eliminar paciente"
                   (click)="eliminarPaciente(paciente)"
+                  *ngIf="canEditOrDelete()"
                 >
                   <i class="fas fa-trash"></i>
                 </button>
@@ -121,6 +123,12 @@
           <div class="col-12">
             <strong>Correo Electrónico:</strong>
             <p>{{ pacienteSeleccionado.correoElectronico }}</p>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-12">
+            <strong>Fecha de Nacimiento:</strong>
+            <p>{{ pacienteSeleccionado.fechaNacimiento | date:'dd/MM/yyyy' }}</p>
           </div>
         </div>
       </div>
@@ -213,6 +221,16 @@
               required
             />
           </div>
+          <div class="mb-3">
+            <label class="form-label">Fecha de Nacimiento</label>
+            <input
+              type="date"
+              class="form-control"
+              [(ngModel)]="pacienteEditando.fechaNacimiento"
+              name="fechaNacimiento"
+              required
+            />
+          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -258,7 +276,7 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form #createForm="ngForm">
           <div class="mb-3">
             <label class="form-label">Nombre</label>
             <input
@@ -267,7 +285,12 @@
               [(ngModel)]="nuevoPaciente.nombre"
               name="nombre"
               required
+              #nombre="ngModel"
+              [class.is-invalid]="nombre.invalid && (nombre.dirty || nombre.touched)"
             />
+            <div class="invalid-feedback" *ngIf="nombre.errors?.['required']">
+              El nombre es obligatorio
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label">Apellido</label>
@@ -277,7 +300,12 @@
               [(ngModel)]="nuevoPaciente.apellido"
               name="apellido"
               required
+              #apellido="ngModel"
+              [class.is-invalid]="apellido.invalid && (apellido.dirty || apellido.touched)"
             />
+            <div class="invalid-feedback" *ngIf="apellido.errors?.['required']">
+              El apellido es obligatorio
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label">DNI</label>
@@ -288,8 +316,16 @@
               name="dni"
               pattern="[0-9]{8}"
               required
+              #dni="ngModel"
+              [class.is-invalid]="dni.invalid && (dni.dirty || dni.touched)"
             />
-            <small class="form-text text-muted">8 dígitos</small>
+            <small class="form-text text-muted" *ngIf="!dni.invalid">8 dígitos</small>
+            <div class="invalid-feedback" *ngIf="dni.errors?.['required']">
+              El DNI es obligatorio
+            </div>
+            <div class="invalid-feedback" *ngIf="dni.errors?.['pattern']">
+              El DNI debe tener exactamente 8 dígitos numéricos
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label">Teléfono</label>
@@ -300,8 +336,16 @@
               name="telefono"
               pattern="[0-9]{9}"
               required
+              #telefono="ngModel"
+              [class.is-invalid]="telefono.invalid && (telefono.dirty || telefono.touched)"
             />
-            <small class="form-text text-muted">9 dígitos</small>
+            <small class="form-text text-muted" *ngIf="!telefono.invalid">9 dígitos</small>
+            <div class="invalid-feedback" *ngIf="telefono.errors?.['required']">
+              El teléfono es obligatorio
+            </div>
+            <div class="invalid-feedback" *ngIf="telefono.errors?.['pattern']">
+              El teléfono debe tener exactamente 9 dígitos numéricos
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label">Correo Electrónico</label>
@@ -311,6 +355,24 @@
               [(ngModel)]="nuevoPaciente.correoElectronico"
               name="email"
               required
+              email
+              #email="ngModel"
+              [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
+            />
+            <div class="invalid-feedback" *ngIf="email.errors?.['required']">
+              El correo es obligatorio
+            </div>
+            <div class="invalid-feedback" *ngIf="email.errors?.['email']">
+              Ingrese un correo válido
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Fecha de Nacimiento</label>
+            <input
+              type="date"
+              class="form-control"
+              [(ngModel)]="nuevoPaciente.fechaNacimiento"
+              name="fechaNacimiento"
             />
           </div>
         </form>
@@ -323,7 +385,12 @@
         >
           Cancelar
         </button>
-        <button type="button" class="btn btn-primary" (click)="crearPaciente()">
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          (click)="crearPaciente()"
+          [disabled]="!createForm.form.valid"
+        >
           Crear Paciente
         </button>
       </div>

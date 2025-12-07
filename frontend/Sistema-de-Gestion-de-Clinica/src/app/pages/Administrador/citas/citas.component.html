@@ -3,7 +3,7 @@
 <div class="container-fluid py-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2><i class="fas fa-calendar-alt me-2"></i>Gestión de Citas</h2>
-    <button class="btn btn-primary">
+    <button class="btn btn-primary" (click)="abrirModalCrear()">
       <i class="fas fa-plus me-2"></i>Nueva Cita
     </button>
   </div>
@@ -45,7 +45,8 @@
                     'bg-success': cita.estado === 'CONFIRMADA',
                     'bg-warning': cita.estado === 'PENDIENTE',
                     'bg-danger': cita.estado === 'CANCELADA',
-                    'bg-info': cita.estado === 'COMPLETADA'
+                    'bg-info': cita.estado === 'COMPLETADA',
+                    'bg-primary': cita.estado === 'PROGRAMADA'
                   }"
                 >
                   {{ cita.estado }}
@@ -54,8 +55,18 @@
               <td>
                 <button
                   class="btn btn-sm btn-outline-primary me-1"
+                  title="Ver detalles"
+                  aria-label="Ver detalles"
+                  (click)="verDetalles(cita)"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-info me-1"
                   title="Editar cita"
                   aria-label="Editar cita"
+                  (click)="abrirModalEditar(cita)"
+                  *ngIf="canEdit(cita)"
                 >
                   <i class="fas fa-edit" aria-hidden="true"></i>
                 </button>
@@ -63,6 +74,8 @@
                   class="btn btn-sm btn-outline-danger"
                   title="Eliminar cita"
                   aria-label="Eliminar cita"
+                  (click)="eliminarCita(cita)"
+                  *ngIf="canDelete(cita)"
                 >
                   <i class="fas fa-trash" aria-hidden="true"></i>
                 </button>
@@ -74,3 +87,129 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Detalles -->
+<div class="modal fade" [class.show]="citaSeleccionada" [style.display]="citaSeleccionada ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content" *ngIf="citaSeleccionada">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalles de la Cita</h5>
+        <button type="button" class="btn-close" (click)="cerrarDetalles()"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Paciente:</strong> {{ citaSeleccionada.paciente.nombre }} {{ citaSeleccionada.paciente.apellido }}</p>
+        <p><strong>Doctor:</strong> {{ citaSeleccionada.medico.nombre }} ({{ citaSeleccionada.medico.especialidad }})</p>
+        <p><strong>Fecha y Hora:</strong> {{ citaSeleccionada.fechaHora | date:'dd/MM/yyyy HH:mm' }}</p>
+        <p><strong>Motivo:</strong> {{ citaSeleccionada.motivo }}</p>
+        <p><strong>Estado:</strong> {{ citaSeleccionada.estado }}</p>
+        <p *ngIf="citaSeleccionada.observaciones"><strong>Observaciones:</strong> {{ citaSeleccionada.observaciones }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarDetalles()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="citaSeleccionada"></div>
+
+<!-- Modal Creación -->
+<div class="modal fade" [class.show]="showCreateModal" [style.display]="showCreateModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nueva Cita</h5>
+        <button type="button" class="btn-close" (click)="cerrarModalCrear()"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Paciente</label>
+            <select class="form-select" [(ngModel)]="nuevaCita.pacienteId" name="paciente" required>
+              <option [ngValue]="null" disabled>Seleccione un paciente</option>
+              <option *ngFor="let p of pacientes" [value]="p.idPaciente">{{ p.nombre }} {{ p.apellido }} ({{ p.dni }})</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Doctor</label>
+            <select class="form-select" [(ngModel)]="nuevaCita.medicoId" name="medico" required>
+              <option [ngValue]="null" disabled>Seleccione un doctor</option>
+              <option *ngFor="let d of doctores" [value]="d.idMedico">{{ d.nombre }} {{ d.apellido }} - {{ d.especialidad }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Fecha y Hora</label>
+            <input type="datetime-local" class="form-control" [(ngModel)]="nuevaCita.fechaHora" name="fechaHora" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Motivo</label>
+            <textarea class="form-control" [(ngModel)]="nuevaCita.motivo" name="motivo" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <select class="form-select" [(ngModel)]="nuevaCita.estado" name="estado" required>
+              <option value="PROGRAMADA">PROGRAMADA</option>
+              <option value="CONFIRMADA">CONFIRMADA</option>
+              <option value="CANCELADA">CANCELADA</option>
+              <option value="COMPLETADA">COMPLETADA</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarModalCrear()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="crearCita()">Crear</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showCreateModal"></div>
+
+<!-- Modal Edición -->
+<div class="modal fade" [class.show]="modoEdicion" [style.display]="modoEdicion ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content" *ngIf="citaEditando">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Cita</h5>
+        <button type="button" class="btn-close" (click)="cerrarModalEditar()"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Paciente</label>
+            <select class="form-select" [(ngModel)]="citaEditando.pacienteId" name="paciente" required>
+              <option *ngFor="let p of pacientes" [value]="p.idPaciente">{{ p.nombre }} {{ p.apellido }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Doctor</label>
+            <select class="form-select" [(ngModel)]="citaEditando.medicoId" name="medico" required>
+              <option *ngFor="let d of doctores" [value]="d.idMedico">{{ d.nombre }} {{ d.apellido }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Fecha y Hora</label>
+            <input type="datetime-local" class="form-control" [(ngModel)]="citaEditando.fechaHora" name="fechaHora" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Motivo</label>
+            <textarea class="form-control" [(ngModel)]="citaEditando.motivo" name="motivo" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <select class="form-select" [(ngModel)]="citaEditando.estado" name="estado" required>
+              <option value="PROGRAMADA">PROGRAMADA</option>
+              <option value="CONFIRMADA">CONFIRMADA</option>
+              <option value="CANCELADA">CANCELADA</option>
+              <option value="COMPLETADA">COMPLETADA</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarModalEditar()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="guardarEdicion()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="modoEdicion"></div>

@@ -28,44 +28,68 @@
     <!-- Campañas desde el backend -->
     <div class="row g-4" *ngIf="!loading && !error">
       <div class="col-lg-6" *ngFor="let campania of campanias">
-        <div class="service-card">
-          <div class="campaign-header">
-            <div class="service-icon">
-              <i class="fas fa-heartbeat"></i>
-            </div>
-            <div class="campaign-content">
-              <h4>{{ campania.nombre }}</h4>
+        <div class="card h-100 shadow-sm border-0">
+          <img 
+            [src]="campania.imagenUrl || 'assets/images/default-campaign.jpg'" 
+            class="card-img-top" 
+            alt="{{ campania.nombreCampania }}"
+            style="height: 200px; object-fit: cover;"
+            onerror="this.src='assets/images/default-campaign.jpg'"
+          >
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h4 class="card-title h5">{{ campania.nombreCampania }}</h4>
               <span
                 class="badge"
                 [ngClass]="{
-                  'bg-success': campania.estado === 'ACTIVA',
-                  'bg-warning text-dark': campania.estado === 'PROGRAMADA',
+                  'bg-success': campania.estado === 'EN_CURSO',
+                  'bg-warning text-dark': campania.estado === 'PLANIFICADA',
                   'bg-secondary': campania.estado === 'FINALIZADA'
                 }"
               >
                 {{ campania.estado }}
               </span>
             </div>
+            <p class="card-text text-muted">{{ campania.descripcion }}</p>
+            
+            <ul class="list-unstyled mt-3">
+              <li class="mb-2">
+                <i class="fas fa-calendar me-2 text-primary"></i>
+                {{ campania.fechaInicio | date : "dd/MM/yyyy" }} - {{ campania.fechaFinalizacion | date : "dd/MM/yyyy" }}
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-map-marker-alt me-2 text-primary"></i>
+                {{ campania.lugarRealizacion }}
+              </li>
+              <!-- Doctores -->
+              <li class="mb-2" *ngIf="campania.medicos && campania.medicos.length > 0">
+                <i class="fas fa-user-md me-2 text-primary"></i>
+                <strong>Doctores:</strong>
+                <span *ngFor="let medico of campania.medicos; let last = last">
+                  {{ medico.nombre }} {{ medico.apellido }}<span *ngIf="!last">, </span>
+                </span>
+              </li>
+            </ul>
           </div>
-          <p>{{ campania.descripcion }}</p>
-          <ul class="list-unstyled">
-            <li>
-              <i class="fas fa-calendar me-2"></i
-              >{{ campania.fechaInicio | date : "dd/MM/yyyy" }} -
-              {{ campania.fechaFin | date : "dd/MM/yyyy" }}
-            </li>
-            <li>
-              <i class="fas fa-map-marker-alt me-2"></i>{{ campania.ubicacion }}
-            </li>
-            <li>
-              <i class="fas fa-users me-2"></i
-              >{{ campania.participantesActuales }}/{{
-                campania.capacidadMaxima
-              }}
-              participantes
-            </li>
-          </ul>
-          <button class="btn btn-outline-primary">Más Información</button>
+          <div class="card-footer bg-white border-top-0 pb-3">
+            <div class="d-grid gap-2">
+              <button 
+                class="btn btn-primary" 
+                (click)="inscribirse(campania.idCampania)"
+                [disabled]="campania.estado === 'FINALIZADA'"
+                *ngIf="isLoggedIn && isPaciente"
+              >
+                Inscribirse
+              </button>
+              <button 
+                class="btn btn-outline-primary" 
+                routerLink="/login"
+                *ngIf="!isLoggedIn"
+              >
+                Iniciar Sesión para Inscribirse
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

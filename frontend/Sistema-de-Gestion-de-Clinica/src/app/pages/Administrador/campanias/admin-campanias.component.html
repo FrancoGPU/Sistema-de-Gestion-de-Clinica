@@ -1,0 +1,172 @@
+<app-admin-header></app-admin-header>
+
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-heartbeat me-2"></i>Gestión de Campañas de Salud</h2>
+    <button class="btn btn-primary" (click)="abrirModalCrear()">
+      <i class="fas fa-plus me-2"></i>Nueva Campaña
+    </button>
+  </div>
+
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Estado</th>
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
+              <th>Ubicación</th>
+              <th>Participantes</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loading">
+              <td colspan="8" class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Cargando...</span>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="error && !loading">
+              <td colspan="8" class="text-danger text-center py-4">{{ error }}</td>
+            </tr>
+            <tr *ngFor="let campania of campanias">
+              <td>{{ campania.idCampania }}</td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <img [src]="campania.imagenUrl || 'assets/images/default-campaign.jpg'" 
+                       class="rounded-circle me-2" 
+                       style="width: 40px; height: 40px; object-fit: cover;"
+                       onerror="this.src='assets/images/default-campaign.jpg'">
+                  <div>
+                    <div class="fw-bold">{{ campania.nombreCampania }}</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="{
+                  'bg-success': campania.estado === 'EN_CURSO',
+                  'bg-warning text-dark': campania.estado === 'PLANIFICADA',
+                  'bg-secondary': campania.estado === 'FINALIZADA',
+                  'bg-danger': campania.estado === 'CANCELADA'
+                }">{{ campania.estado }}</span>
+              </td>
+              <td>{{ campania.fechaInicio | date:'dd/MM/yyyy' }}</td>
+              <td>{{ campania.fechaFinalizacion | date:'dd/MM/yyyy' }}</td>
+              <td>{{ campania.lugarRealizacion }}</td>
+              <td>
+                <span class="badge bg-info text-dark">
+                  <i class="fas fa-users me-1"></i>
+                  {{ campania.pacientes ? campania.pacientes.length : 0 }}
+                </span>
+              </td>
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-sm btn-outline-primary" (click)="verDetalles(campania)" title="Ver Detalles">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-info" (click)="abrirModalEditar(campania)" title="Editar">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="eliminarCampania(campania)" title="Eliminar">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Detalles -->
+<div class="modal fade" [class.show]="campaniaSeleccionada" [style.display]="campaniaSeleccionada ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content" *ngIf="campaniaSeleccionada">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Detalles de la Campaña</h5>
+        <button type="button" class="btn-close btn-close-white" (click)="cerrarDetalles()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <img [src]="campaniaSeleccionada.imagenUrl || 'assets/images/default-campaign.jpg'" 
+                 class="img-fluid rounded shadow-sm" 
+                 alt="Imagen Campaña"
+                 onerror="this.src='assets/images/default-campaign.jpg'">
+          </div>
+          <div class="col-md-8">
+            <h4>{{ campaniaSeleccionada.nombreCampania }}</h4>
+            <p class="text-muted">{{ campaniaSeleccionada.descripcion }}</p>
+            <div class="row g-2">
+              <div class="col-6">
+                <small class="text-muted d-block">Estado</small>
+                <span class="badge bg-primary">{{ campaniaSeleccionada.estado }}</span>
+              </div>
+              <div class="col-6">
+                <small class="text-muted d-block">Ubicación</small>
+                <strong>{{ campaniaSeleccionada.lugarRealizacion }}</strong>
+              </div>
+              <div class="col-6">
+                <small class="text-muted d-block">Fecha Inicio</small>
+                <strong>{{ campaniaSeleccionada.fechaInicio | date:'dd/MM/yyyy' }}</strong>
+              </div>
+              <div class="col-6">
+                <small class="text-muted d-block">Fecha Fin</small>
+                <strong>{{ campaniaSeleccionada.fechaFinalizacion | date:'dd/MM/yyyy' }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="col-md-6">
+            <h5 class="mb-3"><i class="fas fa-user-md me-2 text-success"></i>Doctores Asignados</h5>
+            <div class="list-group" *ngIf="campaniaSeleccionada.medicos && campaniaSeleccionada.medicos.length > 0; else noMedicos">
+              <div class="list-group-item" *ngFor="let medico of campaniaSeleccionada.medicos">
+                <div class="d-flex w-100 justify-content-between">
+                  <h6 class="mb-1">{{ medico.nombre }} {{ medico.apellido }}</h6>
+                  <small>{{ medico.especialidad }}</small>
+                </div>
+                <small class="text-muted">{{ medico.email }}</small>
+              </div>
+            </div>
+            <ng-template #noMedicos>
+              <div class="alert alert-light text-center">No hay doctores asignados</div>
+            </ng-template>
+          </div>
+
+          <div class="col-md-6">
+            <h5 class="mb-3"><i class="fas fa-users me-2 text-info"></i>Pacientes Inscritos</h5>
+            <div class="list-group" *ngIf="campaniaSeleccionada.pacientes && campaniaSeleccionada.pacientes.length > 0; else noPacientes">
+              <div class="list-group-item" *ngFor="let paciente of campaniaSeleccionada.pacientes">
+                <div class="d-flex w-100 justify-content-between">
+                  <h6 class="mb-1">{{ paciente.nombre }} {{ paciente.apellido }}</h6>
+                  <small>DNI: {{ paciente.dni }}</small>
+                </div>
+                <small class="text-muted">{{ paciente.correoElectronico }}</small>
+              </div>
+            </div>
+            <ng-template #noPacientes>
+              <div class="alert alert-light text-center">No hay pacientes inscritos</div>
+            </ng-template>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarDetalles()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="campaniaSeleccionada"></div>

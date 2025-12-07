@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -22,13 +22,19 @@ export class LoginComponent {
   // Usuarios de demostración para mostrar en la UI
   demoUsers = [
     {
-      email: 'administrador@administrador.com',
+      email: 'admin',
       password: 'admin123',
       role: 'Administrador',
       icon: 'fa-user-shield',
     },
     {
-      email: 'paciente@paciente.com',
+      email: 'doctor',
+      password: 'doctor123',
+      role: 'Médico',
+      icon: 'fa-user-md',
+    },
+    {
+      email: 'paciente',
       password: 'paciente123',
       role: 'Paciente',
       icon: 'fa-user',
@@ -39,7 +45,7 @@ export class LoginComponent {
     // Si ya está autenticado, redirigir según el rol
     if (this.authService.isAuthenticated()) {
       const role = this.authService.getUserRole();
-      if (role === 'administrador') {
+      if (role === 'administrador' || role === 'medico') {
         this.router.navigate(['/admin/index']);
       } else if (role === 'paciente') {
         this.router.navigate(['/MediCore']);
@@ -59,23 +65,26 @@ export class LoginComponent {
       return;
     }
 
-    if (!this.isValidEmail(this.email)) {
-      this.errorMessage = 'Por favor, ingrese un email válido';
-      return;
-    }
+    // if (!this.isValidEmail(this.email)) {
+    //   this.errorMessage = 'Por favor, ingrese un email válido';
+    //   return;
+    // }
 
     this.isLoading = true;
 
-    // Simular delay de red (opcional)
-    setTimeout(() => {
-      const result = this.authService.login(this.email, this.password);
-
-      if (!result.success) {
-        this.errorMessage = result.message || 'Error al iniciar sesión';
+    this.authService.login(this.email, this.password).subscribe({
+      next: (result) => {
+        if (!result.success) {
+          this.errorMessage = result.message || 'Error al iniciar sesión';
+          this.isLoading = false;
+        }
+        // Si es exitoso, el AuthService ya maneja la redirección
+      },
+      error: (err) => {
+        this.errorMessage = 'Error de conexión con el servidor';
         this.isLoading = false;
       }
-      // Si es exitoso, el AuthService ya maneja la redirección
-    }, 500);
+    });
   }
 
   /**

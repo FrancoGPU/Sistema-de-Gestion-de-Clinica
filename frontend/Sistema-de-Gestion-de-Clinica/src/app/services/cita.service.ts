@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 export interface CitaMedica {
   idCita: number;
   paciente: {
-    id: number;
+    idPaciente: number;
     nombre: string;
     apellido: string;
   };
   medico: {
-    id: number;
+    idMedico: number;
     nombre: string;
     especialidad: string;
   };
@@ -30,6 +30,10 @@ export class CitaService {
 
   getCitas(): Observable<CitaMedica[]> {
     return this.http.get<CitaMedica[]>(this.apiUrl);
+  }
+
+  getCitasHoy(): Observable<CitaMedica[]> {
+    return this.http.get<CitaMedica[]>(`${this.apiUrl}/hoy`);
   }
 
   getCita(id: number): Observable<CitaMedica> {

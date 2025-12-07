@@ -7,17 +7,17 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (authService.isAuthenticated()) {
-    // Verificar si la ruta requiere un rol específico
-    const requiredRole = route.data['role'];
+    // Verificar si la ruta requiere roles específicos
+    const requiredRoles = route.data['roles'] as Array<string>;
     
-    if (requiredRole) {
+    if (requiredRoles) {
       const userRole = authService.getUserRole();
       
-      if (userRole === requiredRole) {
+      if (userRole && requiredRoles.includes(userRole)) {
         return true;
       } else {
         // Redirigir según el rol del usuario
-        if (userRole === 'administrador') {
+        if (userRole === 'administrador' || userRole === 'medico') {
           router.navigate(['/admin/index']);
         } else if (userRole === 'paciente') {
           router.navigate(['/MediCore']);

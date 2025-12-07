@@ -40,9 +40,8 @@
 }
 
 .logo-icon {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
+  font-size: 2rem;
+  color: white;
 }
 
 .logo-text {

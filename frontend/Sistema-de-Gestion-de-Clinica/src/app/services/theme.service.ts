@@ -42,39 +42,31 @@ export class ThemeService {
     }, 100);
   }
 
+  toggleTheme(): void {
+    const current = this.getSavedTheme() || 'light';
+    if (current === 'dark') {
+      this.applyTheme('light');
+    } else {
+      this.applyTheme('dark');
+    }
+  }
+
   applyTheme(theme: 'light' | 'dark' | 'auto'): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const body = document.body;
-    const header = document.querySelector('header');
-    const footer = document.querySelector('footer');
     const themeIcon = document.querySelector('.theme-icon');
     const themeText = document.querySelector('.theme-text');
     
-    // También aplicar a secciones principales
-    const sections = document.querySelectorAll('section, .hero-section, .carousel-info-section, .services-section, .stats-section, .why-choose-section');
-
     if (theme === 'light') {
-      this.setLightTheme(body, header, footer, themeIcon, themeText);
-      sections.forEach(section => {
-        section.classList.remove('bg-dark', 'text-light');
-      });
+      this.setLightTheme(body, themeIcon, themeText);
     } else if (theme === 'dark') {
-      this.setDarkTheme(body, header, footer, themeIcon, themeText);
-      sections.forEach(section => {
-        section.classList.add('bg-dark', 'text-light');
-      });
+      this.setDarkTheme(body, themeIcon, themeText);
     } else if (theme === 'auto') {
       if (this.prefersDarkScheme?.matches) {
-        this.setDarkTheme(body, header, footer, themeIcon, themeText);
-        sections.forEach(section => {
-          section.classList.add('bg-dark', 'text-light');
-        });
+        this.setDarkTheme(body, themeIcon, themeText);
       } else {
-        this.setLightTheme(body, header, footer, themeIcon, themeText);
-        sections.forEach(section => {
-          section.classList.remove('bg-dark', 'text-light');
-        });
+        this.setLightTheme(body, themeIcon, themeText);
       }
       if (themeIcon) themeIcon.className = 'fas fa-adjust theme-icon';
       if (themeText) themeText.textContent = 'Auto';
@@ -89,23 +81,11 @@ export class ThemeService {
 
   private setLightTheme(
     body: HTMLElement,
-    header: Element | null,
-    footer: Element | null,
     themeIcon: Element | null,
     themeText: Element | null
   ): void {
     body.classList.remove('bg-dark', 'text-light');
     body.classList.add('bg-light', 'text-dark');
-
-    if (header) {
-      header.classList.remove('header-dark');
-      header.classList.add('header-light');
-    }
-
-    if (footer) {
-      footer.classList.remove('footer-dark');
-      footer.classList.add('footer-light');
-    }
 
     if (themeIcon) themeIcon.className = 'fas fa-sun theme-icon';
     if (themeText) themeText.textContent = 'Claro';
@@ -113,23 +93,11 @@ export class ThemeService {
 
   private setDarkTheme(
     body: HTMLElement,
-    header: Element | null,
-    footer: Element | null,
     themeIcon: Element | null,
     themeText: Element | null
   ): void {
     body.classList.remove('bg-light', 'text-dark');
     body.classList.add('bg-dark', 'text-light');
-
-    if (header) {
-      header.classList.remove('header-light');
-      header.classList.add('header-dark');
-    }
-
-    if (footer) {
-      footer.classList.remove('footer-light');
-      footer.classList.add('footer-dark');
-    }
 
     if (themeIcon) themeIcon.className = 'fas fa-moon theme-icon';
     if (themeText) themeText.textContent = 'Oscuro';
@@ -152,7 +120,7 @@ export class ThemeService {
     }
   }
 
-  private getSavedTheme(): string | null {
+  public getSavedTheme(): string | null {
     if (isPlatformBrowser(this.platformId)) {
       return localStorage.getItem('theme');
     }

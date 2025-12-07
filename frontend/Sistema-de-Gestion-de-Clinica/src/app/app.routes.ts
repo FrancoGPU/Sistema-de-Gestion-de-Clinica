@@ -72,11 +72,11 @@ export const routes: Routes = [
     ],
   },
 
-  // Rutas de Administrador (protegidas - requiere rol administrador)
+  // Rutas de Administrador (protegidas - requiere rol administrador o medico)
   {
     path: 'admin',
     canActivate: [authGuard],
-    data: { role: 'administrador' },
+    data: { roles: ['administrador', 'medico'] },
     children: [
       {
         path: 'dashboard',
@@ -111,6 +111,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/Administrador/pacientes/pacientes.component').then(
             (m) => m.PacientesComponent
+          ),
+      },
+      {
+        path: 'campanias',
+        loadComponent: () =>
+          import('./pages/Administrador/campanias/admin-campanias.component').then(
+            (m) => m.AdminCampaniasComponent
           ),
       },
       {

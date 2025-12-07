@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminHeaderComponent } from '../../../shared/components/admin-header/admin-header.component';
 import { PacienteService, Paciente } from '../../../services/paciente.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-pacientes',
@@ -16,6 +17,9 @@ export class PacientesComponent implements OnInit {
   loading = true;
   error = '';
   
+  // Permisos
+  isMedico = false;
+
   // Para el modal de detalles
   pacienteSeleccionado: Paciente | null = null;
   
@@ -30,13 +34,19 @@ export class PacientesComponent implements OnInit {
     apellido: '',
     dni: '',
     numeroTelefono: '',
-    correoElectronico: ''
+    correoElectronico: '',
+    fechaNacimiento: ''
   };
 
-  constructor(private pacienteService: PacienteService) {}
+  constructor(private pacienteService: PacienteService, private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.isMedico = this.authService.getUserRole() === 'medico';
     this.cargarPacientes();
+  }
+
+  canEditOrDelete(): boolean {
+    return !this.isMedico; // Médicos solo pueden ver
   }
 
   cargarPacientes(): void {
@@ -112,7 +122,8 @@ export class PacientesComponent implements OnInit {
       apellido: '',
       dni: '',
       numeroTelefono: '',
-      correoElectronico: ''
+      correoElectronico: '',
+      fechaNacimiento: ''
     };
   }
 
@@ -121,7 +132,12 @@ export class PacientesComponent implements OnInit {
   }
 
   crearPaciente(): void {
-    this.pacienteService.createPaciente(this.nuevoPaciente as Paciente).subscribe({
+    const pacienteToSend = { ...this.nuevoPaciente };
+    if (!pacienteToSend.fechaNacimiento) {
+      delete pacienteToSend.fechaNacimiento;
+    }
+
+    this.pacienteService.createPaciente(pacienteToSend as Paciente).subscribe({
       next: () => {
         alert('Paciente creado exitosamente');
         this.cargarPacientes();
@@ -130,6 +146,8 @@ export class PacientesComponent implements OnInit {
       error: (err: any) => {
         if (err.status === 409) {
           alert('Ya existe un paciente con ese DNI o correo electrónico');
+        } else if (err.status === 400) {
+          alert('Datos inválidos. Por favor verifique los campos.');
         } else {
           alert('Error al crear el paciente');
         }

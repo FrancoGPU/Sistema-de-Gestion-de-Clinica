@@ -1,11 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, tap, map, catchError, of } from 'rxjs';
 
 export interface User {
-  email: string;
-  role: 'administrador' | 'paciente';
+  email: string; // Mapeado desde username
+  role: 'administrador' | 'paciente' | 'medico';
   nombre: string;
+  id?: number;
+  profileId?: number;
+}
+
+interface LoginResponse {
+  id: number;
+  username: string;
+  role: string;
+  nombre: string;
+  profileId?: number;
 }
 
 @Injectable({
@@ -14,24 +25,9 @@ export interface User {
 export class AuthService {
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
+  private apiUrl = 'http://localhost:8080/api/auth';
 
-  // Usuarios de ejemplo (simulación)
-  private readonly DEMO_USERS = [
-    {
-      email: 'administrador@administrador.com',
-      password: 'admin123',
-      role: 'administrador' as const,
-      nombre: 'Administrador Sistema'
-    },
-    {
-      email: 'paciente@paciente.com',
-      password: 'paciente123',
-      role: 'paciente' as const,
-      nombre: 'Juan Pérez'
-    }
-  ];
-
-  constructor(private router: Router) {
+  constructor(private router: Router, private http: HttpClient) {
     // Intentar recuperar usuario del localStorage
     const storedUser = localStorage.getItem('currentUser');
     this.currentUserSubject = new BehaviorSubject<User | null>(
@@ -50,30 +46,52 @@ export class AuthService {
   /**
    * Iniciar sesión
    */
-  login(email: string, password: string): { success: boolean; message?: string; user?: User } {
-    // Buscar usuario en la lista de demo
-    const user = this.DEMO_USERS.find(
-      u => u.email === email && u.password === password
+  login(username: string, password: string): Observable<{ success: boolean; message?: string; user?: User }> {
+    console.log('Intentando login con:', username); // Debug
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
+      tap(response => console.log('Respuesta del servidor:', response)), // Debug
+      map(response => {
+        const userData: User = {
+          email: response.username,
+          role: response.role as 'administrador' | 'paciente' | 'medico',
+          nombre: response.nombre,
+          id: response.id,
+          profileId: response.profileId
+        };
+
+        // Guardar en localStorage
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        this.currentUserSubject.next(userData);
+
+        // Redirigir según el rol
+        this.redirectByRole(userData.role);
+
+        return { success: true, user: userData };
+      }),
+      catchError(error => {
+        console.error('Error en login:', error); // Debug
+        return of({ success: false, message: 'Credenciales incorrectas o error de servidor' });
+      })
     );
+  }
 
-    if (user) {
-      const userData: User = {
-        email: user.email,
-        role: user.role,
-        nombre: user.nombre
-      };
-
-      // Guardar en localStorage
-      localStorage.setItem('currentUser', JSON.stringify(userData));
-      this.currentUserSubject.next(userData);
-
-      // Redirigir según el rol
-      this.redirectByRole(user.role);
-
-      return { success: true, user: userData };
-    }
-
-    return { success: false, message: 'Email o contraseña incorrectos' };
+  /**
+   * Registrar nuevo paciente
+   */
+  register(data: any): Observable<{ success: boolean; message?: string }> {
+    return this.http.post(`${this.apiUrl}/register`, data, { responseType: 'text' }).pipe(
+      map(response => {
+        return { success: true, message: response };
+      }),
+      catchError(error => {
+        console.error('Error en registro:', error);
+        let errorMessage = 'Error al registrar usuario';
+        if (error.status === 409) {
+          errorMessage = error.error || 'El usuario o DNI ya existe';
+        }
+        return of({ success: false, message: errorMessage });
+      })
+    );
   }
 
   /**
@@ -95,7 +113,7 @@ export class AuthService {
   /**
    * Obtener el rol del usuario actual
    */
-  getUserRole(): 'administrador' | 'paciente' | null {
+  getUserRole(): 'administrador' | 'paciente' | 'medico' | null {
     return this.currentUserValue?.role || null;
   }
 
@@ -123,11 +141,13 @@ export class AuthService {
   /**
    * Redirigir según el rol del usuario
    */
-  private redirectByRole(role: 'administrador' | 'paciente'): void {
+  private redirectByRole(role: 'administrador' | 'paciente' | 'medico'): void {
     if (role === 'administrador') {
       this.router.navigate(['/admin/index']);
     } else if (role === 'paciente') {
       this.router.navigate(['/MediCore']);
+    } else if (role === 'medico') {
+      this.router.navigate(['/admin/index']); // Médicos también van al panel admin por ahora
     }
   }
 }

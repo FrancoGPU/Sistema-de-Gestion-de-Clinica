@@ -3,15 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface CampaniaSalud {
-  id: number;
-  nombre: string;
+  idCampania: number;
+  nombreCampania: string;
   descripcion: string;
   fechaInicio: string;
-  fechaFin: string;
-  ubicacion: string;
-  capacidadMaxima: number;
-  participantesActuales: number;
+  fechaFinalizacion: string;
+  lugarRealizacion: string;
+  capacidadMaxima?: number;
+  participantesActuales?: number;
   estado: string;
+  imagenUrl?: string;
+  medicos?: any[];
+  pacientes?: any[];
 }
 
 @Injectable({
@@ -40,5 +43,9 @@ export class CampaniaService {
 
   deleteCampania(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  inscribirPaciente(campaniaId: number, pacienteId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${campaniaId}/inscribir/${pacienteId}`, {}, { responseType: 'text' });
   }
 }

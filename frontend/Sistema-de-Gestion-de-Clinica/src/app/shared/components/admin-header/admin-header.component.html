@@ -57,6 +57,17 @@
           </li>
           <li class="nav-item">
             <a 
+              routerLink="/admin/campanias" 
+              routerLinkActive="active"
+              (click)="closeMobileMenu()"
+              class="nav-link"
+            >
+              <i class="fas fa-bullhorn"></i>
+              <span>Campañas</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a 
               routerLink="/admin/citas" 
               routerLinkActive="active"
               (click)="closeMobileMenu()"
@@ -81,14 +92,19 @@
           <i class="fas" [ngClass]="mobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
         </button>
 
+        <!-- Botón tema -->
+        <button class="btn-theme" (click)="themeService.toggleTheme()" title="Cambiar tema">
+          <i class="fas" [ngClass]="(themeService.getSavedTheme() === 'dark') ? 'fa-sun' : 'fa-moon'"></i>
+        </button>
+
         <!-- Info de usuario -->
         <div class="user-info">
-          <div class="user-avatar">
-            <i class="fas fa-user-shield"></i>
-          </div>
           <div class="user-details">
             <span class="user-name">{{ userName }}</span>
             <span class="user-role">{{ userRole }}</span>
+          </div>
+          <div class="user-avatar">
+            <i class="fas fa-user-shield"></i>
           </div>
         </div>
 

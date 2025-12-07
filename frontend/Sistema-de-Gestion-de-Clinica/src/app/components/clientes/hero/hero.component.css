@@ -41,7 +41,7 @@
   font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 15px rgba(168, 216, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
   animation: fadeInUp 0.8s ease-out;
 }
 
@@ -95,7 +95,7 @@
   border-color: var(--primary-blue);
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(168, 216, 234, 0.4);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 /* Estadísticas mini */

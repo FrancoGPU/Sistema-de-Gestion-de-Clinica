@@ -9,6 +9,7 @@ export interface Paciente {
   dni: string;
   correoElectronico: string;
   numeroTelefono: string;
+  fechaNacimiento?: string;
 }
 
 @Injectable({
