@@ -1,0 +1,82 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "1. Iniciar Base de Datos",
+            "type": "shell",
+            "command": "docker compose up -d",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
+            "label": "2. Instalar Dependencias Frontend",
+            "type": "shell",
+            "command": "cd frontend/Sistema-de-Gestion-de-Clinica && npm install",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
+            "label": "3. Iniciar Backend (Spring Boot)",
+            "type": "shell",
+            "command": "cd backend/MediCore && ./mvnw spring-boot:run",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "always",
+                "panel": "split",
+                "group": "server"
+            },
+            "problemMatcher": {
+                "owner": "java",
+                "pattern": {
+                    "regexp": "^.*$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^.*Starting MediCoreApplication.*$",
+                    "endsPattern": "^.*Started MediCoreApplication.*$"
+                }
+            },
+            "dependsOn": ["1. Iniciar Base de Datos"]
+        },
+        {
+            "label": "4. Iniciar Frontend (Angular)",
+            "type": "shell",
+            "command": "cd frontend/Sistema-de-Gestion-de-Clinica && npm start",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "always",
+                "panel": "split",
+                "group": "server"
+            },
+            "problemMatcher": {
+                "owner": "typescript",
+                "pattern": {
+                    "regexp": "^Error: (.*)$",
+                    "message": 1
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^.*Generating browser application bundles.*$",
+                    "endsPattern": "^.*Application bundle generation complete.*$"
+                }
+            }
+        },
+        {
+            "label": "🚀 INICIAR TODO",
+            "dependsOn": ["3. Iniciar Backend (Spring Boot)", "4. Iniciar Frontend (Angular)"],
+            "dependsOrder": "parallel",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
