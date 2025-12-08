@@ -32,6 +32,14 @@ export class CitaService {
     return this.http.get<CitaMedica[]>(this.apiUrl);
   }
 
+  getCitasMedico(idMedico: number): Observable<CitaMedica[]> {
+    return this.http.get<CitaMedica[]>(`${this.apiUrl}/medico/${idMedico}`);
+  }
+
+  getCitasByPaciente(idPaciente: number): Observable<CitaMedica[]> {
+    return this.http.get<CitaMedica[]>(`${this.apiUrl}/paciente/${idPaciente}`);
+  }
+
   getCitasHoy(): Observable<CitaMedica[]> {
     return this.http.get<CitaMedica[]>(`${this.apiUrl}/hoy`);
   }
@@ -50,5 +58,9 @@ export class CitaService {
 
   deleteCita(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getDisponibilidad(medicoId: number, fecha: string): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/disponibilidad?medicoId=${medicoId}&fecha=${fecha}`);
   }
 }

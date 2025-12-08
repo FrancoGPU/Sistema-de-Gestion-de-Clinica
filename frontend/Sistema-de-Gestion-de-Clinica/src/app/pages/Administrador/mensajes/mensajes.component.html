@@ -1,0 +1,58 @@
+<div class="admin-layout">
+    <app-admin-header></app-admin-header>
+    
+    <main class="admin-content">
+      <div class="page-header">
+        <h1>Mensajes de Contacto</h1>
+        <p>Revisa las consultas enviadas por los usuarios.</p>
+      </div>
+  
+      <div class="messages-container">
+        <div *ngIf="loading" class="loading-state">
+          <p>Cargando mensajes...</p>
+        </div>
+  
+        <div *ngIf="!loading && mensajes.length === 0" class="empty-state">
+          <p>No hay mensajes recibidos.</p>
+        </div>
+  
+        <div *ngIf="!loading && mensajes.length > 0" class="table-responsive">
+          <table class="messages-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Asunto</th>
+                <th>Mensaje</th>
+                <th>Respuesta</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let mensaje of mensajes">
+                <td>{{ mensaje.fechaEnvio | date:'short' }}</td>
+                <td>{{ mensaje.nombre }} {{ mensaje.apellido }}</td>
+                <td>{{ mensaje.email }}</td>
+                <td>{{ mensaje.telefono }}</td>
+                <td>{{ mensaje.asunto }}</td>
+                <td class="message-content">{{ mensaje.mensaje }}</td>
+                <td class="message-content">
+                  <span *ngIf="mensaje.respuesta" class="text-success">{{ mensaje.respuesta }}</span>
+                  <span *ngIf="!mensaje.respuesta" class="text-muted">Pendiente</span>
+                </td>
+                <td>
+                  <button *ngIf="!mensaje.respuesta" class="btn-reply" (click)="responder(mensaje)">
+                    Responder
+                  </button>
+                  <span *ngIf="mensaje.respuesta" class="text-muted">Respondido</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  

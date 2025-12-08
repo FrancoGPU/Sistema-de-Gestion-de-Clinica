@@ -1,0 +1,93 @@
+.admin-layout {
+    min-height: 100vh;
+    background-color: #f5f7fa;
+  }
+  
+  .admin-content {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .page-header {
+    margin-bottom: 2rem;
+  }
+  
+  .page-header h1 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .page-header p {
+    color: #7f8c8d;
+  }
+  
+  .messages-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 1.5rem;
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  .messages-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+  }
+  
+  .messages-table th,
+  .messages-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .messages-table th {
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  
+  .messages-table tr:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .message-content {
+    max-width: 300px;
+    white-space: pre-wrap;
+  }
+
+  .btn-reply {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .btn-reply:hover {
+    background-color: #2980b9;
+  }
+
+  .text-success {
+    color: #27ae60;
+  }
+
+  .text-muted {
+    color: #95a5a6;
+  }
+  
+  .loading-state,
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #7f8c8d;
+  }
+  

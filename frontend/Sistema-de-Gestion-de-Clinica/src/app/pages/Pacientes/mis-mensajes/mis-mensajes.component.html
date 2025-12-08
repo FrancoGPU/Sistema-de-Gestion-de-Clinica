@@ -1,0 +1,36 @@
+<div class="container mt-5 mb-5">
+    <h2 class="mb-4">Mis Mensajes</h2>
+    
+    <div *ngIf="loading" class="text-center">
+      <p>Cargando mensajes...</p>
+    </div>
+  
+    <div *ngIf="!loading && mensajes.length === 0" class="alert alert-info">
+      No has enviado ningún mensaje todavía.
+    </div>
+  
+    <div *ngIf="!loading && mensajes.length > 0" class="messages-list">
+      <div *ngFor="let mensaje of mensajes" class="card mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">{{ mensaje.asunto }}</h5>
+          <small class="text-muted">{{ mensaje.fechaEnvio | date:'medium' }}</small>
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ mensaje.mensaje }}</p>
+          
+          <div *ngIf="mensaje.respuesta" class="mt-3 p-3 bg-light rounded border-start border-4 border-success">
+            <h6 class="text-success"><i class="fas fa-reply me-2"></i>Respuesta:</h6>
+            <p class="mb-0">{{ mensaje.respuesta }}</p>
+            <small class="text-muted d-block mt-2 text-end">
+              {{ mensaje.fechaRespuesta | date:'medium' }}
+            </small>
+          </div>
+          
+          <div *ngIf="!mensaje.respuesta" class="mt-3 text-muted fst-italic">
+            <i class="fas fa-clock me-2"></i>Esperando respuesta...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

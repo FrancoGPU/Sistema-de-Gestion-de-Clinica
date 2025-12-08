@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminHeaderComponent } from '../../../shared/components/admin-header/admin-header.component';
-import { DoctorService, Doctor } from '../../../services/doctor.service';
+import { DoctorService, Doctor, HorarioMedico } from '../../../services/doctor.service';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -40,6 +40,26 @@ export class DoctoresComponent implements OnInit {
 
   // Modal Detalles
   doctorSeleccionado: Doctor | null = null;
+
+  // Modal Horarios
+  showHorarioModal = false;
+  doctorHorario: Doctor | null = null;
+  horarios: HorarioMedico[] = [];
+  nuevoHorario: Partial<HorarioMedico> = {
+    diaSemana: 'MONDAY',
+    horaInicio: '09:00',
+    horaFin: '17:00',
+    duracionCitaMinutos: 30
+  };
+  diasSemana = [
+    { val: 'MONDAY', label: 'Lunes' },
+    { val: 'TUESDAY', label: 'Martes' },
+    { val: 'WEDNESDAY', label: 'Miércoles' },
+    { val: 'THURSDAY', label: 'Jueves' },
+    { val: 'FRIDAY', label: 'Viernes' },
+    { val: 'SATURDAY', label: 'Sábado' },
+    { val: 'SUNDAY', label: 'Domingo' }
+  ];
 
   constructor(private doctorService: DoctorService, private authService: AuthService) {}
 
@@ -153,5 +173,69 @@ export class DoctoresComponent implements OnInit {
 
   cerrarDetalles(): void {
     this.doctorSeleccionado = null;
+  }
+
+  // Gestión de Horarios
+  abrirModalHorario(doctor: Doctor): void {
+    this.doctorHorario = doctor;
+    this.showHorarioModal = true;
+    this.cargarHorarios(doctor.idMedico);
+  }
+
+  cerrarModalHorario(): void {
+    this.showHorarioModal = false;
+    this.doctorHorario = null;
+    this.horarios = [];
+  }
+
+  cargarHorarios(idMedico: number): void {
+    this.doctorService.getHorarios(idMedico).subscribe({
+      next: (data) => {
+        this.horarios = data;
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  agregarHorario(): void {
+    if (!this.doctorHorario) return;
+    
+    // Validar formato de hora (asegurar segundos)
+    let inicio = this.nuevoHorario.horaInicio;
+    let fin = this.nuevoHorario.horaFin;
+    
+    if (inicio && inicio.length === 5) inicio += ':00';
+    if (fin && fin.length === 5) fin += ':00';
+
+    const horario: HorarioMedico = {
+      diaSemana: this.nuevoHorario.diaSemana!,
+      horaInicio: inicio!,
+      horaFin: fin!,
+      duracionCitaMinutos: this.nuevoHorario.duracionCitaMinutos!
+    };
+
+    this.doctorService.addHorario(this.doctorHorario.idMedico, horario).subscribe({
+      next: (nuevo) => {
+        this.horarios.push(nuevo);
+        // Reset form defaults
+        this.nuevoHorario.diaSemana = 'MONDAY';
+      },
+      error: (err) => alert('Error al agregar horario. Verifica que no se solape.')
+    });
+  }
+
+  eliminarHorario(id: number): void {
+    if(confirm('¿Eliminar este horario?')) {
+      this.doctorService.deleteHorario(id).subscribe({
+        next: () => {
+          this.horarios = this.horarios.filter(h => h.idHorario !== id);
+        },
+        error: (err) => alert('Error al eliminar horario')
+      });
+    }
+  }
+
+  getDiaLabel(val: string): string {
+    return this.diasSemana.find(d => d.val === val)?.label || val;
   }
 }

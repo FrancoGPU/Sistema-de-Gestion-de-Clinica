@@ -1,0 +1,57 @@
+.form-control-plaintext {
+  padding-left: 0;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+/* Dark Mode Support */
+:host-context(body.bg-dark) .card {
+  background-color: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+:host-context(body.bg-dark) .card-header {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border-bottom-color: #4a5568;
+  color: #e2e8f0;
+}
+
+:host-context(body.bg-dark) .form-control-plaintext {
+  color: #e2e8f0; /* Light text for dark mode */
+}
+
+:host-context(body.bg-dark) .text-muted {
+  color: #a0aec0 !important;
+}
+
+:host-context(body.bg-dark) .form-label {
+  color: #cbd5e0;
+}
+
+:host-context(body.bg-dark) .input-group-text {
+  background-color: #4a5568;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+:host-context(body.bg-dark) .form-control:not(.form-control-plaintext) {
+  background-color: #1a202c;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+:host-context(body.bg-dark) .form-control:focus {
+  background-color: #1a202c;
+  border-color: #63b3ed;
+  color: #e2e8f0;
+}
+
+.card {
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.card-header {
+  background-color: #fff;
+}

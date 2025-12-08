@@ -45,8 +45,10 @@ export class LoginComponent {
     // Si ya está autenticado, redirigir según el rol
     if (this.authService.isAuthenticated()) {
       const role = this.authService.getUserRole();
-      if (role === 'administrador' || role === 'medico') {
+      if (role === 'administrador') {
         this.router.navigate(['/admin/index']);
+      } else if (role === 'medico') {
+        this.router.navigate(['/medico/dashboard']);
       } else if (role === 'paciente') {
         this.router.navigate(['/MediCore']);
       }

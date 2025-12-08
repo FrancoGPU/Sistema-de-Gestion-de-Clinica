@@ -1,0 +1,66 @@
+<header class="medico-header">
+    <div class="container-fluid">
+      <div class="header-content">
+        <!-- Logo y título -->
+        <div class="header-brand">
+          <i class="fas fa-user-md"></i>
+          <span class="brand-name">MediCore</span>
+          <span class="brand-subtitle">Portal Médico</span>
+        </div>
+  
+        <!-- Navegación Principal -->
+        <nav class="header-nav" [class.mobile-open]="mobileMenuOpen">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a 
+                routerLink="/MediCore" 
+                class="nav-link text-warning"
+                title="Volver al sitio público"
+              >
+                <i class="fas fa-globe"></i>
+                <span>Ver Sitio</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a 
+                routerLink="/medico/dashboard" 
+                routerLinkActive="active"
+                (click)="closeMobileMenu()"
+                class="nav-link"
+              >
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+  
+        <!-- Perfil y Acciones -->
+        <div class="header-actions">
+          <div class="user-profile">
+            <div class="user-avatar">
+              <i class="fas fa-user-md"></i>
+            </div>
+            <div class="user-info">
+              <span class="user-name">{{ userName }}</span>
+              <span class="user-role">Médico</span>
+            </div>
+          </div>
+
+          <button class="btn-theme" (click)="toggleTheme()" title="Cambiar tema">
+            <i class="fas" [class.fa-moon]="currentTheme === 'dark'" [class.fa-sun]="currentTheme === 'light'"></i>
+          </button>
+          
+          <button class="btn-logout" (click)="logout()" title="Cerrar Sesión">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+  
+          <!-- Botón Menú Móvil -->
+          <button class="mobile-menu-btn" (click)="toggleMobileMenu()">
+            <i class="fas" [class.fa-bars]="!mobileMenuOpen" [class.fa-times]="mobileMenuOpen"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  

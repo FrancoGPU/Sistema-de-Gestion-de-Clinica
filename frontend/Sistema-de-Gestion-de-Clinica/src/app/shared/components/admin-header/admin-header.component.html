@@ -13,13 +13,12 @@
         <ul class="nav-list">
           <li class="nav-item">
             <a 
-              routerLink="/admin/index" 
-              routerLinkActive="active"
-              (click)="closeMobileMenu()"
-              class="nav-link"
+              routerLink="/MediCore" 
+              class="nav-link text-warning"
+              title="Volver al sitio público"
             >
-              <i class="fas fa-home"></i>
-              <span>Inicio</span>
+              <i class="fas fa-globe"></i>
+              <span>Ver Sitio</span>
             </a>
           </li>
           <li class="nav-item">
@@ -75,6 +74,17 @@
             >
               <i class="fas fa-calendar-alt"></i>
               <span>Citas</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a 
+              routerLink="/admin/mensajes" 
+              routerLinkActive="active"
+              (click)="closeMobileMenu()"
+              class="nav-link"
+            >
+              <i class="fas fa-envelope"></i>
+              <span>Mensajes</span>
             </a>
           </li>
         </ul>

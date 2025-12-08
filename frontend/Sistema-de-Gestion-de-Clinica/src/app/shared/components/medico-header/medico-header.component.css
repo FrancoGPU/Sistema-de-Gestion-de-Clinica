@@ -1,0 +1,259 @@
+.medico-header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 70px;
+  }
+  
+  .container-fluid {
+    height: 100%;
+    padding: 0 2rem;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+  
+  /* Brand */
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #0d6efd;
+    font-size: 1.5rem;
+  }
+  
+  .brand-name {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  
+  .brand-subtitle {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-weight: 400;
+    padding-left: 0.75rem;
+    border-left: 1px solid #dee2e6;
+  }
+  
+  /* Navigation */
+  .header-nav {
+    flex: 1;
+    margin: 0 3rem;
+  }
+  
+  .nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.5rem;
+  }
+  
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: #495057;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  
+  .nav-link:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+  }
+  
+  .nav-link.active {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+  }
+  
+  .nav-link i {
+    font-size: 1.1rem;
+  }
+  
+  /* User Profile & Actions */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #e7f1ff;
+    color: #0d6efd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+  
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+  
+  .user-name {
+    font-weight: 600;
+    color: #212529;
+    font-size: 0.9rem;
+  }
+  
+  .user-role {
+    font-size: 0.75rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .btn-logout {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-logout:hover {
+    background-color: #ffeef0;
+  }
+
+  .btn-theme {
+    background: none;
+    border: none;
+    color: #6c757d;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+  }
+
+  .btn-theme:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+  }
+  
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #495057;
+    cursor: pointer;
+  }
+  
+  /* Responsive */
+  @media (max-width: 992px) {
+    .brand-subtitle {
+      display: none;
+    }
+  
+    .mobile-menu-btn {
+      display: block;
+    }
+  
+    .header-nav {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      background-color: white;
+      padding: 1rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transform: translateY(-150%);
+      transition: transform 0.3s ease;
+    }
+  
+    .header-nav.mobile-open {
+      transform: translateY(0);
+    }
+  
+    .nav-list {
+      flex-direction: column;
+    }
+  
+    .user-info {
+      display: none;
+    }
+  }
+
+  /* Dark Mode Support */
+  :host-context(body.bg-dark) .medico-header {
+    background-color: #2d3748;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  :host-context(body.bg-dark) .brand-name {
+    color: #63b3ed;
+  }
+
+  :host-context(body.bg-dark) .brand-subtitle {
+    color: #a0aec0;
+    border-left-color: #4a5568;
+  }
+
+  :host-context(body.bg-dark) .nav-link {
+    color: #e2e8f0;
+  }
+
+  :host-context(body.bg-dark) .nav-link:hover {
+    background-color: #4a5568;
+    color: #63b3ed;
+  }
+
+  :host-context(body.bg-dark) .nav-link.active {
+    background-color: #2c5282;
+    color: #63b3ed;
+  }
+
+  :host-context(body.bg-dark) .user-name {
+    color: #e2e8f0;
+  }
+
+  :host-context(body.bg-dark) .user-role {
+    color: #a0aec0;
+  }
+
+  :host-context(body.bg-dark) .user-avatar {
+    background-color: #2c5282;
+    color: #63b3ed;
+  }
+
+  :host-context(body.bg-dark) .btn-theme {
+    color: #a0aec0;
+  }
+
+  :host-context(body.bg-dark) .btn-theme:hover {
+    background-color: #4a5568;
+    color: #63b3ed;
+  }
+
+  @media (max-width: 768px) {
+    :host-context(body.bg-dark) .header-nav {
+      background-color: #2d3748;
+    }
+  }
+  

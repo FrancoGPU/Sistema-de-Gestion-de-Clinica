@@ -394,31 +394,69 @@
 /* ========================================
    DARK MODE SUPPORT
    ======================================== */
-body.dark-mode .medicore-header {
+/* Header background kept purple in dark mode as requested */
+/* :host-context(body.bg-dark) .medicore-header {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-}
+} */
 
-body.dark-mode .dropdown-menu {
+
+:host-context(body.bg-dark) .dropdown-menu {
   background: #2d2d2d;
   color: white;
 }
 
-body.dark-mode .dropdown-item {
+:host-context(body.bg-dark) .dropdown-item {
   color: #e0e0e0;
 }
 
-body.dark-mode .dropdown-item:hover {
+:host-context(body.bg-dark) .dropdown-item:hover {
   background: #3a3a3a;
 }
 
-body.dark-mode .user-header {
+:host-context(body.bg-dark) .user-header {
   border-bottom-color: #444;
 }
 
-body.dark-mode .user-name {
+:host-context(body.bg-dark) .user-name {
   color: white;
 }
 
-body.dark-mode .user-role {
+:host-context(body.bg-dark) .user-role {
   color: #aaa;
+}
+
+/* Enhanced visibility for Dark Mode */
+:host-context(body.bg-dark) .nav-link {
+  color: #ffffff !important;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  opacity: 1;
+}
+
+:host-context(body.bg-dark) .nav-link:hover {
+  background: rgba(255, 255, 255, 0.25);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  color: #ffffff !important;
+}
+
+:host-context(body.bg-dark) .logo-text {
+  color: #ffffff !important;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+:host-context(body.bg-dark) .logo-icon {
+  color: #ffffff !important;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+:host-context(body.bg-dark) .action-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+:host-context(body.bg-dark) .action-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.3);
 }

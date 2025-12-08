@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DoctorService, Doctor } from '../../../services/doctor.service';
 import { CitaService } from '../../../services/cita.service';
 import { PacienteService } from '../../../services/paciente.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-citas-publicas',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './citas-publicas.component.html',
   styleUrl: './citas-publicas.component.css'
 })
@@ -29,19 +30,44 @@ export class CitasPublicasComponent implements OnInit {
   doctores: Doctor[] = [];
   loading = false;
   selectedDoctorId: string | null = null;
+  horariosDisponibles: string[] = [];
+  isLoggedIn = false;
+  userRole = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private doctorService: DoctorService,
     private citaService: CitaService,
-    private pacienteService: PacienteService
+    private pacienteService: PacienteService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     // Configurar fecha mínima (hoy)
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
+
+    // Verificar si hay usuario logueado
+    const user = this.authService.currentUserValue;
+    if (user) {
+      this.isLoggedIn = true;
+      this.userRole = user.role;
+
+      // Solo cargar datos si es paciente
+      if (user.role === 'paciente' && user.profileId) {
+        this.pacienteService.getPaciente(user.profileId).subscribe({
+          next: (paciente) => {
+            this.formData.nombre = paciente.nombre;
+            this.formData.apellido = paciente.apellido;
+            this.formData.dni = paciente.dni;
+            this.formData.email = paciente.correoElectronico;
+            this.formData.telefono = paciente.numeroTelefono;
+          },
+          error: (err) => console.error('Error cargando datos del paciente', err)
+        });
+      }
+    }
 
     // Obtener lista de doctores
     this.doctorService.getDoctores().subscribe({
@@ -60,6 +86,31 @@ export class CitasPublicasComponent implements OnInit {
         this.formData.medicoId = params['doctorId'];
       }
     });
+  }
+
+  cargarHorarios() {
+    if (this.formData.medicoId && this.formData.fecha) {
+      this.citaService.getDisponibilidad(Number(this.formData.medicoId), this.formData.fecha)
+        .subscribe({
+          next: (horarios) => {
+            this.horariosDisponibles = horarios;
+            // Reset hora selection if not in available slots
+            if (this.formData.hora && !this.horariosDisponibles.includes(this.formData.hora + ':00') && !this.horariosDisponibles.includes(this.formData.hora)) {
+               // Note: backend might return "08:00:00" or "08:00". 
+               // Let's handle that in the template or normalize here.
+               // Actually, LocalTime.toString() returns "08:00" or "08:00:00" depending on seconds.
+               // Usually "08:00".
+               this.formData.hora = '';
+            }
+          },
+          error: (err) => {
+            console.error('Error al cargar horarios', err);
+            this.horariosDisponibles = [];
+          }
+        });
+    } else {
+      this.horariosDisponibles = [];
+    }
   }
 
   onSubmit() {

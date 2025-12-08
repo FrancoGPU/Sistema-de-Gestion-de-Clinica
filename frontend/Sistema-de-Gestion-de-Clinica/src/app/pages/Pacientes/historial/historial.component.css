@@ -1,0 +1,50 @@
+.timeline {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .card {
+    transition: transform 0.2s;
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Dark Mode Support */
+  :host-context(body.bg-dark) .card {
+    background-color: #2d3748;
+    border-color: #4a5568;
+    color: #e2e8f0;
+  }
+
+  :host-context(body.bg-dark) .card-header.bg-white {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    border-bottom-color: #4a5568;
+  }
+
+  :host-context(body.bg-dark) .text-primary {
+    color: #63b3ed !important;
+  }
+
+  :host-context(body.bg-dark) .text-muted {
+    color: #a0aec0 !important;
+  }
+
+  /* Fix for Observations box (bg-light) */
+  :host-context(body.bg-dark) .bg-light {
+    background-color: #4a5568 !important;
+    color: #e2e8f0;
+  }
+
+  /* Fix for Badge */
+  :host-context(body.bg-dark) .badge.bg-light {
+    background-color: #4a5568 !important;
+    color: #e2e8f0 !important;
+    border-color: #4a5568 !important;
+  }
+  
+  :host-context(body.bg-dark) .badge.text-dark {
+    color: #e2e8f0 !important;
+  }
+  

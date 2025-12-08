@@ -52,9 +52,12 @@
       <!-- Search Bar -->
       <div class="search-box">
         <input
+          #searchInput
           type="search"
           placeholder="Buscar servicios..."
           class="search-input"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="search()"
         />
         <span class="search-shortcut">Ctrl K</span>
       </div>
@@ -90,20 +93,48 @@
                 </div>
               </li>
               <li><hr class="dropdown-divider" /></li>
+              
+              <!-- Opciones para Pacientes -->
+              <ng-container *ngIf="userRole === 'Paciente'">
+                <li>
+                  <a
+                    class="dropdown-item"
+                    routerLink="/MediCore/perfil"
+                    ><i class="fas fa-user-circle me-2"></i>Mi Perfil</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    routerLink="/MediCore/mis-citas"
+                    ><i class="fas fa-calendar-check me-2"></i>Mis Citas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    routerLink="/MediCore/historial"
+                    ><i class="fas fa-file-medical me-2"></i>Historial Médico</a
+                  >
+                </li>
+              </ng-container>
+
+              <!-- Opciones para Administradores y Médicos -->
+              <ng-container *ngIf="userRole === 'Administrador' || userRole === 'Médico'">
+                <li>
+                  <a
+                    class="dropdown-item"
+                    [routerLink]="userRole === 'Administrador' ? '/admin/index' : '/medico/dashboard'"
+                    ><i class="fas fa-tachometer-alt me-2"></i>Panel de Control</a
+                  >
+                </li>
+              </ng-container>
+
               <li>
                 <a
                   class="dropdown-item"
-                  href="#"
-                  (click)="$event.preventDefault()"
-                  ><i class="fas fa-user-circle me-2"></i>Mi Perfil</a
-                >
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  (click)="$event.preventDefault()"
-                  ><i class="fas fa-cog me-2"></i>Configuración</a
+                  routerLink="/MediCore/mis-mensajes"
+                  ><i class="fas fa-envelope me-2"></i>Mis Mensajes</a
                 >
               </li>
               <li><hr class="dropdown-divider" /></li>
@@ -147,14 +178,14 @@
         </div>
 
         <!-- Phone -->
-        <button class="action-btn" title="Emergencias" aria-label="Llamar a emergencias">
+        <a href="tel:+51123456789" class="action-btn" title="Llamar a emergencias" aria-label="Llamar a emergencias">
           <i class="fas fa-phone" aria-hidden="true"></i>
-        </button>
+        </a>
 
         <!-- Location -->
-        <button class="action-btn" title="Ubicación" aria-label="Ver ubicación">
+        <a href="https://www.google.com/maps/search/?api=1&query=Ctra.+Central+1000,+Lima+15476" target="_blank" rel="noopener noreferrer" class="action-btn" title="Ver ubicación" aria-label="Ver ubicación">
           <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-        </button>
+        </a>
 
         <!-- Theme Selector -->
         <div class="dropdown">

@@ -1,0 +1,57 @@
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    background-color: #e9ecef;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #495057;
+  }
+  
+  .date-badge {
+    background-color: #e3f2fd;
+    color: #0d6efd;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  :host-context(body.bg-dark) .date-badge {
+    background-color: #2a4365;
+    color: #90cdf4;
+  }
+
+  :host-context(body.bg-dark) .avatar-circle {
+    background-color: #4a5568;
+    color: #e2e8f0;
+  }
+  
+  .table-active {
+    background-color: #f8f9fa;
+    border-left: 4px solid #0d6efd;
+  }
+
+  /* Dark Mode Support for Active Row */
+  :host-context(body.bg-dark) .table-active {
+    background-color: #2c5282; /* Dark blue/gray for active row in dark mode */
+    color: #fff;
+    border-left-color: #63b3ed;
+  }
+  
+  :host-context(body.bg-dark) .table-active td {
+    background-color: #2c5282;
+    color: #fff;
+    box-shadow: none; /* Remove any shadow that might interfere */
+  }
+
+  :host-context(body.bg-dark) .table-active .text-muted {
+    color: #bee3f8 !important; /* Lighter text for muted elements in active row */
+  }
+
+  .bg-confirmada {
+    background-color: #0dcaf0;
+    color: #000;
+  }
+  

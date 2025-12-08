@@ -58,6 +58,15 @@
                   <i class="fas fa-edit"></i>
                 </button>
                 <button
+                  class="btn btn-sm btn-outline-warning me-1"
+                  title="Gestionar Horarios"
+                  aria-label="Gestionar Horarios"
+                  (click)="abrirModalHorario(doctor)"
+                  *ngIf="canEdit(doctor)"
+                >
+                  <i class="fas fa-clock"></i>
+                </button>
+                <button
                   class="btn btn-sm btn-outline-danger"
                   title="Eliminar Doctor"
                   aria-label="Eliminar Doctor"
@@ -134,8 +143,8 @@
             <input type="email" class="form-control" [(ngModel)]="nuevoDoctor.email" name="email" required>
           </div>
           <div class="mb-3">
-            <label class="form-label">Horario</label>
-            <input type="text" class="form-control" [(ngModel)]="nuevoDoctor.horariosAtencion" name="horario" required>
+            <label class="form-label">Resumen de Horario (Texto)</label>
+            <input type="text" class="form-control" [(ngModel)]="nuevoDoctor.horariosAtencion" name="horario" placeholder="Ej: Lunes a Viernes 9am - 6pm">
           </div>
         </form>
       </div>
@@ -183,16 +192,95 @@
             <input type="email" class="form-control" [(ngModel)]="doctorEditando.email" name="email" required>
           </div>
           <div class="mb-3">
-            <label class="form-label">Horario</label>
-            <input type="text" class="form-control" [(ngModel)]="doctorEditando.horariosAtencion" name="horario" required>
+            <label class="form-label">Resumen de Horario (Texto)</label>
+            <input type="text" class="form-control" [(ngModel)]="doctorEditando.horariosAtencion" name="horario">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="cerrarModalEditar()">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="guardarEdicion()">Guardar</button>
+        <button type="button" class="btn btn-primary" (click)="guardarEdicion()">Guardar Cambios</button>
       </div>
     </div>
   </div>
 </div>
 <div class="modal-backdrop fade show" *ngIf="modoEdicion"></div>
+
+<!-- Modal Gestión de Horarios -->
+<div class="modal fade" [class.show]="showHorarioModal" [style.display]="showHorarioModal ? 'block' : 'none'" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" *ngIf="doctorHorario">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title">
+          <i class="fas fa-clock me-2"></i>Gestionar Horarios - {{ doctorHorario.nombre }} {{ doctorHorario.apellido }}
+        </h5>
+        <button type="button" class="btn-close" (click)="cerrarModalHorario()"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulario Nuevo Horario -->
+        <div class="card mb-4">
+          <div class="card-header">Agregar Nuevo Horario</div>
+          <div class="card-body">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-3">
+                <label class="form-label">Día</label>
+                <select class="form-select" [(ngModel)]="nuevoHorario.diaSemana">
+                  <option *ngFor="let dia of diasSemana" [value]="dia.val">{{ dia.label }}</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Inicio</label>
+                <input type="time" class="form-control" [(ngModel)]="nuevoHorario.horaInicio">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Fin</label>
+                <input type="time" class="form-control" [(ngModel)]="nuevoHorario.horaFin">
+              </div>
+              <div class="col-md-3">
+                <button class="btn btn-success w-100" (click)="agregarHorario()">
+                  <i class="fas fa-plus me-1"></i> Agregar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista de Horarios -->
+        <h6 class="mb-3">Horarios Actuales</h6>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Día</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Duración Cita</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="horarios.length === 0">
+                <td colspan="5" class="text-center text-muted">No hay horarios configurados.</td>
+              </tr>
+              <tr *ngFor="let h of horarios">
+                <td>{{ getDiaLabel(h.diaSemana) }}</td>
+                <td>{{ h.horaInicio }}</td>
+                <td>{{ h.horaFin }}</td>
+                <td>{{ h.duracionCitaMinutos }} min</td>
+                <td>
+                  <button class="btn btn-sm btn-danger" (click)="eliminarHorario(h.idHorario!)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarModalHorario()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showHorarioModal"></div>

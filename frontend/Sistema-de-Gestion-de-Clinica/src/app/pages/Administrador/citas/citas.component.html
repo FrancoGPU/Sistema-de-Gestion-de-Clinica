@@ -131,7 +131,7 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Doctor</label>
-            <select class="form-select" [(ngModel)]="nuevaCita.medicoId" name="medico" required>
+            <select class="form-select" [(ngModel)]="nuevaCita.medicoId" name="medico" required [disabled]="isMedico">
               <option [ngValue]="null" disabled>Seleccione un doctor</option>
               <option *ngFor="let d of doctores" [value]="d.idMedico">{{ d.nombre }} {{ d.apellido }} - {{ d.especialidad }}</option>
             </select>
@@ -182,7 +182,7 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Doctor</label>
-            <select class="form-select" [(ngModel)]="citaEditando.medicoId" name="medico" required>
+            <select class="form-select" [(ngModel)]="citaEditando.medicoId" name="medico" required [disabled]="isMedico">
               <option *ngFor="let d of doctores" [value]="d.idMedico">{{ d.nombre }} {{ d.apellido }}</option>
             </select>
           </div>

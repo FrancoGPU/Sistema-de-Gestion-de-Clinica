@@ -9,62 +9,27 @@
     <div class="text-center mb-5">
       <h1 class="section-title">Nuestros Servicios</h1>
       <p class="section-subtitle">Atención médica integral para toda la familia</p>
+      <div *ngIf="searchTerm" class="mt-3">
+        <span class="badge bg-info text-dark">Resultados para: "{{ searchTerm }}"</span>
+        <button class="btn btn-sm btn-link text-decoration-none ms-2" (click)="searchTerm=''; filterServicios()">Ver todos</button>
+      </div>
     </div>
 
     <div class="row g-4">
-      <div class="col-md-4" id="medicina-general">
-        <div class="service-card">
+      <div class="col-md-4" *ngFor="let servicio of filteredServicios" [id]="servicio.id">
+        <div class="service-card h-100">
           <div class="service-icon">
-            <i class="fas fa-stethoscope"></i>
+            <i [class]="servicio.icono"></i>
           </div>
-          <h4>Consulta General</h4>
-          <p>Atención médica integral para el diagnóstico y tratamiento de enfermedades comunes.</p>
+          <h4>{{ servicio.titulo }}</h4>
+          <p>{{ servicio.descripcion }}</p>
         </div>
       </div>
-      <div class="col-md-4" id="cardiologia">
-        <div class="service-card">
-          <div class="service-icon">
-            <i class="fas fa-heartbeat"></i>
-          </div>
-          <h4>Cardiología</h4>
-          <p>Especialistas en el cuidado del corazón y sistema cardiovascular.</p>
-        </div>
-      </div>
-      <div class="col-md-4" id="pediatria">
-        <div class="service-card">
-          <div class="service-icon">
-            <i class="fas fa-baby"></i>
-          </div>
-          <h4>Pediatría</h4>
-          <p>Atención médica especializada para bebés, niños y adolescentes.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="service-card">
-          <div class="service-icon">
-            <i class="fas fa-x-ray"></i>
-          </div>
-          <h4>Radiología</h4>
-          <p>Estudios de imagen con equipos de última generación.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="service-card">
-          <div class="service-icon">
-            <i class="fas fa-flask"></i>
-          </div>
-          <h4>Laboratorio</h4>
-          <p>Análisis clínicos completos con resultados rápidos y precisos.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="service-card">
-          <div class="service-icon">
-            <i class="fas fa-ambulance"></i>
-          </div>
-          <h4>Emergencias 24/7</h4>
-          <p>Atención médica de urgencia las 24 horas del día.</p>
-        </div>
+      
+      <div *ngIf="filteredServicios.length === 0" class="col-12 text-center py-5">
+        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+        <h3>No se encontraron servicios</h3>
+        <p class="text-muted">Intenta con otros términos de búsqueda.</p>
       </div>
     </div>
   </div>

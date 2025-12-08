@@ -49,6 +49,68 @@
   gap: 1rem;
 }
 
+/* Dark Mode Support */
+:host-context(body.bg-dark) .contact-form {
+  background-color: #2d3748;
+  border-color: #4a5568;
+}
+
+:host-context(body.bg-dark) .contact-form h3 {
+  color: #e2e8f0;
+}
+
+:host-context(body.bg-dark) .form-label {
+  color: #e2e8f0;
+}
+
+:host-context(body.bg-dark) .form-control,
+:host-context(body.bg-dark) .form-select {
+  background-color: #1a202c;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+:host-context(body.bg-dark) .form-control:focus,
+:host-context(body.bg-dark) .form-select:focus {
+  border-color: #63b3ed;
+  box-shadow: 0 0 0 0.25rem rgba(99, 179, 237, 0.25);
+}
+
+:host-context(body.bg-dark) .form-check-label {
+  color: #e2e8f0;
+}
+
+:host-context(body.bg-dark) .form-check-input {
+  background-color: #1a202c;
+  border-color: #4a5568;
+}
+
+:host-context(body.bg-dark) .form-check-input:checked {
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+:host-context(body.bg-dark) .contact-info h3 {
+  color: #e2e8f0;
+}
+
+:host-context(body.bg-dark) .contact-item h5 {
+  color: #e2e8f0;
+}
+
+:host-context(body.bg-dark) .contact-item p {
+  color: #a0aec0;
+}
+
+:host-context(body.bg-dark) .social-link {
+  color: #63b3ed;
+}
+
+:host-context(body.bg-dark) .social-link:hover {
+  color: #90cdf4;
+}
+
+
 .social-link {
   color: #667eea;
   transition: all 0.3s ease;

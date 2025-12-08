@@ -1,0 +1,90 @@
+<app-medico-header></app-medico-header>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="h3">Bienvenido, {{ doctorName }}</h1>
+        <p class="text-muted">Gestiona tus citas y atenciones del día</p>
+      </div>
+      <div class="date-badge">
+        <i class="fas fa-calendar-alt me-2"></i>
+        {{ today | date:'fullDate' }}
+      </div>
+    </div>
+  
+    <div *ngIf="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  
+    <div *ngIf="!loading && citas.length === 0" class="alert alert-info">
+      No tienes citas programadas para hoy.
+    </div>
+  
+    <div *ngIf="!loading && citas.length > 0" class="row">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white py-3">
+            <h5 class="mb-0">Agenda de Citas</h5>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Hora</th>
+                  <th>Paciente</th>
+                  <th>Motivo</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let cita of citas" [class.table-active]="esHoy(cita.fechaHora)">
+                  <td>
+                    <div class="fw-bold">{{ cita.fechaHora | date:'HH:mm' }}</div>
+                    <small class="text-muted">{{ cita.fechaHora | date:'dd/MM/yyyy' }}</small>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="avatar-circle me-2">
+                        {{ cita.paciente.nombre.charAt(0) }}
+                      </div>
+                      <div>
+                        <div class="fw-bold">{{ cita.paciente.nombre }} {{ cita.paciente.apellido }}</div>
+                        <small class="text-muted">ID: {{ cita.paciente.idPaciente }}</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{ cita.motivo }}</td>
+                  <td>
+                    <span class="badge" 
+                      [ngClass]="{
+                        'bg-primary': cita.estado === 'PROGRAMADA',
+                        'bg-confirmada': cita.estado === 'CONFIRMADA',
+                        'bg-success': cita.estado === 'COMPLETADA',
+                        'bg-warning': cita.estado === 'EN_CURSO',
+                        'bg-danger': cita.estado === 'CANCELADA'
+                      }">
+                      {{ cita.estado }}
+                    </span>
+                  </td>
+                  <td>
+                    <a *ngIf="cita.estado === 'PROGRAMADA' || cita.estado === 'EN_CURSO'" 
+                       [routerLink]="['/medico/atencion', cita.idCita]" 
+                       class="btn btn-primary btn-sm">
+                      <i class="fas fa-stethoscope me-2"></i>Atender
+                    </a>
+                    <button *ngIf="cita.estado === 'COMPLETADA'" class="btn btn-outline-secondary btn-sm" disabled>
+                      <i class="fas fa-check me-2"></i>Atendido
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

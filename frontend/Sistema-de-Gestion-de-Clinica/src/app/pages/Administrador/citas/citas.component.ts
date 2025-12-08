@@ -68,16 +68,30 @@ export class CitasComponent implements OnInit {
 
   cargarCitas(): void {
     this.loading = true;
-    this.citaService.getCitas().subscribe({
-      next: (data: CitaMedica[]) => {
-        this.citas = data;
-        this.loading = false;
-      },
-      error: (err: any) => {
-        this.error = 'Error al cargar las citas';
-        this.loading = false;
-      }
-    });
+    
+    if (this.isMedico && this.currentProfileId) {
+      this.citaService.getCitasMedico(this.currentProfileId).subscribe({
+        next: (data: CitaMedica[]) => {
+          this.citas = data;
+          this.loading = false;
+        },
+        error: (err: any) => {
+          this.error = 'Error al cargar las citas';
+          this.loading = false;
+        }
+      });
+    } else {
+      this.citaService.getCitas().subscribe({
+        next: (data: CitaMedica[]) => {
+          this.citas = data;
+          this.loading = false;
+        },
+        error: (err: any) => {
+          this.error = 'Error al cargar las citas';
+          this.loading = false;
+        }
+      });
+    }
   }
 
   cargarPacientes(): void {
@@ -92,7 +106,7 @@ export class CitasComponent implements OnInit {
     this.showCreateModal = true;
     this.nuevaCita = {
       pacienteId: null,
-      medicoId: null,
+      medicoId: this.isMedico ? this.currentProfileId : null,
       fechaHora: '',
       motivo: '',
       estado: 'PROGRAMADA'

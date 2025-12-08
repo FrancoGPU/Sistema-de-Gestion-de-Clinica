@@ -147,7 +147,7 @@ export class AuthService {
     } else if (role === 'paciente') {
       this.router.navigate(['/MediCore']);
     } else if (role === 'medico') {
-      this.router.navigate(['/admin/index']); // Médicos también van al panel admin por ahora
+      this.router.navigate(['/medico/dashboard']);
     }
   }
 }

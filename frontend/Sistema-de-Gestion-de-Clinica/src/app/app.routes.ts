@@ -49,7 +49,21 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'campanias',
+        path: 'mis-mensajes',
+        loadComponent: () =>
+          import('./pages/Pacientes/mis-mensajes/mis-mensajes.component').then(
+            (m) => m.MisMensajesComponent
+          ),
+      },
+      {
+        path: 'historial',
+        loadComponent: () =>
+          import('./pages/Pacientes/historial/historial.component').then(
+            (m) => m.HistorialComponent
+          ),
+      },
+      {
+        path: 'index',
         loadComponent: () =>
           import('./pages/Pacientes/campanias/campanias.component').then(
             (m) => m.CampaniasComponent
@@ -60,6 +74,20 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/Pacientes/citas-publicas/citas-publicas.component').then(
             (m) => m.CitasPublicasComponent
+          ),
+      },
+      {
+        path: 'mis-citas',
+        loadComponent: () =>
+          import('./pages/Pacientes/mis-citas/mis-citas.component').then(
+            (m) => m.MisCitasComponent
+          ),
+      },
+      {
+        path: 'perfil',
+        loadComponent: () =>
+          import('./pages/Pacientes/perfil/perfil.component').then(
+            (m) => m.PerfilComponent
           ),
       },
       {
@@ -87,10 +115,8 @@ export const routes: Routes = [
       },
       {
         path: 'index',
-        loadComponent: () =>
-          import('./pages/Administrador/index/index.component').then(
-            (m) => m.IndexComponent
-          ),
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
       },
       {
         path: 'doctores',
@@ -121,8 +147,15 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'mensajes',
+        loadComponent: () =>
+          import('./pages/Administrador/mensajes/mensajes.component').then(
+            (m) => m.MensajesComponent
+          ),
+      },
+      {
         path: '',
-        redirectTo: 'index',
+        redirectTo: 'dashboard',
         pathMatch: 'full',
       },
     ],
@@ -161,6 +194,28 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
     ],
+  },
+
+  // Rutas de Médicos
+  {
+    path: 'medico',
+    canActivate: [authGuard],
+    data: { roles: ['medico'] },
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./pages/Medico/dashboard/dashboard-medico.component').then(m => m.DashboardMedicoComponent)
+      },
+      {
+        path: 'atencion/:id',
+        loadComponent: () => import('./pages/Medico/atencion/atencion-cita.component').then(m => m.AtencionCitaComponent)
+      },
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      }
+    ]
   },
 
   // Redirección por defecto
