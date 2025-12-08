@@ -67,7 +67,8 @@
                     "beginsPattern": "^.*Generating browser application bundles.*$",
                     "endsPattern": "^.*Application bundle generation complete.*$"
                 }
-            }
+            },
+            "dependsOn": ["2. Instalar Dependencias Frontend"]
         },
         {
             "label": "🚀 INICIAR TODO",
