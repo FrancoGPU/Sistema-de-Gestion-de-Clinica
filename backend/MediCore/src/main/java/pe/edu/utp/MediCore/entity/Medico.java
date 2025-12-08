@@ -69,6 +69,12 @@ public class Medico {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<CitaMedica> citas;
+
+    // Relación uno a muchos con HorarioMedico
+    @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<HorarioMedico> horarios;
     
     // Método auxiliar para obtener el nombre completo
     public String getNombreCompleto() {

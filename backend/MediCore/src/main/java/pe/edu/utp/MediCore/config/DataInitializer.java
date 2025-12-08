@@ -3,17 +3,22 @@ package pe.edu.utp.MediCore.config;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pe.edu.utp.MediCore.entity.Medico;
 import pe.edu.utp.MediCore.entity.Paciente;
 import pe.edu.utp.MediCore.entity.Rol;
 import pe.edu.utp.MediCore.entity.Usuario;
 import pe.edu.utp.MediCore.entity.CampaniaSalud;
+import pe.edu.utp.MediCore.entity.HorarioMedico;
 import pe.edu.utp.MediCore.repository.MedicoRepository;
 import pe.edu.utp.MediCore.repository.PacienteRepository;
 import pe.edu.utp.MediCore.repository.UsuarioRepository;
 import pe.edu.utp.MediCore.repository.CampaniaSaludRepository;
+import pe.edu.utp.MediCore.repository.HorarioMedicoRepository;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,13 +29,15 @@ public class DataInitializer {
     CommandLineRunner initDatabase(UsuarioRepository usuarioRepository, 
                                    PacienteRepository pacienteRepository, 
                                    MedicoRepository medicoRepository,
-                                   CampaniaSaludRepository campaniaSaludRepository) {
+                                   CampaniaSaludRepository campaniaSaludRepository,
+                                   HorarioMedicoRepository horarioMedicoRepository,
+                                   PasswordEncoder passwordEncoder) {
         return args -> {
             // 1. Crear Admin
             if (!usuarioRepository.existsByUsername("admin")) {
                 Usuario admin = new Usuario();
                 admin.setUsername("admin");
-                admin.setPassword("admin123"); // En producción usar encoder
+                admin.setPassword(passwordEncoder.encode("admin123"));
                 admin.setRol(Rol.ADMIN);
                 usuarioRepository.save(admin);
                 System.out.println("Usuario Admin creado: admin / admin123");
@@ -40,7 +47,7 @@ public class DataInitializer {
             if (!usuarioRepository.existsByUsername("doctor")) {
                 Usuario usuarioMedico = new Usuario();
                 usuarioMedico.setUsername("doctor");
-                usuarioMedico.setPassword("doctor123");
+                usuarioMedico.setPassword(passwordEncoder.encode("doctor123"));
                 usuarioMedico.setRol(Rol.MEDICO);
                 
                 Medico medico = new Medico();
@@ -57,14 +64,34 @@ public class DataInitializer {
                 usuarioMedico.setMedico(medico);
                 
                 usuarioRepository.save(usuarioMedico); // Cascade guarda el médico
-                System.out.println("Usuario Médico creado: doctor / doctor123");
+                
+                // Crear Horarios para el médico
+                // Lunes 9am - 1pm
+                HorarioMedico horarioLunes = new HorarioMedico();
+                horarioLunes.setDiaSemana(DayOfWeek.MONDAY);
+                horarioLunes.setHoraInicio(LocalTime.of(9, 0));
+                horarioLunes.setHoraFin(LocalTime.of(13, 0));
+                horarioLunes.setDuracionCitaMinutos(30);
+                horarioLunes.setMedico(medico);
+                horarioMedicoRepository.save(horarioLunes);
+
+                // Miércoles 2pm - 6pm
+                HorarioMedico horarioMiercoles = new HorarioMedico();
+                horarioMiercoles.setDiaSemana(DayOfWeek.WEDNESDAY);
+                horarioMiercoles.setHoraInicio(LocalTime.of(14, 0));
+                horarioMiercoles.setHoraFin(LocalTime.of(18, 0));
+                horarioMiercoles.setDuracionCitaMinutos(30);
+                horarioMiercoles.setMedico(medico);
+                horarioMedicoRepository.save(horarioMiercoles);
+
+                System.out.println("Usuario Médico creado: doctor / doctor123 con horarios");
             }
 
             // 3. Crear Paciente
             if (!usuarioRepository.existsByUsername("paciente")) {
                 Usuario usuarioPaciente = new Usuario();
                 usuarioPaciente.setUsername("paciente");
-                usuarioPaciente.setPassword("paciente123");
+                usuarioPaciente.setPassword(passwordEncoder.encode("paciente123"));
                 usuarioPaciente.setRol(Rol.PACIENTE);
                 
                 Paciente paciente = new Paciente();

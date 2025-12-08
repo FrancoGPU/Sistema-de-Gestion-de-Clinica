@@ -3,6 +3,7 @@ package pe.edu.utp.MediCore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.MediCore.dto.LoginRequest;
 import pe.edu.utp.MediCore.dto.LoginResponse;
@@ -26,6 +27,9 @@ public class AuthController {
     @Autowired
     private PacienteRepository pacienteRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         // Validar si el usuario ya existe
@@ -45,7 +49,7 @@ public class AuthController {
             // Crear Usuario
             Usuario usuario = new Usuario();
             usuario.setUsername(request.getEmail());
-            usuario.setPassword(request.getPassword()); // En producción, encriptar contraseña
+            usuario.setPassword(passwordEncoder.encode(request.getPassword()));
             usuario.setRol(Rol.PACIENTE);
             
             // Crear Paciente
@@ -91,8 +95,8 @@ public class AuthController {
 
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
-            // En producción, usar passwordEncoder.matches()
-            if (usuario.getPassword().equals(request.getPassword())) {
+            
+            if (passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
                 
                 String nombre = "Usuario";
                 if (usuario.getPaciente() != null) {
