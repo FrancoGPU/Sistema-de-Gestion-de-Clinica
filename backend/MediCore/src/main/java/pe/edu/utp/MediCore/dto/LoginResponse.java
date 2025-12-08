@@ -11,4 +11,5 @@ public class LoginResponse {
     private String role;
     private String nombre; // Nombre real del usuario (Paciente o Médico)
     private Long profileId; // ID del Paciente o Médico asociado
+    private String token; // JWT Token
 }

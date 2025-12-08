@@ -3,6 +3,11 @@ package pe.edu.utp.MediCore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.utp.MediCore.dto.LoginRequest;
@@ -13,7 +18,9 @@ import pe.edu.utp.MediCore.entity.Rol;
 import pe.edu.utp.MediCore.entity.Usuario;
 import pe.edu.utp.MediCore.repository.PacienteRepository;
 import pe.edu.utp.MediCore.repository.UsuarioRepository;
+import pe.edu.utp.MediCore.security.JwtService;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @RestController
@@ -29,6 +36,12 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
@@ -91,45 +104,56 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByUsername(request.getUsername());
-
-        if (usuarioOpt.isPresent()) {
-            Usuario usuario = usuarioOpt.get();
+        try {
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
             
-            if (passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
-                
-                String nombre = "Usuario";
-                if (usuario.getPaciente() != null) {
-                    nombre = usuario.getPaciente().getNombre() + " " + usuario.getPaciente().getApellido();
-                } else if (usuario.getMedico() != null) {
-                    nombre = "Dr. " + usuario.getMedico().getNombre() + " " + usuario.getMedico().getApellido();
-                } else if (usuario.getRol().name().equals("ADMIN")) {
-                    nombre = "Administrador";
-                }
-
-                String role = usuario.getRol().name().toLowerCase();
-                if (role.equals("admin")) {
-                    role = "administrador";
-                }
-
-                Long profileId = null;
-                if (usuario.getPaciente() != null) {
-                    profileId = usuario.getPaciente().getIdPaciente();
-                } else if (usuario.getMedico() != null) {
-                    profileId = usuario.getMedico().getIdMedico();
-                }
-
-                LoginResponse response = new LoginResponse(
-                    usuario.getIdUsuario(),
-                    usuario.getUsername(),
-                    role,
-                    nombre,
-                    profileId
-                );
-                return ResponseEntity.ok(response);
+            Usuario usuario = usuarioRepository.findByUsername(request.getUsername())
+                    .orElseThrow();
+            
+            String nombre = "Usuario";
+            if (usuario.getPaciente() != null) {
+                nombre = usuario.getPaciente().getNombre() + " " + usuario.getPaciente().getApellido();
+            } else if (usuario.getMedico() != null) {
+                nombre = "Dr. " + usuario.getMedico().getNombre() + " " + usuario.getMedico().getApellido();
+            } else if (usuario.getRol().name().equals("ADMIN")) {
+                nombre = "Administrador";
             }
+
+            String role = usuario.getRol().name().toLowerCase();
+            if (role.equals("admin")) {
+                role = "administrador";
+            }
+
+            Long profileId = null;
+            if (usuario.getPaciente() != null) {
+                profileId = usuario.getPaciente().getIdPaciente();
+            } else if (usuario.getMedico() != null) {
+                profileId = usuario.getMedico().getIdMedico();
+            }
+
+            // Generar Token JWT
+            UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                usuario.getUsername(),
+                usuario.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()))
+            );
+            
+            String jwtToken = jwtService.generateToken(userDetails);
+
+            LoginResponse response = new LoginResponse(
+                usuario.getIdUsuario(),
+                usuario.getUsername(),
+                role,
+                nombre,
+                profileId,
+                jwtToken
+            );
+            return ResponseEntity.ok(response);
+            
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
         }
-        
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
     }
 }
