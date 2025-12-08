@@ -9,6 +9,7 @@ export interface User {
   nombre: string;
   id?: number;
   profileId?: number;
+  token?: string;
 }
 
 interface LoginResponse {
@@ -17,6 +18,7 @@ interface LoginResponse {
   role: string;
   nombre: string;
   profileId?: number;
+  token: string;
 }
 
 @Injectable({
@@ -44,6 +46,13 @@ export class AuthService {
   }
 
   /**
+   * Obtener el token actual
+   */
+  public getToken(): string | null {
+    return this.currentUserValue?.token || null;
+  }
+
+  /**
    * Iniciar sesión
    */
   login(username: string, password: string): Observable<{ success: boolean; message?: string; user?: User }> {
@@ -56,7 +65,8 @@ export class AuthService {
           role: response.role as 'administrador' | 'paciente' | 'medico',
           nombre: response.nombre,
           id: response.id,
-          profileId: response.profileId
+          profileId: response.profileId,
+          token: response.token
         };
 
         // Guardar en localStorage
