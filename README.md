@@ -131,5 +131,16 @@ El sistema viene con datos iniciales para pruebas (ver `DataInitializer.java`):
     *   Rutas protegidas por Roles (Admin, Doctor, Paciente).
     *   Encriptación de contraseñas con BCrypt.
 
+5.  **🪟 Sistema Multiventana (NUEVO):**
+    *   **3 Ventanas Independientes Implementadas:**
+        *   📅 **Gestión de Citas Médicas** - Visualización y administración completa
+        *   📋 **Historia Clínica** - Consulta detallada de registros médicos
+        *   👤 **Información del Paciente** - Datos completos y estadísticas
+    *   Gestión centralizada mediante servicio dedicado
+    *   Configuración personalizable de ventanas
+    *   Cierre automático al cerrar ventana principal
+    *   Demo interactiva en `/multiventana-demo`
+    *   [📖 Ver documentación completa](./MULTIVENTANA.md)
+
 ---
 Desarrollado por [FrancoGPU](https://github.com/FrancoGPU)

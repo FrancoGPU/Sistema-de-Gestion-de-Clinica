@@ -165,7 +165,7 @@ export const routes: Routes = [
   {
     path: 'pacientes',
     canActivate: [authGuard],
-    data: { role: 'administrador' },
+    data: { roles: ['administrador'] },
     children: [
       {
         path: 'lista',
@@ -214,6 +214,45 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
+      }
+    ]
+  },
+
+  // Ruta de demostración del sistema multiventana
+  {
+    path: 'multiventana-demo',
+    loadComponent: () => 
+      import('./components/multiventana-demo/multiventana-demo.component').then(m => m.MultiventanaDemoComponent)
+  },
+
+  // Rutas para ventanas independientes (multiventana)
+  {
+    path: 'window',
+    children: [
+      {
+        path: 'citas',
+        loadComponent: () => 
+          import('./components/window-citas/window-citas.component').then(m => m.WindowCitasComponent)
+      },
+      {
+        path: 'historia-clinica',
+        loadComponent: () => 
+          import('./components/window-historia-clinica/window-historia-clinica.component').then(m => m.WindowHistoriaClinicaComponent)
+      },
+      {
+        path: 'historia-clinica/:pacienteId',
+        loadComponent: () => 
+          import('./components/window-historia-clinica/window-historia-clinica.component').then(m => m.WindowHistoriaClinicaComponent)
+      },
+      {
+        path: 'paciente',
+        loadComponent: () => 
+          import('./components/window-paciente/window-paciente.component').then(m => m.WindowPacienteComponent)
+      },
+      {
+        path: 'paciente/:pacienteId',
+        loadComponent: () => 
+          import('./components/window-paciente/window-paciente.component').then(m => m.WindowPacienteComponent)
       }
     ]
   },
